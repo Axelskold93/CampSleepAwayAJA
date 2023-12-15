@@ -10,10 +10,8 @@ namespace CampSleepAwayAJA
 
 		public Camper Camper { get; set; }
 		public required int CamperID { get; set; }
-		public ContactInfo ContactInfo { get; set; }
-		public required int ContactInfoID { get; set; }
-		public Counselor Counselor { get; set; }
-		public int CounselorID { get; set; }
+		
+		
 		public string Relation { get; set; }
 	}
 }

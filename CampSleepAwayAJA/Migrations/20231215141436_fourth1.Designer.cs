@@ -4,6 +4,7 @@ using CampSleepAwayAJA;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CampSleepAwayAJA.Migrations
 {
     [DbContext(typeof(CSAContext))]
-    partial class CSAContextModelSnapshot : ModelSnapshot
+    [Migration("20231215141436_fourth1")]
+    partial class fourth1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -174,6 +177,9 @@ namespace CampSleepAwayAJA.Migrations
                     b.Property<int>("CamperID")
                         .HasColumnType("int");
 
+                    b.Property<int>("CounselorID")
+                        .HasColumnType("int");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -189,6 +195,8 @@ namespace CampSleepAwayAJA.Migrations
                     b.HasKey("NextOfKinID");
 
                     b.HasIndex("CamperID");
+
+                    b.HasIndex("CounselorID");
 
                     b.ToTable("NextOfKins");
                 });
@@ -227,7 +235,15 @@ namespace CampSleepAwayAJA.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CampSleepAwayAJA.Counselor", "Counselor")
+                        .WithMany()
+                        .HasForeignKey("CounselorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Camper");
+
+                    b.Navigation("Counselor");
                 });
 
             modelBuilder.Entity("CampSleepAwayAJA.Cabin", b =>

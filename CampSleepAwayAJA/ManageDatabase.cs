@@ -53,7 +53,7 @@
 				StartDate = new DateTime(2021, 6, 1),
 				EndDate = new DateTime(2021, 6, 30),
 				CabinID = 1,
-				ContactInfoID = 1
+				//ContactInfoID = 1
 			};
 		}
 		public static void RemoveCounselor()
@@ -70,10 +70,11 @@
 
 			var nextOfKin = new NextOfKin
 			{
+				CamperID = 1,
 				FirstName = "John",
 				LastName = "Doe",
 				Relation = "Father",
-				ContactInfoID = 1
+				
 			};
 		}
 		public static void RemoveNextOfKin()
