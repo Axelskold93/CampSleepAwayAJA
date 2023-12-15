@@ -15,6 +15,7 @@ namespace CampSleepAwayAJA
         public  int? ContactInfoID { get; set; }
         public Counselor Counselor { get; set; }
         public int? CounselorID { get; set; }
+        public string Relation { get; set; }
         
     }
 
