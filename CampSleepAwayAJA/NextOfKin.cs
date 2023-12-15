@@ -2,6 +2,7 @@
 
 namespace CampSleepAwayAJA
 {
+
     public class NextOfKin
     {
         public int NextOfKinID { get; set; }
@@ -16,4 +17,7 @@ namespace CampSleepAwayAJA
         public int? CounselorID { get; set; }
         
     }
+
+	
+
 }
