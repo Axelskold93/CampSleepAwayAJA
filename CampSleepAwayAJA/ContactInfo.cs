@@ -13,8 +13,6 @@ namespace CampSleepAwayAJA
         public string PhoneNumber { get; set; }
         public string EmailAddress { get; set; }
 
-        public Camper Camper { get; set; }
-        public Counselor Counselor { get; set; }
-        public NextOfKin NextOfKin { get; set; }
+        
     }
 }
