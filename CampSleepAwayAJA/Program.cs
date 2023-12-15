@@ -1,9 +1,12 @@
 ﻿using Spectre.Console;
 
-public static class Program
+namespace CampSleepAwayAJA
 {
-	public static void Main(string[] args)
+	public static class Program
 	{
-		AnsiConsole.Markup("[underline red]Hello[/] World!");
+		public static void Main(string[] args)
+		{
+			AnsiConsole.Markup("[underline red]Hello[/] World!");
+		}
 	}
 }
