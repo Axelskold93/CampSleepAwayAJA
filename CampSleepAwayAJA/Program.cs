@@ -1,6 +1,4 @@
-﻿using Spectre.Console;
-
-namespace CampSleepAwayAJA
+﻿namespace CampSleepAwayAJA
 {
 	public static class Program
 	{
@@ -9,5 +7,6 @@ namespace CampSleepAwayAJA
 			ManageConsole manageConsole = new ManageConsole();
 			manageConsole.MainMenu();
 		}
+
 	}
 }

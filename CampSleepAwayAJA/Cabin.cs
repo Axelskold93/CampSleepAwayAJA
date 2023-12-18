@@ -1,6 +1,4 @@
-﻿
-
-namespace CampSleepAwayAJA
+﻿namespace CampSleepAwayAJA
 {
 	public class Cabin
 	{
