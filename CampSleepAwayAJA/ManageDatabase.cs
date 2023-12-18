@@ -54,7 +54,7 @@
 				LastName = "Doe",
 				StartDate = new DateTime(2021, 6, 1),
 				EndDate = new DateTime(2021, 6, 30),
-				CabinID = 1,
+				
 				//ContactInfoID = 1
 			};
 			context.Counselors.Add(counselor);

@@ -14,7 +14,7 @@ namespace CampSleepAwayAJA
 		public DbSet<Counselor> Counselors { get; set; }
 		public DbSet<NextOfKin> NextOfKins { get; set; }
 		public DbSet<ContactInfo> ContactInfos { get; set; }
-		public DbSet<CounselorInfo> CounselorInfos { get; set; }
+		
 
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

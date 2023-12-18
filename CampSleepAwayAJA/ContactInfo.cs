@@ -13,6 +13,15 @@ namespace CampSleepAwayAJA
         public string PhoneNumber { get; set; }
         public string EmailAddress { get; set; }
 
+        public string Role { get; set; }
+        public NextOfKin? NextOfKin { get; set; }
+        public int? NextOfKinID { get; set; }
+
+        public Counselor? Counselor { get; set; }
+        public int? CounselorID { get; set; }
+        
+
+
         
     }
 }
