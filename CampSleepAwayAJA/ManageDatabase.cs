@@ -12,6 +12,21 @@
 			context.Cabins.Add(cabin);
 			context.SaveChanges();*/
 		}
+
+		public static void UpdateCabin()
+		{
+			/*using var context = new CSAContext();
+			 * 			var cabin = context.Cabins.Where(c => c.CabinName == "Cabin 1").FirstOrDefault();
+			 * 						cabin.CabinName = "Cabin 2";
+			 * 									context.SaveChanges();*/
+		}
+
+		public static void ViewCabins()
+		{
+			/*using var context = new CSAContext();
+			 * 			var cabin = context.Cabins.Where(c => c.CabinName == "Cabin 2").FirstOrDefault();
+			 * 						Console.WriteLine(cabin.CabinName);*/
+		}
 		public static void RemoveCabin()
 		{
 			/*using var context = new CSAContext();
@@ -42,6 +57,13 @@
 			var camper = context.Campers.Where(c => c.FirstName == "John").FirstOrDefault();
 			context.Campers.Remove(camper);
 			context.SaveChanges();*/
+		}
+
+		public static void ViewCampers()
+		{
+			/*using var context = new CSAContext();
+			 * 			var camper = context.Campers.Where(c => c.FirstName == "John").FirstOrDefault();
+			 * 						Console.WriteLine(camper.FirstName);*/
 		}
 
 		public static void AddCounselor()
@@ -92,22 +114,25 @@
 		}
 		public static void UpdateCounselor()
 		{
-            /*using var context = new CSAContext();
+			/*using var context = new CSAContext();
              *            var counselor = context.Counselors.Where(c => c.FirstName == "Jane").FirstOrDefault();
              *                       counselor.FirstName = "Janet";
              *                                  context.SaveChanges();*/
-        }
+		}
 		public static void ViewCounselors()
 		{
-            /*using var context = new CSAContext();
+			/*using var context = new CSAContext();
              *             *            var counselor = context.Counselors.Where(c => c.FirstName == "Janet").FirstOrDefault();
              *                         *                       Console.WriteLine(counselor.FirstName);*/
-        }
+		}
 		public static void UpdateCamper()
 		{
-            /*using var context = new CSAContext();
+			/*using var context = new CSAContext();
              *             *            var camper = context.Campers.Where(c => c.FirstName == "John").FirstOrDefault();
              *                         *                       camper.FirstName = "Johnny";
+             *                                     *                                  context.SaveChanges();*/
+		}
+	}
              *                                     *                                  context.SaveChanges();
             };
             context.NextOfKins.Add(nextOfKin);
