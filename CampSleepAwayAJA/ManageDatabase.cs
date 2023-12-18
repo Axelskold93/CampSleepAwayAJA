@@ -108,22 +108,15 @@
             /*using var context = new CSAContext();
              *             *            var camper = context.Campers.Where(c => c.FirstName == "John").FirstOrDefault();
              *                         *                       camper.FirstName = "Johnny";
-             *                                     *                                  context.SaveChanges();*/
+             *                                     *                                  context.SaveChanges();
             };
             context.NextOfKins.Add(nextOfKin);
-            context.SaveChanges();
-        }
-        public static void RemoveNextOfKin()
-        {
-            using var context = new CSAContext();
-            var nextOfKin = context.NextOfKins.Where(c => c.FirstName == "John").FirstOrDefault();
-            context.NextOfKins.Remove(nextOfKin);
-            context.SaveChanges();
+            context.SaveChanges();*/
         }
         static void ReadCSV(string filePath)
         {
-            var camper = new List<string[]>();
-            var nextOfKin = new List<string[]>();
+            var campers = new List<string[]>();
+            var nextOfKins = new List<string[]>();
             var counselor = new List<string[]>();
             var cabins = new List<string[]>();
 
@@ -147,7 +140,7 @@
 
                 if (table == "camper")
                 {
-                    camper.Add(values);
+                    campers.Add(values);
                 }
                 else if (table == "counselor")
                 {
@@ -159,10 +152,11 @@
                 }
                 else if (table == "nextofkin")
                 {
-                    nextOfKin.Add(values);
+                    nextOfKins.Add(values);
                 }
             }
             //Add to db Order: Counsler -> Cabin -> Camper -> Next of kin
+            //Problem add realtions 
             using var context = new CSAContext();
             foreach (var c in counselor)
             {
@@ -186,40 +180,40 @@
                     var cabin = new Cabin
                     {
                         CabinName = c[0]
-                       
+
                     };
                     context.Cabins.Add(cabin);
                 }
             }
-            foreach (var c in counselor)
+            foreach (var c in campers)
             {
                 if (c != null)
                 {
-                    var counsler = new Counselor
+                    var camper = new Camper
                     {
                         FirstName = c[0],
                         LastName = c[1],
                         StartDate = DateTime.Parse(c[2]),
                         EndDate = DateTime.Parse(c[3])
                     };
-                    context.Counselors.Add(counsler);
+                    context.Campers.Add(camper);
                 }
             }
-            foreach (var c in counselor)
+            foreach (var c in nextOfKins)
             {
                 if (c != null)
                 {
-                    var counsler = new Counselor
+                    var nextOfKin = new NextOfKin
                     {
                         FirstName = c[0],
                         LastName = c[1],
-                        StartDate = DateTime.Parse(c[2]),
-                        EndDate = DateTime.Parse(c[3])
+                        CamperID = 1
                     };
-                    context.Counselors.Add(counsler);
+                    context.NextOfKins.Add(nextOfKin);
                 }
             }
 
         }
-	}
+
+    }
 }
