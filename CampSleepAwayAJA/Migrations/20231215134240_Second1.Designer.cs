@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CampSleepAwayAJA.Migrations
 {
     [DbContext(typeof(CSAContext))]
-    [Migration("20231218131449_Third")]
-    partial class Third
+    [Migration("20231215134240_Second1")]
+    partial class Second1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,12 +37,7 @@ namespace CampSleepAwayAJA.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CounselorID")
-                        .HasColumnType("int");
-
                     b.HasKey("CabinID");
-
-                    b.HasIndex("CounselorID");
 
                     b.ToTable("Cabins");
                 });
@@ -55,7 +50,7 @@ namespace CampSleepAwayAJA.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CamperID"));
 
-                    b.Property<int?>("CabinID")
+                    b.Property<int>("CabinID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("EndDate")
@@ -68,6 +63,9 @@ namespace CampSleepAwayAJA.Migrations
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NextOfKinID")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -91,29 +89,15 @@ namespace CampSleepAwayAJA.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CounselorID")
-                        .HasColumnType("int");
-
                     b.Property<string>("EmailAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("NextOfKinID")
-                        .HasColumnType("int");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("ContactInfoID");
-
-                    b.HasIndex("CounselorID");
-
-                    b.HasIndex("NextOfKinID");
 
                     b.ToTable("ContactInfos");
                 });
@@ -125,6 +109,12 @@ namespace CampSleepAwayAJA.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CounselorID"));
+
+                    b.Property<int?>("CabinID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ContactInfoID")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
@@ -142,6 +132,12 @@ namespace CampSleepAwayAJA.Migrations
 
                     b.HasKey("CounselorID");
 
+                    b.HasIndex("CabinID")
+                        .IsUnique()
+                        .HasFilter("[CabinID] IS NOT NULL");
+
+                    b.HasIndex("ContactInfoID");
+
                     b.ToTable("Counselors");
                 });
 
@@ -156,6 +152,12 @@ namespace CampSleepAwayAJA.Migrations
                     b.Property<int>("CamperID")
                         .HasColumnType("int");
 
+                    b.Property<int>("ContactInfoID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CounselorID")
+                        .HasColumnType("int");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -164,48 +166,43 @@ namespace CampSleepAwayAJA.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Relation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("NextOfKinID");
 
                     b.HasIndex("CamperID");
 
+                    b.HasIndex("ContactInfoID");
+
+                    b.HasIndex("CounselorID");
+
                     b.ToTable("NextOfKins");
-                });
-
-            modelBuilder.Entity("CampSleepAwayAJA.Cabin", b =>
-                {
-                    b.HasOne("CampSleepAwayAJA.Counselor", "Counselor")
-                        .WithMany()
-                        .HasForeignKey("CounselorID");
-
-                    b.Navigation("Counselor");
                 });
 
             modelBuilder.Entity("CampSleepAwayAJA.Camper", b =>
                 {
                     b.HasOne("CampSleepAwayAJA.Cabin", "Cabin")
                         .WithMany()
-                        .HasForeignKey("CabinID");
+                        .HasForeignKey("CabinID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Cabin");
                 });
 
-            modelBuilder.Entity("CampSleepAwayAJA.ContactInfo", b =>
+            modelBuilder.Entity("CampSleepAwayAJA.Counselor", b =>
                 {
-                    b.HasOne("CampSleepAwayAJA.Counselor", "Counselor")
+                    b.HasOne("CampSleepAwayAJA.Cabin", "Cabin")
+                        .WithOne("Counselor")
+                        .HasForeignKey("CampSleepAwayAJA.Counselor", "CabinID");
+
+                    b.HasOne("CampSleepAwayAJA.ContactInfo", "ContactInfo")
                         .WithMany()
-                        .HasForeignKey("CounselorID");
+                        .HasForeignKey("ContactInfoID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("CampSleepAwayAJA.NextOfKin", "NextOfKin")
-                        .WithMany()
-                        .HasForeignKey("NextOfKinID");
+                    b.Navigation("Cabin");
 
-                    b.Navigation("Counselor");
-
-                    b.Navigation("NextOfKin");
+                    b.Navigation("ContactInfo");
                 });
 
             modelBuilder.Entity("CampSleepAwayAJA.NextOfKin", b =>
@@ -216,7 +213,29 @@ namespace CampSleepAwayAJA.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CampSleepAwayAJA.ContactInfo", "ContactInfo")
+                        .WithMany()
+                        .HasForeignKey("ContactInfoID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CampSleepAwayAJA.Counselor", "Counselor")
+                        .WithMany()
+                        .HasForeignKey("CounselorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Camper");
+
+                    b.Navigation("ContactInfo");
+
+                    b.Navigation("Counselor");
+                });
+
+            modelBuilder.Entity("CampSleepAwayAJA.Cabin", b =>
+                {
+                    b.Navigation("Counselor")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CampSleepAwayAJA.Camper", b =>
