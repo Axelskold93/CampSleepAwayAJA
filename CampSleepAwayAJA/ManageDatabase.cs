@@ -33,6 +33,8 @@
 				CabinID = 1,
 
 			};
+			context.Campers.Add(camper);
+			context.SaveChanges();
 		}
 		public static void RemoveCamper()
 		{
@@ -55,6 +57,8 @@
 				CabinID = 1,
 				//ContactInfoID = 1
 			};
+			context.Counselors.Add(counselor);
+			context.SaveChanges();
 		}
 		public static void RemoveCounselor()
 		{
@@ -66,7 +70,7 @@
 
 		public static void AddNextOfKin()
 		{
-			var context = new CSAContext();
+			using var context = new CSAContext();
 
 			var nextOfKin = new NextOfKin
 			{
@@ -74,8 +78,10 @@
 				FirstName = "John",
 				LastName = "Doe",
 				Relation = "Father",
-				
+
 			};
+			context.NextOfKins.Add(nextOfKin);
+			context.SaveChanges();
 		}
 		public static void RemoveNextOfKin()
 		{
