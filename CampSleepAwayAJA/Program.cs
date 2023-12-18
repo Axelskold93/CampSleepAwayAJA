@@ -6,7 +6,8 @@ namespace CampSleepAwayAJA
 	{
 		public static void Main(string[] args)
 		{
-			AnsiConsole.Markup("[underline red]Hello[/] World!");
+			ManageConsole manageConsole = new ManageConsole();
+			manageConsole.MainMenu();
 		}
 	}
 }
