@@ -48,25 +48,25 @@
         {
             using var context = new CSAContext();
 
-            var counselor = new Counselor
-            {
-                FirstName = "Jane",
-                LastName = "Doe",
-                StartDate = new DateTime(2021, 6, 1),
-                EndDate = new DateTime(2021, 6, 30),
-                CabinID = 1,
-                //ContactInfoID = 1
-            };
-            context.Counselors.Add(counselor);
-            context.SaveChanges();
-        }
-        public static void RemoveCounselor()
-        {
-            using var context = new CSAContext();
-            var counselor = context.Counselors.Where(c => c.FirstName == "Jane").FirstOrDefault();
-            context.Counselors.Remove(counselor);
-            context.SaveChanges();
-        }
+			var counselor = new Counselor
+			{
+				FirstName = "Jane",
+				LastName = "Doe",
+				StartDate = new DateTime(2021, 6, 1),
+				EndDate = new DateTime(2021, 6, 30),
+				
+				//ContactInfoID = 1
+			};
+			context.Counselors.Add(counselor);
+			context.SaveChanges();
+		}
+		public static void RemoveCounselor()
+		{
+			using var context = new CSAContext();
+			var counselor = context.Counselors.Where(c => c.FirstName == "Jane").FirstOrDefault();
+			context.Counselors.Remove(counselor);
+			context.SaveChanges();
+		}
 
         public static void AddNextOfKin()
         {
