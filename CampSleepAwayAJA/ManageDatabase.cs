@@ -109,6 +109,117 @@
              *             *            var camper = context.Campers.Where(c => c.FirstName == "John").FirstOrDefault();
              *                         *                       camper.FirstName = "Johnny";
              *                                     *                                  context.SaveChanges();*/
+            };
+            context.NextOfKins.Add(nextOfKin);
+            context.SaveChanges();
+        }
+        public static void RemoveNextOfKin()
+        {
+            using var context = new CSAContext();
+            var nextOfKin = context.NextOfKins.Where(c => c.FirstName == "John").FirstOrDefault();
+            context.NextOfKins.Remove(nextOfKin);
+            context.SaveChanges();
+        }
+        static void ReadCSV(string filePath)
+        {
+            var camper = new List<string[]>();
+            var nextOfKin = new List<string[]>();
+            var counselor = new List<string[]>();
+            var cabins = new List<string[]>();
+
+            using var reader = new StreamReader(filePath);
+
+            // Read the header line
+            var headerLine = reader.ReadLine();
+
+            //Read csv file and sort values to each category
+            while (!reader.EndOfStream)
+            {
+                var line = reader.ReadLine();
+                if (line == null)
+                {
+                    break;
+                }
+
+                // Split the line by comma
+                var values = line.Split(',');
+                var table = values[values.Length - 1].Split(';').Last().ToLower();
+
+                if (table == "camper")
+                {
+                    camper.Add(values);
+                }
+                else if (table == "counselor")
+                {
+                    counselor.Add(values);
+                }
+                else if (table == "cabin")
+                {
+                    cabins.Add(values);
+                }
+                else if (table == "nextofkin")
+                {
+                    nextOfKin.Add(values);
+                }
+            }
+            //Add to db Order: Counsler -> Cabin -> Camper -> Next of kin
+            using var context = new CSAContext();
+            foreach (var c in counselor)
+            {
+                if (c != null)
+                {
+                    var counsler = new Counselor
+                    {
+                        FirstName = c[0],
+                        LastName = c[1],
+                        StartDate = DateTime.Parse(c[2]),
+                        EndDate = DateTime.Parse(c[3])
+                    };
+                    context.Counselors.Add(counsler);
+                }
+            }
+            context.SaveChanges();
+            foreach (var c in cabins)
+            {
+                if (c != null)
+                {
+                    var cabin = new Cabin
+                    {
+                        CabinName = c[0]
+                       
+                    };
+                    context.Cabins.Add(cabin);
+                }
+            }
+            foreach (var c in counselor)
+            {
+                if (c != null)
+                {
+                    var counsler = new Counselor
+                    {
+                        FirstName = c[0],
+                        LastName = c[1],
+                        StartDate = DateTime.Parse(c[2]),
+                        EndDate = DateTime.Parse(c[3])
+                    };
+                    context.Counselors.Add(counsler);
+                }
+            }
+            foreach (var c in counselor)
+            {
+                if (c != null)
+                {
+                    var counsler = new Counselor
+                    {
+                        FirstName = c[0],
+                        LastName = c[1],
+                        StartDate = DateTime.Parse(c[2]),
+                        EndDate = DateTime.Parse(c[3])
+                    };
+                    context.Counselors.Add(counsler);
+                }
+            }
+
         }
 	}
 }
