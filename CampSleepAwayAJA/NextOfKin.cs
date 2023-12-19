@@ -8,12 +8,7 @@ namespace CampSleepAwayAJA
 	{
         [Column(Order = 1)]
         public int NextOfKinID { get; set; }
-		
-
-		public Camper Camper { get; set; }
-		public required int CamperID { get; set; }
-		
-		
+		public required Camper Camper { get; set; }
 		public string Relation { get; set; }
         public ContactInfo ContactInfo { get; set; }
     }

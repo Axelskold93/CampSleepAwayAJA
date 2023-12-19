@@ -256,12 +256,13 @@ namespace CampSleepAwayAJA
 					var cabin = new Cabin
 					{
 						CabinName = cabins[i][0],
-						Counselor = new Counselor
-						{
+                        StartDate = DateTime.Parse(cabins[i][1]),
+                        EndDate = DateTime.Parse(cabins[i][2]),
+                        Counselor = new Counselor
+                        {
 							FirstName = counselors[i][0],
 							LastName = counselors[i][1],
-							StartDate = DateTime.Parse(counselors[i][5]),
-							EndDate = DateTime.Parse(counselors[i][6]),
+							
 							ContactInfo = new ContactInfo
 							{
                                 Address = counselors[i][2],

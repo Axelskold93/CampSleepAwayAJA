@@ -8,10 +8,6 @@ namespace CampSleepAwayAJA
     {
         [Column(Order = 1)]
         public int CounselorID { get; set; }
-       
-        
-       
-       
-        
+        public ContactInfo ContactInfo { get; set; }
     }
 }
