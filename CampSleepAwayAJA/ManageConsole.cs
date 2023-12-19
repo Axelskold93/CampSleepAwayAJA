@@ -70,18 +70,18 @@ namespace CampSleepAwayAJA
                 Console.Clear();
                 var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 					  .Title("Counselor Menu")
-					  .AddChoices(new[] { "Add Counselor", "Remove Counselor", "Update Counselor", "Back" })
+					  .AddChoices(new[] { "Add Counselor", "Update Counselor", "Remove Counselor", "Back" })
 						.UseConverter(s => s.ToUpperInvariant()));
 
 				if (menu.Contains("Add Counselor"))
 				{
 					ManageDatabase.AddCounselor();
 				}
-				else if (menu.Contains("Remove Counselor"))
+				else if (menu.Contains("Update Counselor"))
 				{
 					ManageDatabase.RemoveCounselor();
 				}
-				else if (menu.Contains("Update Counselor"))
+				else if (menu.Contains("Remove Counselor"))
 				{
 					ManageDatabase.UpdateCounselor();
 				}
