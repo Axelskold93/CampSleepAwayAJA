@@ -6,7 +6,58 @@ namespace CampSleepAwayAJA
 {
 	public class ManageDatabase
 	{
-		public static void AddCabin()
+        public static void AddCounselor()
+        {
+            using var context = new CSAContext();
+            Console.WriteLine("Enter firstname:");
+            string firstName = Console.ReadLine();
+            Console.WriteLine("Enter lastname:");
+            string lastName = Console.ReadLine();
+            Console.WriteLine("Enter address:");
+            string address = Console.ReadLine();
+            Console.WriteLine("Enter phonenumber:");
+            string phoneNumber = Console.ReadLine();
+            Console.WriteLine("Enter email:");
+            string email = Console.ReadLine();
+            var counselor = new Counselor
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                ContactInfo = new ContactInfo
+                {
+                    Address = address,
+                    PhoneNumber = phoneNumber,
+                    EmailAddress = email,
+                    Role = "Counselor"
+                }
+            };
+            context.Counselors.Add(counselor);
+            Console.WriteLine("Counselor added.");
+            Console.ReadKey();
+            context.SaveChanges();
+        }
+        public static void UpdateCounselor()
+        {
+            /*using var context = new CSAContext();
+             *            var counselor = context.Counselors.Where(c => c.FirstName == "Jane").FirstOrDefault();
+             *                       counselor.FirstName = "Janet";
+             *                                  context.SaveChanges();*/
+        }
+        public static void RemoveCounselor()
+        {
+            using var context = new CSAContext();
+            var counselors = context.Counselors.Select(c => c.FirstName).ToList();
+            var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                .Title("Choose counselor to remove")
+                .AddChoices(counselors)
+                .UseConverter(s => s.ToUpperInvariant()));
+            var counselor = context.Counselors.Where(c => c.FirstName == menu).FirstOrDefault();
+            context.Counselors.Remove(counselor);
+            Console.WriteLine("Counselor removed.");
+            Console.ReadKey();
+            context.SaveChanges();
+        }
+        public static void AddCabin()
 		{
 			Console.Clear();
 			while (true)
@@ -67,28 +118,26 @@ namespace CampSleepAwayAJA
 			Console.ReadKey();
             context.SaveChanges();
         }
-
-		public static void ViewCabins()
-		{
-			/*using var context = new CSAContext();
-			 * 			var cabin = context.Cabins.Where(c => c.CabinName == "Cabin 2").FirstOrDefault();
-			 * 						Console.WriteLine(cabin.CabinName);*/
-		}
-		public static void RemoveCabin()
-		{
-			using var context = new CSAContext();
+        public static void RemoveCabin()
+        {
+            using var context = new CSAContext();
             var cabins = context.Cabins.Select(c => c.CabinName).ToList();
+            if (cabins.Count() == 0)
+            {
+                Console.WriteLine("No cabins available.");
+                Console.ReadKey();
+                return;
+            }
             var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
                 .Title("Choose cabin to remove:")
                 .AddChoices(cabins)
                 .UseConverter(s => s.ToUpperInvariant()));
             var cabin = context.Cabins.Where(c => c.CabinName == menu).FirstOrDefault();
-			context.Cabins.Remove(cabin);
+            context.Cabins.Remove(cabin);
             Console.WriteLine("Cabin removed.");
-			Console.ReadKey();
+            Console.ReadKey();
             context.SaveChanges();
-		}
-
+        }
 		public static void AddCamper()
 		{
 			/*using var context = new CSAContext();
@@ -105,103 +154,9 @@ namespace CampSleepAwayAJA
 			context.Campers.Add(camper);
 			context.SaveChanges();*/
 		}
-		public static void RemoveCamper()
-		{
-			/*using var context = new CSAContext();
-			var camper = context.Campers.Where(c => c.FirstName == "John").FirstOrDefault();
-			context.Campers.Remove(camper);
-			context.SaveChanges();*/
-		}
-
-		public static void ViewCampers()
-		{
-			/*using var context = new CSAContext();
-			 * 			var camper = context.Campers.Where(c => c.FirstName == "John").FirstOrDefault();
-			 * 						Console.WriteLine(camper.FirstName);*/
-		}
-
-		public static void AddCounselor()
-		{
-			using var context = new CSAContext();
-            Console.WriteLine("Enter firstname:");
-			string firstName = Console.ReadLine();
-			Console.WriteLine("Enter lastname:");
-			string lastName = Console.ReadLine();
-            Console.WriteLine("Enter address:");
-            string address = Console.ReadLine();
-            Console.WriteLine("Enter phonenumber:");
-            string phoneNumber = Console.ReadLine();
-            Console.WriteLine("Enter email:");
-            string email = Console.ReadLine();
-            var counselor = new Counselor
-			{
-				FirstName = firstName,
-				LastName = lastName,
-                 ContactInfo = new ContactInfo
-                {
-                    Address = address,
-                    PhoneNumber = phoneNumber,
-                    EmailAddress = email,
-                    Role = "Counselor"
-                }
-            };
-            context.Counselors.Add(counselor);
-            Console.WriteLine("Counselor added.");
-			Console.ReadKey();
-            context.SaveChanges();
-        }
-        public static void RemoveCounselor()
-        {
-			using var context = new CSAContext();
-            var counselors = context.Counselors.Select(c => c.FirstName).ToList();
-			var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
-				.Title("Choose counselor to remove")
-				.AddChoices(counselors)
-				.UseConverter(s => s.ToUpperInvariant()));
-			var counselor = context.Counselors.Where(c => c.FirstName == menu).FirstOrDefault();
-			context.Counselors.Remove(counselor);
-			Console.WriteLine("Counselor removed.");
-			Console.ReadKey();
-			context.SaveChanges();
-        }
-        public static void AddNextOfKin()
+        public static void UpdateCamper()
         {
             /*using var context = new CSAContext();
-
-			var nextOfKin = new NextOfKin
-			{
-				CamperID = 1,
-				FirstName = "John",
-				LastName = "Doe",
-				Relation = "Father",
-
-			};
-			context.NextOfKins.Add(nextOfKin);
-			context.SaveChanges();*/
-		}
-		public static void RemoveNextOfKin()
-		{
-			/*using var context = new CSAContext();
-			var nextOfKin = context.NextOfKins.Where(c => c.FirstName == "John").FirstOrDefault();
-			context.NextOfKins.Remove(nextOfKin);
-			context.SaveChanges();*/
-		}
-		public static void UpdateCounselor()
-		{
-			/*using var context = new CSAContext();
-             *            var counselor = context.Counselors.Where(c => c.FirstName == "Jane").FirstOrDefault();
-             *                       counselor.FirstName = "Janet";
-             *                                  context.SaveChanges();*/
-		}
-		public static void ViewCounselors()
-		{
-			/*using var context = new CSAContext();
-             *             *            var counselor = context.Counselors.Where(c => c.FirstName == "Janet").FirstOrDefault();
-             *                         *                       Console.WriteLine(counselor.FirstName);*/
-		}
-		public static void UpdateCamper()
-		{
-			/*using var context = new CSAContext();
              *             *            var camper = context.Campers.Where(c => c.FirstName == "John").FirstOrDefault();
              *                         *                       camper.FirstName = "Johnny";
              *                                     *                                  context.SaveChanges();
@@ -211,7 +166,33 @@ namespace CampSleepAwayAJA
 		};
 		context.NextOfKins.Add(nextOfKin);
             context.SaveChanges();*/
+        }
+        public static void RemoveCamper()
+		{
+			/*using var context = new CSAContext();
+			var camper = context.Campers.Where(c => c.FirstName == "John").FirstOrDefault();
+			context.Campers.Remove(camper);
+			context.SaveChanges();*/
 		}
+        public static void ViewCounselors()
+        {
+            /*using var context = new CSAContext();
+             *             *            var counselor = context.Counselors.Where(c => c.FirstName == "Janet").FirstOrDefault();
+             *                         *                       Console.WriteLine(counselor.FirstName);*/
+        }
+        public static void ViewCabins()
+        {
+            /*using var context = new CSAContext();
+			 * 			var cabin = context.Cabins.Where(c => c.CabinName == "Cabin 2").FirstOrDefault();
+			 * 						Console.WriteLine(cabin.CabinName);*/
+        }
+        public static void ViewCampers()
+		{
+			/*using var context = new CSAContext();
+			 * 			var camper = context.Campers.Where(c => c.FirstName == "John").FirstOrDefault();
+			 * 						Console.WriteLine(camper.FirstName);*/
+		}
+	
         public static void ReadCSV(string filePath)
 			{
                 /* Format for csv:
