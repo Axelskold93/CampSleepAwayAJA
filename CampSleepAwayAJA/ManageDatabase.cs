@@ -38,10 +38,51 @@ namespace CampSleepAwayAJA
         }
         public static void UpdateCounselor()
         {
-            /*using var context = new CSAContext();
-             *            var counselor = context.Counselors.Where(c => c.FirstName == "Jane").FirstOrDefault();
-             *                       counselor.FirstName = "Janet";
-             *                                  context.SaveChanges();*/
+            using var context = new CSAContext();
+            var counselors = context.Counselors.Select(c => c.FirstName).ToList();
+            var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                .Title("Choose counselor to update")
+                .AddChoices(counselors)
+                .UseConverter(s => s.ToUpperInvariant()));
+            var counselor = context.Counselors.Where(c => c.FirstName == menu).FirstOrDefault();
+            if (counselors.Count() == 0)
+            {
+                Console.WriteLine("No counselors available.");
+            }
+            var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                .Title("Choose what to update")
+                .AddChoices(new[] { "First Name", "Last Name", "Address", "Phone Number", "Email" })
+                .UseConverter(s => s.ToUpperInvariant()));
+            if (menu2.Contains("Name"))
+            {
+                Console.WriteLine("Enter new firstname");
+                string firstName = Console.ReadLine();
+                Console.WriteLine("Enter new lastname:");
+                string lastName = Console.ReadLine();
+                counselor.FirstName = firstName;
+                counselor.LastName = lastName;
+            }
+            else if (menu2.Contains("Address"))
+            {
+                Console.WriteLine("Enter new address:");
+                string address = Console.ReadLine();
+                counselor.ContactInfo.Address = address;
+            }
+            else if (menu2.Contains("Phone Number"))
+            {
+                Console.WriteLine("Enter new phonenumber:");
+                string phoneNumber = Console.ReadLine();
+                counselor.ContactInfo.PhoneNumber = phoneNumber;
+            }
+            else if (menu2.Contains("Email"))
+            {
+                Console.WriteLine("Enter new email:");
+                string email = Console.ReadLine();
+                counselor.ContactInfo.EmailAddress = email;
+            }
+            Console.WriteLine("Counselor updated.");
+            Console.ReadKey();
+            context.SaveChanges();
         }
         public static void RemoveCounselor()
         {
