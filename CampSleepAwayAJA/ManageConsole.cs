@@ -7,20 +7,22 @@ namespace CampSleepAwayAJA
 	{
 		public void MainMenu()
 		{
+			
 			while (true)
 			{
-				var menu = AnsiConsole.Prompt(new MultiSelectionPrompt<string>()
+                Console.Clear();
+                var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 					  .Title("Main Menu")
-					  .AddChoices(new[] { "Manage", "Reports", "Exit" })
+					  .AddChoices(new[] { "Manage", "View", "Exit" })
 					  .UseConverter(s => s.ToUpperInvariant()));
 
 				if (menu.Contains("Manage"))
 				{
 					ManageMenu();
 				}
-				else if (menu.Contains("Reports"))
+				else if (menu.Contains("View"))
 				{
-					ReportsMenu();
+					ViewMenu();
 				}
 				else if (menu.Contains("Exit"))
 				{
@@ -31,11 +33,13 @@ namespace CampSleepAwayAJA
 		}
 		public void ManageMenu()
 		{
+			
 			while (true)
 			{
-				var menu = AnsiConsole.Prompt(new MultiSelectionPrompt<string>()
+                Console.Clear();
+                var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 				  .Title("Manage Menu")
-				  .AddChoices(new[] { "Counselors", "Cabins", "Campers", "Exit" })
+				  .AddChoices(new[] { "Counselors", "Cabins", "Campers", "Back" })
 				  .UseConverter(s => s.ToUpperInvariant()));
 
 
@@ -51,7 +55,7 @@ namespace CampSleepAwayAJA
 				{
 					ManageCamperMenu();
 				}
-				else if (menu.Contains("Exit"))
+				else if (menu.Contains("Back"))
 				{
 					break;
 				}
@@ -59,12 +63,14 @@ namespace CampSleepAwayAJA
 			}
 		}
 		public void ManageCounselorMenu()
-		{
+		{ 
+			
 			while (true)
 			{
-				var menu = AnsiConsole.Prompt(new MultiSelectionPrompt<string>()
+                Console.Clear();
+                var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 					  .Title("Counselor Menu")
-					  .AddChoices(new[] { "Add Counselor", "Remove Counselor", "Update Counselor", "View Counselors", "Exit" })
+					  .AddChoices(new[] { "Add Counselor", "Remove Counselor", "Update Counselor", "Back" })
 						.UseConverter(s => s.ToUpperInvariant()));
 
 				if (menu.Contains("Add Counselor"))
@@ -79,11 +85,7 @@ namespace CampSleepAwayAJA
 				{
 					ManageDatabase.UpdateCounselor();
 				}
-				else if (menu.Contains("View Counselors"))
-				{
-					ManageDatabase.ViewCounselors();
-				}
-				else if (menu.Contains("Exit"))
+				else if (menu.Contains("Back"))
 				{
 					break;
 				}
@@ -91,42 +93,40 @@ namespace CampSleepAwayAJA
 		}
 		public void ManageCabinMenu()
 		{
-			while (true)
+		    while (true)
 			{
-				var menu = AnsiConsole.Prompt(new MultiSelectionPrompt<string>()
+                Console.Clear();
+                var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 					  .Title("Cabin Menu")
-					  .AddChoices(new[] { "Add Cabin", "Remove Cabin", "Update Cabin", "View Cabins", "Exit" })
+					  .AddChoices(new[] { "Add Cabin", "Update Cabin", "Remove Cabin", "Back" })
 						.UseConverter(s => s.ToUpperInvariant()));
 
 				if (menu.Contains("Add Cabin"))
 				{
 					ManageDatabase.AddCabin();
 				}
-				else if (menu.Contains("Remove Cabin"))
-				{
-					ManageDatabase.RemoveCabin();
-				}
 				else if (menu.Contains("Update Cabin"))
 				{
 					ManageDatabase.UpdateCabin();
 				}
-				else if (menu.Contains("View Cabins"))
+				else if (menu.Contains("Remove Cabin"))
 				{
-					ManageDatabase.ViewCabins();
+					ManageDatabase.RemoveCabin();
 				}
-				else if (menu.Contains("Exit"))
+				else if (menu.Contains("Back"))
 				{
 					break;
 				}
 			}
 		}
-		public void ManageCamperMenu()
-		{
+		public void ManageCamperMenu()	
+		{		
 			while (true)
 			{
-				var menu = AnsiConsole.Prompt(new MultiSelectionPrompt<string>()
+                Console.Clear();
+                var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 					   .Title("Camper Menu")
-					   .AddChoices(new[] { "Add Camper", "Remove Camper", "Update Camper", "View Campers", "Exit" })
+					   .AddChoices(new[] { "Add Camper", "Remove Camper", "Update Camper", "Back" })
 						.UseConverter(s => s.ToUpperInvariant()));
 
 				if (menu.Contains("Add Camper"))
@@ -141,116 +141,43 @@ namespace CampSleepAwayAJA
 				{
 					ManageDatabase.UpdateCamper();
 				}
-				else if (menu.Contains("View Campers"))
-				{
-					ManageDatabase.ViewCampers();
-				}
-				else if (menu.Contains("Exit"))
+				else if (menu.Contains("Back"))
 				{
 					break;
 				}
 			}
 		}
 
-		public void ReportsMenu()
+		public void ViewMenu()
 		{
 			while (true)
 			{
-				var menu = AnsiConsole.Prompt(new MultiSelectionPrompt<string>()
-				  .Title("Reports Menu")
-				  .AddChoices(new[] { "Counselors", "Cabins", "Campers", "Exit" })
+                Console.Clear();
+                var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+				  .Title("View Menu")
+				  .AddChoices(new[] { "Counselors", "Cabins", "Campers", "Back" })
 					.UseConverter(s => s.ToUpperInvariant()));
 
 				if (menu.Contains("Counselors"))
 				{
-					CounselorMenu();
+					ManageDatabase.ViewCounselors();
 				}
 				else if (menu.Contains("Cabins"))
 				{
-					CabinMenu();
+					ManageDatabase.ViewCabins();
 				}
 				else if (menu.Contains("Campers"))
 				{
-					CamperMenu();
-				}
-				else if (menu.Contains("Exit"))
+                    ManageDatabase.ViewCampers();
+                }
+				else if (menu.Contains("Back"))
 				{
 					break;
 				}
 
 			}
 		}
-		public void CounselorMenu()
-		{
-			while (true)
-			{
-				var menu = AnsiConsole.Prompt(new MultiSelectionPrompt<string>()
-									 .Title("Counselor Menu")
-									.AddChoices(new[] { "View Counselors", "View Counselors by Cabin", "Exit" })
-									.UseConverter(s => s.ToUpperInvariant()));
 
-				if (menu.Contains("View Counselors"))
-				{
-					ManageDatabase.ViewCounselors();
-				}
-				//else if (menu.Contains("View Counselors by Cabin"))
-				//{
-				//    ManageDatabase.ViewCounselorsByCabin();
-				//}
-				else if (menu.Contains("Exit"))
-				{
-					break;
-				}
-
-			}
-		}
-		public void CabinMenu()
-		{
-			while (true)
-			{
-				var menu = AnsiConsole.Prompt(new MultiSelectionPrompt<string>()
-						   .Title("Cabin Menu")
-						   .AddChoices(new[] { "View Cabins", "View Cabins by Counselor", "Exit" })
-							.UseConverter(s => s.ToUpperInvariant()));
-
-				if (menu.Contains("View Cabins"))
-				{
-					ManageDatabase.ViewCabins();
-				}
-				//else if (menu.Contains("View Cabins by Counselor"))
-				//{
-				//    ManageDatabase.ViewCabinsByCounselor();
-				//}
-				else if (menu.Contains("Exit"))
-				{
-					break;
-				}
-
-			}
-		}
-		public void CamperMenu()
-		{
-			while (true)
-			{
-				var menu = AnsiConsole.Prompt(new MultiSelectionPrompt<string>()
-				  .Title("Camper Menu")
-				  .AddChoices(new[] { "View Campers", "View Campers by Cabin", "Exit" })
-																																																																																																																																																																																							  .UseConverter(s => s.ToUpperInvariant()));
-
-				if (menu.Contains("View Campers"))
-				{
-					ManageDatabase.ViewCampers();
-				}
-				//else if (menu.Contains("View Campers by Cabin"))
-				//{
-				//    ManageDatabase.ViewCampersByCabin();
-				//}
-				else if (menu.Contains("Exit"))
-				{
-					break;
-				}
-
-			}
-		}
 	}
 }
+

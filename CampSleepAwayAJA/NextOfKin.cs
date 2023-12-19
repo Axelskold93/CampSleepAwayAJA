@@ -1,11 +1,19 @@
-﻿namespace CampSleepAwayAJA
+﻿
+
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CampSleepAwayAJA
 {
-	public class NextOfKin
+	public class NextOfKin : Person
 	{
-		public int NextOfKinID { get; set; }
-		public required string FirstName { get; set; }
-		public required string LastName { get; set; }
-		public required Camper Camper { get; set; }
+        [Column(Order = 1)]
+        public int NextOfKinID { get; set; }
+		
+
+		public Camper Camper { get; set; }
+		public required int CamperID { get; set; }
+		
+		
 		public string Relation { get; set; }
         public ContactInfo ContactInfo { get; set; }
     }
