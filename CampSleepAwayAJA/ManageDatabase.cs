@@ -1,4 +1,6 @@
-﻿namespace CampSleepAwayAJA
+﻿using System.Net;
+
+namespace CampSleepAwayAJA
 {
 	public class ManageDatabase
 	{
@@ -130,115 +132,139 @@
 			/*using var context = new CSAContext();
              *             *            var camper = context.Campers.Where(c => c.FirstName == "John").FirstOrDefault();
              *                         *                       camper.FirstName = "Johnny";
-             *                                     *                                  context.SaveChanges();*/
-		}
-	}
              *                                     *                                  context.SaveChanges();
-            };
-            context.NextOfKins.Add(nextOfKin);
+
+
+			**context.SaveChanges();
+		};
+		context.NextOfKins.Add(nextOfKin);
             context.SaveChanges();*/
-        }
-        static void ReadCSV(string filePath)
-        {
-            var campers = new List<string[]>();
-            var nextOfKins = new List<string[]>();
-            var counselor = new List<string[]>();
-            var cabins = new List<string[]>();
+		}
+        public static void ReadCSV(string filePath)
+			{
+                /* Format for csv:
+				 * FirstName,Lastname,startdate(yyyy/mm/dd),endDate(yyyy/mm/dd);camper
+				 * FirstName,Lastname;nextofkin
+				 * FirstName,Lastname,startdate(yyyy/mm/dd),endDate(yyyy/mm/dd);counsler
+				 * cabinName;cabin
+				 *
+				 * Notes: 
+				 * There must be an equal amount of cabins and counslers.
+				 * Campers and next of kin will be coupled in the order they apear in the csv file
+				 */
+                var campers = new List<string[]>();
+				var nextOfKins = new List<string[]>();
+				var counselors = new List<string[]>();
+				var cabins = new List<string[]>();
 
-            using var reader = new StreamReader(filePath);
+				using var reader = new StreamReader(filePath);
 
-            // Read the header line
-            var headerLine = reader.ReadLine();
+				// Read the header line
+				//var headerLine = reader.ReadLine();
 
-            //Read csv file and sort values to each category
-            while (!reader.EndOfStream)
-            {
-                var line = reader.ReadLine();
-                if (line == null)
-                {
-                    break;
-                }
+				//Read csv file and sort values to each category
+				while (!reader.EndOfStream)
+				{
+					var line = reader.ReadLine();
+					if (line == null)
+					{
+						break;
+					}
 
-                // Split the line by comma
-                var values = line.Split(',');
-                var table = values[values.Length - 1].Split(';').Last().ToLower();
+                    // Split the line by comma
+                    var values = line.Split(',');
+                    var table = values[^1].Split(';').Last().ToLower(); //Gets last element
+                    values[^1] = values[^1].Split(';').First(); //Removes last element from array
 
-                if (table == "camper")
-                {
-                    campers.Add(values);
-                }
-                else if (table == "counselor")
-                {
-                    counselor.Add(values);
-                }
-                else if (table == "cabin")
-                {
-                    cabins.Add(values);
-                }
-                else if (table == "nextofkin")
-                {
-                    nextOfKins.Add(values);
-                }
-            }
-            //Add to db Order: Counsler -> Cabin -> Camper -> Next of kin
-            //Problem add realtions 
-            using var context = new CSAContext();
-            foreach (var c in counselor)
-            {
-                if (c != null)
-                {
-                    var counsler = new Counselor
-                    {
-                        FirstName = c[0],
-                        LastName = c[1],
-                        StartDate = DateTime.Parse(c[2]),
-                        EndDate = DateTime.Parse(c[3])
-                    };
-                    context.Counselors.Add(counsler);
-                }
-            }
-            context.SaveChanges();
-            foreach (var c in cabins)
-            {
-                if (c != null)
-                {
-                    var cabin = new Cabin
-                    {
-                        CabinName = c[0]
+                    if (table == "camper")
+					{
+						campers.Add(values);
+					}
+					else if (table == "counselor")
+					{
+						counselors.Add(values);
+					}
+					else if (table == "cabin")
+					{
+						cabins.Add(values);
+					}
+					else if (table == "nextofkin")
+					{
+						nextOfKins.Add(values);
+					}
+				}
+				//Add to db Order: Counsler -> Cabin -> Camper -> Next of kin
+				if (cabins.Count != counselors.Count)
+				{
+					throw new Exception("Missmatched lenghts of list 'cabin' and 'counsler'");
+				}
+                using var context = new CSAContext();
+				//Add cabins and counslers
+                for (int i = 0; i < cabins.Count; i++)
+				{
+					var cabin = new Cabin
+					{
+						CabinName = cabins[i][0],
+						Counselor = new Counselor
+						{
+							FirstName = counselors[i][0],
+							LastName = counselors[i][1],
+							StartDate = DateTime.Parse(counselors[i][5]),
+							EndDate = DateTime.Parse(counselors[i][6]),
+							ContactInfo = new ContactInfo
+							{
+                                Address = counselors[i][2],
+                                PhoneNumber = counselors[i][3],
+                                EmailAddress = counselors[i][4],
+                                Role = "Counselor"
+                            }	
+						}
 
-                    };
-                    context.Cabins.Add(cabin);
-                }
-            }
-            foreach (var c in campers)
-            {
-                if (c != null)
-                {
-                    var camper = new Camper
-                    {
-                        FirstName = c[0],
-                        LastName = c[1],
-                        StartDate = DateTime.Parse(c[2]),
-                        EndDate = DateTime.Parse(c[3])
-                    };
-                    context.Campers.Add(camper);
-                }
-            }
-            foreach (var c in nextOfKins)
-            {
-                if (c != null)
-                {
-                    var nextOfKin = new NextOfKin
-                    {
-                        FirstName = c[0],
-                        LastName = c[1],
-                        CamperID = 1
-                    };
-                    context.NextOfKins.Add(nextOfKin);
-                }
-            }
-
-        }
-
-    }
+					};
+					context.Cabins.Add(cabin);
+				}
+				for (int i = 0; i < campers.Count; i++)
+				{
+					if (nextOfKins.Count > i)
+					{
+					var NextOfKin = new NextOfKin
+					{
+						FirstName = nextOfKins[i][0],
+						LastName = nextOfKins[i][1],
+						Relation = nextOfKins[i][2],
+						Camper = new Camper
+						{
+							FirstName = campers[i][0],
+							LastName = campers[i][1],
+							StartDate = DateTime.Parse(campers[i][2]),
+							EndDate = DateTime.Parse(campers[i][3])
+						},
+                        ContactInfo = new ContactInfo
+                        {
+                            Address = nextOfKins[i][3],
+                            PhoneNumber = nextOfKins[i][4],
+                            EmailAddress = nextOfKins[i][5],
+                            Role = "NextOfKin"
+                        }
+					};
+						context.NextOfKins.Add(NextOfKin);
+					}
+					else //If camper has no next of kin
+					{
+						var camper = new Camper
+						{
+							FirstName = campers[i][0],
+							LastName = campers[i][1],
+							StartDate = DateTime.Parse(campers[i][2]),
+							EndDate = DateTime.Parse(campers[i][3])
+						};
+                        context.Campers.Add(camper);
+                    }
+				}
+				context.SaveChanges();
+			}
+		
+	}
 }
+    
+
