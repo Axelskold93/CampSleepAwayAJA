@@ -48,7 +48,8 @@ namespace CampSleepAwayAJA.Migrations
                 {
                     b.Property<int>("CamperID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CamperID"));
 
@@ -60,11 +61,13 @@ namespace CampSleepAwayAJA.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(2);
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(3);
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -119,7 +122,8 @@ namespace CampSleepAwayAJA.Migrations
                 {
                     b.Property<int>("CounselorID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CounselorID"));
 
@@ -128,11 +132,13 @@ namespace CampSleepAwayAJA.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(2);
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(3);
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -146,7 +152,8 @@ namespace CampSleepAwayAJA.Migrations
                 {
                     b.Property<int>("NextOfKinID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NextOfKinID"));
 
@@ -155,11 +162,13 @@ namespace CampSleepAwayAJA.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(2);
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnOrder(3);
 
                     b.Property<string>("Relation")
                         .IsRequired()

@@ -1,25 +1,70 @@
-﻿namespace CampSleepAwayAJA
+﻿using Spectre.Console;
+
+namespace CampSleepAwayAJA
 {
 	public class ManageDatabase
 	{
 		public static void AddCabin()
 		{
-			/*using var context = new CSAContext();
-			var cabin = new Cabin
+			Console.Clear();
+			while (true)
 			{
-				CabinName = "Cabin 1"
-			};
-			context.Cabins.Add(cabin);
-			context.SaveChanges();*/
-		}
+				using var context = new CSAContext();				
+				Console.WriteLine("Enter Cabin Name");
+				string cabinName = Console.ReadLine();
+				var cabin = new Cabin
+				{
+					CabinName = cabinName
+				};
+				context.Cabins.Add(cabin);
+
+				Console.WriteLine("Cabin added.");
+				Console.ReadKey();
+				context.SaveChanges();
+				break;
+			}
+        }
 
 		public static void UpdateCabin()
 		{
-			/*using var context = new CSAContext();
-			 * 			var cabin = context.Cabins.Where(c => c.CabinName == "Cabin 1").FirstOrDefault();
-			 * 						cabin.CabinName = "Cabin 2";
-			 * 									context.SaveChanges();*/
-		}
+			
+			using var context = new CSAContext();
+			var cabins = context.Cabins.Select(c => c.CabinName).ToList();
+			var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+				.Title("Choose cabin to update")
+				.AddChoices(cabins)
+				.UseConverter(s => s.ToUpperInvariant()));
+			var cabin = context.Cabins.Where(c => c.CabinName == menu).FirstOrDefault();
+			var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
+			 .Title("Choose what to update")
+			 .AddChoices(new[] { "Cabin Name", "Cabin Leader" })
+			 .UseConverter(s => s.ToUpperInvariant()));
+			if (menu2.Contains("Cabin Name"))
+			{
+				Console.WriteLine("Enter new cabin name");
+				string cabinName = Console.ReadLine();
+				cabin.CabinName = cabinName;
+			}
+			else if (menu2.Contains("Cabin Leader"))
+			{
+				var counselors = context.Counselors.Select(c => c.FirstName).ToList();
+				if (counselors.Count() == 0)
+				{
+                    Console.WriteLine("No counselors available.");
+                    Console.ReadKey();
+                    return;
+                }
+				var menu3 = AnsiConsole.Prompt(new SelectionPrompt<string>()
+				 .Title("Choose cabin leader")
+		         .AddChoices(counselors)
+				 .UseConverter(s => s.ToUpperInvariant()));
+				var counselor = context.Counselors.Where(c => c.FirstName == menu3).FirstOrDefault();
+				cabin.CounselorID = counselor.CounselorID;
+			}
+			Console.WriteLine("Cabin updated.");
+			Console.ReadKey();
+            context.SaveChanges();
+        }
 
 		public static void ViewCabins()
 		{
@@ -29,10 +74,17 @@
 		}
 		public static void RemoveCabin()
 		{
-			/*using var context = new CSAContext();
-			var cabin = context.Cabins.Where(c => c.CabinName == "Cabin 1").FirstOrDefault();
+			using var context = new CSAContext();
+            var cabins = context.Cabins.Select(c => c.CabinName).ToList();
+            var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                .Title("Choose cabin to remove:")
+                .AddChoices(cabins)
+                .UseConverter(s => s.ToUpperInvariant()));
+            var cabin = context.Cabins.Where(c => c.CabinName == menu).FirstOrDefault();
 			context.Cabins.Remove(cabin);
-			context.SaveChanges();*/
+            Console.WriteLine("Cabin removed.");
+			Console.ReadKey();
+            context.SaveChanges();
 		}
 
 		public static void AddCamper()
@@ -68,19 +120,18 @@
 
 		public static void AddCounselor()
 		{
-			/*using var context = new CSAContext();
+			using var context = new CSAContext();
+            Console.WriteLine("Enter firstname:");
 
-			var counselor = new Counselor
+            var counselor = new Counselor
 			{
-				FirstName = "Jane",
-				LastName = "Doe",
-				StartDate = new DateTime(2021, 6, 1),
-				EndDate = new DateTime(2021, 6, 30),
+				
+				
 				
 				//ContactInfoID = 1
 			};
 			context.Counselors.Add(counselor);
-			context.SaveChanges();*/
+			context.SaveChanges();
 		}
 		public static void RemoveCounselor()
 		{

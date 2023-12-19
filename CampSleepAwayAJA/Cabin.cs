@@ -10,7 +10,8 @@ namespace CampSleepAwayAJA
 		public Counselor? Counselor { get; set; }
 
 		public int? CounselorID { get; set; }
-
+		public DateTime? StartDate { get; set; }
+		public DateTime? EndDate { get; set; }
 
 	}
 }
