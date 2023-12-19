@@ -1,5 +1,5 @@
-﻿using System.Net;
-
+﻿using System.Data;
+using System.Net;
 using Spectre.Console;
 
 namespace CampSleepAwayAJA
@@ -124,28 +124,49 @@ namespace CampSleepAwayAJA
 		{
 			using var context = new CSAContext();
             Console.WriteLine("Enter firstname:");
-
+			string firstName = Console.ReadLine();
+			Console.WriteLine("Enter lastname:");
+			string lastName = Console.ReadLine();
+            Console.WriteLine("Enter address:");
+            string address = Console.ReadLine();
+            Console.WriteLine("Enter phonenumber:");
+            string phoneNumber = Console.ReadLine();
+            Console.WriteLine("Enter email:");
+            string email = Console.ReadLine();
             var counselor = new Counselor
 			{
-				
-				
-				
-				//ContactInfoID = 1
-			};
-			context.Counselors.Add(counselor);
-			context.SaveChanges();
-		}
-		public static void RemoveCounselor()
-		{
-			/*using var context = new CSAContext();
-			var counselor = context.Counselors.Where(c => c.FirstName == "Jane").FirstOrDefault();
+				FirstName = firstName,
+				LastName = lastName,
+                 ContactInfo = new ContactInfo
+                {
+                    Address = address,
+                    PhoneNumber = phoneNumber,
+                    EmailAddress = email,
+                    Role = "Counselor"
+                }
+            };
+            context.Counselors.Add(counselor);
+            Console.WriteLine("Counselor added.");
+			Console.ReadKey();
+            context.SaveChanges();
+        }
+        public static void RemoveCounselor()
+        {
+			using var context = new CSAContext();
+            var counselors = context.Counselors.Select(c => c.FirstName).ToList();
+			var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+				.Title("Choose counselor to remove")
+				.AddChoices(counselors)
+				.UseConverter(s => s.ToUpperInvariant()));
+			var counselor = context.Counselors.Where(c => c.FirstName == menu).FirstOrDefault();
 			context.Counselors.Remove(counselor);
-			context.SaveChanges();*/
-		}
-
-		public static void AddNextOfKin()
-		{
-			/*using var context = new CSAContext();
+			Console.WriteLine("Counselor removed.");
+			Console.ReadKey();
+			context.SaveChanges();
+        }
+        public static void AddNextOfKin()
+        {
+            /*using var context = new CSAContext();
 
 			var nextOfKin = new NextOfKin
 			{
