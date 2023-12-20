@@ -124,9 +124,15 @@ namespace CampSleepAwayAJA
 
         public static void UpdateCabin()
         {
-
+            bool? camperInCabin = null;
             using var context = new CSAContext();
             var cabins = context.Cabins.Select(c => c.CabinName).ToList();
+            if (cabins.Count() == 0)
+            {
+                Console.WriteLine("No cabins available.");
+                Console.ReadKey();
+                return;
+            }
             var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
                 .Title("Choose cabin to update")
                 .AddChoices(cabins)
@@ -136,12 +142,14 @@ namespace CampSleepAwayAJA
              .Title("Choose what to update")
              .AddChoices(new[] { "Cabin name", "Cabin leader", "Add camper to cabin" })
              .UseConverter(s => s.ToUpperInvariant()));
+            //Gör egen metod
             if (menu2.Contains("Cabin name"))
             {
                 Console.WriteLine("Enter new cabin name");
                 string cabinName = Console.ReadLine();
                 cabin.CabinName = cabinName;
             }
+            //Gör egen metod av denna
             else if (menu2.Contains("Cabin leader"))
             {
                 var counselors = context.Counselors.Select(c => c.FirstName).ToList();
@@ -160,44 +168,48 @@ namespace CampSleepAwayAJA
             }
             else if (menu2.Contains("Add camper to cabin"))
             {
-                AddCamperToCabin();
+               camperInCabin = AddCamperToCabin(cabin);
+
             }
-            Console.WriteLine("Cabin updated.");
-            Console.ReadKey();
-            context.SaveChanges();
+            if (camperInCabin == true || camperInCabin == null)
+            {
+               Console.WriteLine("Cabin updated.");
+                Console.ReadKey();
+                context.SaveChanges();
+            }
         }
-        public static void AddCamperToCabin()
+        public static bool AddCamperToCabin(Cabin? cabin)
         {
             using var context = new CSAContext();
             var cabins = context.Cabins.Select(c => c.CabinName).ToList();
-            if (cabins.Count() == 0)
+            if (cabin.Campers?.Count() > 4)
             {
-                Console.WriteLine("No cabins available.");
-                Console.ReadKey();
-                return;
+                Console.WriteLine("Maximum cabin capacity reached.");
             }
-            var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
-               .Title("Choose cabin to add camper to")
-               .AddChoices(cabins)
-               .UseConverter(s => s.ToUpperInvariant())); 
-            var cabin = context.Cabins.Where(c => c.CabinName == menu).FirstOrDefault();
             var campers = context.Campers.Select(c => c.FirstName).ToList();
             if (campers.Count() == 0)
             {
                 Console.WriteLine("No campers available.");
                 Console.ReadKey();
-                return;
+                return false;
             }
             var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
                .Title("Choose camper to add to cabin")
                .AddChoices(campers)
                .UseConverter(s => s.ToUpperInvariant()));
             var camper = context.Campers.Where(c => c.FirstName == menu2).FirstOrDefault();
-            cabin.Campers.Add(camper);
+            if (camper.CabinID == cabin.CabinID)
+            {
+                Console.WriteLine("The camper is already in this cabin.");              
+                Console.ReadKey();
+                return false;
+            }
+            cabin.Campers?.Add(camper);
+            camper.CabinID = cabin.CabinID;
             Console.WriteLine("Camper added to cabin.");
             Console.ReadKey();
             context.SaveChanges();
-
+            return true;
         }
         public static void RemoveCabin()
         {
@@ -260,8 +272,8 @@ namespace CampSleepAwayAJA
                         {
                             Address = nextOfKinAddress,
                             PhoneNumber = nextOfKinPhoneNumber,
-                            EmailAddress = nextOfKinEmail
-                 
+                            EmailAddress = nextOfKinEmail,
+                            Role = "NextOfKin"
                         }
                 }   }
             };

@@ -133,7 +133,7 @@ namespace CampSleepAwayAJA
 				if (menu.Contains("Add Camper"))
 				{
 					ManageDatabase.AddCamper();
-					ManageDatabase.AddCamperToCabin();
+					//ManageDatabase.AddCamperToCabin();
 				}
 				else if (menu.Contains("Remove Camper"))
 				{
