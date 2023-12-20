@@ -1,4 +1,5 @@
 ﻿using Spectre.Console;
+using System.ComponentModel.DataAnnotations;
 
 /*Class for console display methodes*/
 namespace CampSleepAwayAJA
@@ -161,7 +162,19 @@ namespace CampSleepAwayAJA
 
 				if (menu.Contains("Counselors"))
 				{
-					ManageDatabase.ViewCounselors();
+					var data = ManageDatabase.ViewCounselors();
+					Table table = new();
+					string[] headers = {"First name", "Last name",  "Adress", "Phone number", "Email" };
+					table.Title("Counselor View", Style.Parse("yellow Underline"))
+						.AddColumns(headers)
+						.Border(TableBorder.Rounded)
+						.Width(1000);
+					foreach (var row in data)
+					{
+						table.AddRow(row.ToArray());
+					}
+					AnsiConsole.Write(table);
+					Console.ReadLine();
 				}
 				else if (menu.Contains("Cabins"))
 				{
