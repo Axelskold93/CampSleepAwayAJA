@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Net;
 using Spectre.Console;
+using Microsoft.EntityFrameworkCore;
 
 namespace CampSleepAwayAJA
 {
@@ -39,12 +40,12 @@ namespace CampSleepAwayAJA
         public static void UpdateCounselor()
         {
             using var context = new CSAContext();
-            var counselors = context.Counselors.Select(c => c.FirstName).ToList();
+            var counselors = context.Counselors.Select(c => c.FullName).ToList();
             var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
                 .Title("Choose counselor to update")
                 .AddChoices(counselors)
                 .UseConverter(s => s.ToUpperInvariant()));
-            var counselor = context.Counselors.Where(c => c.FirstName == menu).FirstOrDefault();
+            var counselor = context.Counselors.Include(c => c.ContactInfo).Where(c => c.FirstName + " " + c.LastName == menu).FirstOrDefault();
             if (counselors.Count() == 0)
             {
                 Console.WriteLine("No counselors available.");
@@ -76,6 +77,7 @@ namespace CampSleepAwayAJA
             }
             else if (menu2.Contains("Email"))
             {
+
                 Console.WriteLine("Enter new email:");
                 string email = Console.ReadLine();
                 counselor.ContactInfo.EmailAddress = email;
@@ -87,12 +89,12 @@ namespace CampSleepAwayAJA
         public static void RemoveCounselor()
         {
             using var context = new CSAContext();
-            var counselors = context.Counselors.Select(c => c.FirstName).ToList();
+            var counselors = context.Counselors.Select(c => c.FullName).ToList();
             var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
                 .Title("Choose counselor to remove")
                 .AddChoices(counselors)
                 .UseConverter(s => s.ToUpperInvariant()));
-            var counselor = context.Counselors.Where(c => c.FirstName == menu).FirstOrDefault();
+            var counselor = context.Counselors.Where(c => c.FullName == menu).FirstOrDefault();
             context.Counselors.Remove(counselor);
             Console.WriteLine("Counselor removed.");
             Console.ReadKey();
@@ -149,7 +151,7 @@ namespace CampSleepAwayAJA
             //Gör egen metod av denna
             else if (menu2.Contains("Cabin leader"))
             {
-                var counselors = context.Counselors.Select(c => c.FirstName).ToList();
+                var counselors = context.Counselors.Select(c => c.FullName).ToList();
                 if (counselors.Count() == 0)
                 {
                     Console.WriteLine("No counselors available.");
@@ -160,7 +162,7 @@ namespace CampSleepAwayAJA
                  .Title("Choose cabin leader")
                  .AddChoices(counselors)
                  .UseConverter(s => s.ToUpperInvariant()));
-                var counselor = context.Counselors.Where(c => c.FirstName == menu3).FirstOrDefault();
+                var counselor = context.Counselors.Where(c => c.FullName == menu3).FirstOrDefault();
                 cabin.CounselorID = counselor.CounselorID;
             }
             else if (menu2.Contains("Add camper to cabin"))
@@ -183,7 +185,7 @@ namespace CampSleepAwayAJA
             {
                 Console.WriteLine("Maximum cabin capacity reached.");
             }
-            var campers = context.Campers.Select(c => c.FirstName).ToList();
+            var campers = context.Campers.Select(c => c.FullName).ToList();
             if (campers.Count() == 0)
             {
                 Console.WriteLine("No campers available.");
@@ -194,7 +196,7 @@ namespace CampSleepAwayAJA
                .Title("Choose camper to add to cabin")
                .AddChoices(campers)
                .UseConverter(s => s.ToUpperInvariant()));
-            var camper = context.Campers.Where(c => c.FirstName == menu2).FirstOrDefault();
+            var camper = context.Campers.Where(c => c.FullName == menu2).FirstOrDefault();
             if (camper.CabinID == cabin.CabinID)
             {
                 Console.WriteLine("The camper is already in this cabin.");              

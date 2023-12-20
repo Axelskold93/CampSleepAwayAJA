@@ -79,11 +79,11 @@ namespace CampSleepAwayAJA
 				}
 				else if (menu.Contains("Update Counselor"))
 				{
-					ManageDatabase.RemoveCounselor();
+					ManageDatabase.UpdateCounselor();
 				}
 				else if (menu.Contains("Remove Counselor"))
 				{
-					ManageDatabase.UpdateCounselor();
+					ManageDatabase.RemoveCounselor();
 				}
 				else if (menu.Contains("Back"))
 				{
