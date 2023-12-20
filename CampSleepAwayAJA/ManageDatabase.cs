@@ -385,6 +385,7 @@ namespace CampSleepAwayAJA
                     CabinName = cabins[i][0],
                     StartDate = DateTime.Parse(cabins[i][1]),
                     EndDate = DateTime.Parse(cabins[i][2]),
+                    CabinCapacity = int.Parse(cabins[i][3]),
                     Counselor = new Counselor
                     {
                         FirstName = counselors[i][0],
