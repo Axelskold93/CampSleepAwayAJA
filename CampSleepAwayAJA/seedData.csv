@@ -29,8 +29,8 @@ Andrew,Davis,Son,404 Birch St,(555) 789-0123,andrewdavis@email.com;nextofkin
 Melissa,Anderson,Daughter,505 Walnut Ave,(555) 210-9876,melissaanderson@email.com;nextofkin
 Steven,Moore,Grandson,606 Oak Rd,(555) 432-1098,stevenmoore@email.com;nextofkin
 Tom,Sträng,NotFound 404,00031-743 20 00,@example.com;counselor
-Sophie,Johnson,1414 Oak Ave,(555) 234-5678,sophiejohnson@email.com;nextofkin
-David,Anderson,1515 Elm Rd,(555) 432-1098,davidanderson@email.com;nextofkin
-Pineview,2023/01/15,2023/02/28;cabin
-Maplewood,2023/03/10,2023/04/20;cabin
-Cedarcrest,2023/05/05,2023/06/15;cabin
+Sophie,Johnson,1414 Oak Ave,(555) 234-5678,sophiejohnson@email.com;counselor
+David,Anderson,1515 Elm Rd,(555) 432-1098,davidanderson@email.com;counselor
+Pineview,2023/01/15,2023/02/28,4;cabin
+Maplewood,2023/03/10,2023/04/20,4;cabin
+Cedarcrest,2023/05/05,2023/06/15,4;cabin
