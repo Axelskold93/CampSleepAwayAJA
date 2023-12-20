@@ -213,32 +213,32 @@ namespace CampSleepAwayAJA
 			Console.WriteLine("Next of kin email: ");
 			string nextOfKinEmail = Console.ReadLine();
 
-			var camper = new Camper
-			{
-				FirstName = firstName,
-				LastName = lastName,
-				StartDate = DateTime.Parse(startDate),
-				EndDate = DateTime.Parse(endDate),
-				NextOfKin = new List<NextOfKin>
-				{
-					new NextOfKin
-					{
-						FirstName = nextOfKinFirstName,
-						LastName = nextOfKinLastName,
-						Relation = nextOfKinRelation,
-						ContactInfo = new ContactInfo
-						{
-							Address = nextOfKinAddress,
-							PhoneNumber = nextOfKinPhoneNumber,
-							EmailAddress = nextOfKinEmail
-						}
-					}
-				}
-			};
-		}
-		public static void UpdateCamper()
-		{
-			/*using var context = new CSAContext();
+            var camper = new Camper
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                StartDate = DateTime.Parse(startDate),
+                EndDate = DateTime.Parse(endDate),
+                NextOfKin = new List<NextOfKin>()
+                {
+                    new NextOfKin
+                    {
+                        FirstName = nextOfKinFirstName,
+                        LastName = nextOfKinLastName,
+                        Relation = nextOfKinRelation,
+                        ContactInfo = new ContactInfo
+                        {
+                            Address = nextOfKinAddress,
+                            PhoneNumber = nextOfKinPhoneNumber,
+                            EmailAddress = nextOfKinEmail
+                 
+                        }
+                }   }
+            };
+        }
+        public static void UpdateCamper()
+        {
+            /*using var context = new CSAContext();
              *             *            var camper = context.Campers.Where(c => c.FirstName == "John").FirstOrDefault();
              *                         *                       camper.FirstName = "Johnny";
              *                                     *                                  context.SaveChanges();

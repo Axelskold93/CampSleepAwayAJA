@@ -1,3 +1,5 @@
+Erik,Börsson,2023/12/19,2024/01/02;camper
+Lina,Larsson,2023/12/02,2023/12/27;camper
 FirstNamecamper,Lastnamecamper,2000/01/02,2001/01/02;camper
 FirstNamecamper,Lastnamecamper,2000/01/02,2001/01/02;camper
 FirstNamecamper,Lastnamecamper,2000/01/02,2001/01/02;camper
@@ -7,16 +9,14 @@ FirstNamecamper,Lastnamecamper,2000/01/02,2001/01/02;camper
 FirstNamecamper,Lastnamecamper,2000/01/02,2001/01/02;camper
 FirstNamecamper,Lastnamecamper,2000/01/02,2001/01/02;camper
 FirstNamecamper,Lastnamecamper,2000/01/02,2001/01/02;camper
-FirstNamecamper,Lastnamecamper,2000/01/02,2001/01/02;camper
-FirstNamecamper,Lastnamecamper,2000/01/02,2001/01/02;camper
-FirstNamenextofkin,Lastnamenextofkin,Realtion,nAdress,nPhone,nEmail,2000/01/02,2001/01/02;nextofkin
-FirstNamenextofkin,Lastnamenextofkin,Realtion,nAdress,nPhone,nEmail,2000/01/02,2001/01/02;nextofkin
-FirstNamenextofkin,Lastnamenextofkin,Realtion,nAdress,nPhone,nEmail,2000/01/02,2001/01/02;nextofkin
-FirstNamenextofkin,Lastnamenextofkin,Realtion,nAdress,nPhone,nEmail,2000/01/02,2001/01/02;nextofkin
-FirstNamenextofkin,Lastnamenextofkin,Realtion,nAdress,nPhone,nEmail,2000/01/02,2001/01/02;nextofkin
-FirstNamenextofkin,Lastnamenextofkin,Realtion,nAdress,nPhone,nEmail,2000/01/02,2001/01/02;nextofkin
-FirstNamenextofkin,Lastnamenextofkin,Realtion,nAdress,nPhone,nEmail,2000/01/02,2001/01/02;nextofkin
-FirstNamecounsler,Lastnamecounsler,nAdress,nPhone,nEmail;counselor
+Börge,Börsson,Grandad,Ölstorp 2,070-6546546,Börgesölartorp@example.com;nextofkin
+FirstNamenextofkin,Lastnamenextofkin,Realtion,nAdress,nPhone,nEmail;nextofkin
+FirstNamenextofkin,Lastnamenextofkin,Realtion,nAdress,nPhone,nEmail;nextofkin
+FirstNamenextofkin,Lastnamenextofkin,Realtion,nAdress,nPhone,nEmail;nextofkin
+FirstNamenextofkin,Lastnamenextofkin,Realtion,nAdress,nPhone,nEmail;nextofkin
+FirstNamenextofkin,Lastnamenextofkin,Realtion,nAdress,nPhone,nEmail;nextofkin
+FirstNamenextofkin,Lastnamenextofkin,Realtion,nAdress,nPhone,nEmail;nextofkin
+Tom,Sträng,NotFound 404,00031-743 20 00,@example.com;counselor
 FirstNamecounsler,Lastnamecounsler,nAdress,nPhone,nEmail;counselor
 FirstNamecounsler,Lastnamecounsler,nAdress,nPhone,nEmail;counselor
 cabinName,2000/01/02,2001/01/02;cabin
