@@ -1,5 +1,8 @@
 ﻿using System.Data;
 using System.Net;
+using System.Net.WebSockets;
+using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using Spectre.Console;
 
 namespace CampSleepAwayAJA
@@ -287,11 +290,29 @@ namespace CampSleepAwayAJA
 			context.Campers.Remove(camper);
 			context.SaveChanges();*/
         }
-        public static void ViewCounselors()
+        public static List<List<string>> ViewCounselors()
         {
-            /*using var context = new CSAContext();
-             *             *            var counselor = context.Counselors.Where(c => c.FirstName == "Janet").FirstOrDefault();
-             *                         *                       Console.WriteLine(counselor.FirstName);*/
+            List<List<string>> output = new();
+            using var context = new CSAContext();
+            var counselor = context.Counselors.Include(e => e.ContactInfo)
+                .Select(c => new {
+                    c.FirstName,
+                    c.LastName,
+                    c.ContactInfo.Address,
+                    c.ContactInfo.PhoneNumber,
+                    c.ContactInfo.EmailAddress,
+                }).ToList();
+            foreach (var c in counselor)
+            {
+                List<string> list = new();
+                foreach (PropertyInfo k in c.GetType().GetProperties())
+                {
+                    list.Add(k.GetValue(c, null).ToString());
+                }
+                output.Add(list);
+            }
+            Console.WriteLine();
+            return output;
         }
         public static void ViewCabins()
         {
