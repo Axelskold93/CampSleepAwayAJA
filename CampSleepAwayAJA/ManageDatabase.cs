@@ -209,7 +209,7 @@ namespace CampSleepAwayAJA
                 LastName = lastName,
                 StartDate = DateTime.Parse(startDate),
                 EndDate = DateTime.Parse(endDate),
-                NextOfKin = new List<NextOfKin>
+                NextOfKin = new List<NextOfKin>()
                 {
                     new NextOfKin
                     {
@@ -221,9 +221,9 @@ namespace CampSleepAwayAJA
                             Address = nextOfKinAddress,
                             PhoneNumber = nextOfKinPhoneNumber,
                             EmailAddress = nextOfKinEmail
+                 
                         }
-                    }
-                }
+                }   }
             };
         }
         public static void UpdateCamper()
