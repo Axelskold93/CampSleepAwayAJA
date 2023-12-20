@@ -30,6 +30,9 @@ namespace CampSleepAwayAJA.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CabinID"));
 
+                    b.Property<int?>("CabinCapacity")
+                        .HasColumnType("int");
+
                     b.Property<string>("CabinName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -193,7 +196,7 @@ namespace CampSleepAwayAJA.Migrations
             modelBuilder.Entity("CampSleepAwayAJA.Camper", b =>
                 {
                     b.HasOne("CampSleepAwayAJA.Cabin", "Cabin")
-                        .WithMany()
+                        .WithMany("Campers")
                         .HasForeignKey("CabinID");
 
                     b.Navigation("Cabin");
@@ -227,6 +230,11 @@ namespace CampSleepAwayAJA.Migrations
                     b.Navigation("Camper");
 
                     b.Navigation("ContactInfo");
+                });
+
+            modelBuilder.Entity("CampSleepAwayAJA.Cabin", b =>
+                {
+                    b.Navigation("Campers");
                 });
 
             modelBuilder.Entity("CampSleepAwayAJA.Camper", b =>
