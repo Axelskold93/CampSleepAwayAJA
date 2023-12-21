@@ -165,7 +165,7 @@ namespace CampSleepAwayAJA
 					var data = ManageDatabase.ViewCounselors();
 					Table table = new();
 					string[] headers = {"First name", "Last name",  "Adress", "Phone number", "Email" };
-					table.Title("Counselor View", Style.Parse("yellow Underline"))
+					table.Title("Counselor View", new Style(Color.Red, Color.Black, Decoration.Bold))
 						.AddColumns(headers)
 						.Border(TableBorder.Rounded)
 						.Width(1000);
@@ -178,11 +178,43 @@ namespace CampSleepAwayAJA
 				}
 				else if (menu.Contains("Cabins"))
 				{
-					ManageDatabase.ViewCabins();
-				}
+					var data = ManageDatabase.ViewCabins();
+                    Table table = new();
+                    string[] headers = { "Cabin Name", "Counselor name", "Campers"};
+                    table.Title("Counselor View", new Style(Color.Red, Color.Black, Decoration.Bold))
+                        .AddColumns(headers)
+                        .Border(TableBorder.Rounded)
+                        .Width(1000);
+                    foreach (var row in data)
+                    {
+						List<string> camp = new();
+						Table campers = new();
+                        campers.AddColumn("").HideHeaders();
+                        for (int i = 2; i < row.Count(); i++)
+						{
+							campers.AddRow(new Markup($"[Yellow]{row[i]}[/],"));
+                        }
+                        table.AddRow(new Markup($"[blue]{row[0]}[/],"), new Markup($"[red]{row[1]}[/],"), campers);
+                    }
+                    AnsiConsole.Write(table);
+                    Console.ReadLine();
+                }
 				else if (menu.Contains("Campers"))
 				{
-                    ManageDatabase.ViewCampers();
+                    
+                    var data = ManageDatabase.ViewCampers();
+                    Table table = new();
+                    string[] headers = { "Full name", "Cabin name", "Arrival date", "Departure date"};
+                    table.Title("Counselor View", new Style(Color.Red, Color.Black, Decoration.Bold))
+                        .AddColumns(headers)
+                        .Border(TableBorder.Rounded)
+                        .Width(1000);
+                    foreach (var row in data)
+                    {
+                        table.AddRow(row.ToArray());
+                    }
+                    AnsiConsole.Write(table);
+                    Console.ReadLine();
                 }
 				else if (menu.Contains("Back"))
 				{

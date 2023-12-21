@@ -3,6 +3,7 @@ using Spectre.Console;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Reflection;
+using System.Linq;
 
 namespace CampSleepAwayAJA
 {
@@ -121,7 +122,6 @@ namespace CampSleepAwayAJA
 				break;
 			}
 		}
-
         public static void UpdateCabin()
         {
             bool? camperInCabin = null;
@@ -389,7 +389,7 @@ namespace CampSleepAwayAJA
 		{
 			List<List<string>> output = new();
 			using var context = new CSAContext();
-			var counselor = context.Counselors.Include(e => e.ContactInfo)
+			var counselor = context.Counselors.Include(c => c.ContactInfo)
 				.Select(c => new
 				{
 					c.FirstName,
@@ -410,18 +410,58 @@ namespace CampSleepAwayAJA
 			Console.WriteLine();
 			return output;
 		}
-		public static void ViewCabins()
+		public static List<List<string>> ViewCabins()
 		{
-			/*using var context = new CSAContext();
-			 * 			var cabin = context.Cabins.Where(c => c.CabinName == "Cabin 2").FirstOrDefault();
-			 * 						Console.WriteLine(cabin.CabinName);*/
-		}
-		public static void ViewCampers()
+            List<List<string>> output = new();
+            using var context = new CSAContext();
+            var cabinData = context.Cabins.Include(e => e.Counselor)
+                .Select(c => new
+                {
+                    c.CabinName,
+                    c.Counselor.FullName,
+					c.Campers 
+                }).ToList();
+			
+            foreach (var c in cabinData)
+            {
+                List<string> list = new();
+                list.Add(c.CabinName);
+                list.Add(c.FullName);
+                foreach (var k in c.Campers)
+                {
+					list.Add(k.FullName);
+                }
+                output.Add(list);
+            }
+            Console.WriteLine();
+            return output;
+        }
+		public static List<List<string>> ViewCampers()
 		{
-			/*using var context = new CSAContext();
-			 * 			var camper = context.Campers.Where(c => c.FirstName == "John").FirstOrDefault();
-			 * 						Console.WriteLine(camper.FirstName);*/
-		}
+            List<List<string>> output = new();
+            using var context = new CSAContext();
+            var counselor = context.Campers.Include(c => c.Cabin)
+                .Select(c => new
+                {
+                    c.FullName,
+                    c.Cabin.CabinName,
+                    c.StartDate,
+                    c.EndDate,
+                }).ToList();
+            foreach (var c in counselor)
+            {
+                List<string> list =
+                [
+                    c.FullName,
+                    c.CabinName != null ? c.CabinName : "Not in a cabin",
+                    DateOnly.FromDateTime(c.StartDate).ToString(),
+                    DateOnly.FromDateTime(c.EndDate).ToString(),
+                ];
+                output.Add(list);
+            }
+            Console.WriteLine();
+            return output;
+        }
 
 		public static void ReadCSV(string filePath)
 		{
