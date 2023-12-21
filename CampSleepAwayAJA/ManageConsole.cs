@@ -6,7 +6,7 @@ namespace CampSleepAwayAJA
 {
 	public class ManageConsole
 	{
-		public void MainMenu()
+		public static void MainMenu()
 		{
 			
 			while (true)
@@ -14,7 +14,7 @@ namespace CampSleepAwayAJA
                 Console.Clear();
                 var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 					  .Title("Main Menu")
-					  .AddChoices(new[] { "Manage", "View", "Exit" })
+					  .AddChoices(new[] { "Manage", "View", "Settings", "Exit" })
 					  .UseConverter(s => s.ToUpperInvariant()));
 
 				if (menu.Contains("Manage"))
@@ -25,6 +25,10 @@ namespace CampSleepAwayAJA
 				{
 					ViewMenu();
 				}
+				else if (menu.Contains("Settings"))
+				{
+					ManageDatabase.Settings();
+				}
 				else if (menu.Contains("Exit"))
 				{
 					Environment.Exit(0);
@@ -32,7 +36,7 @@ namespace CampSleepAwayAJA
 			}
 
 		}
-		public void ManageMenu()
+		public static void ManageMenu()
 		{
 			
 			while (true)
@@ -40,7 +44,7 @@ namespace CampSleepAwayAJA
                 Console.Clear();
                 var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 				  .Title("Manage Menu")
-				  .AddChoices(new[] { "Counselors", "Cabins", "Campers", "Back" })
+				  .AddChoices(new[] { "Counselors", "Cabins", "Campers", "Add camper to cabin", "Back" })
 				  .UseConverter(s => s.ToUpperInvariant()));
 
 
@@ -56,6 +60,10 @@ namespace CampSleepAwayAJA
 				{
 					ManageCamperMenu();
 				}
+				else if (menu.Contains("Add camper to cabin"))
+				{
+					ManageDatabase.AddCamperToCabin();  
+				}
 				else if (menu.Contains("Back"))
 				{
 					break;
@@ -63,7 +71,7 @@ namespace CampSleepAwayAJA
 
 			}
 		}
-		public void ManageCounselorMenu()
+		public static void ManageCounselorMenu()
 		{ 
 			
 			while (true)
@@ -92,7 +100,7 @@ namespace CampSleepAwayAJA
 				}
 			}
 		}
-		public void ManageCabinMenu()
+		public static void ManageCabinMenu()
 		{
 		    while (true)
 			{
@@ -120,7 +128,7 @@ namespace CampSleepAwayAJA
 				}
 			}
 		}
-		public void ManageCamperMenu()	
+		public static void ManageCamperMenu()	
 		{		
 			while (true)
 			{
@@ -150,7 +158,7 @@ namespace CampSleepAwayAJA
 			}
 		}
 
-		public void ViewMenu()
+		public static void ViewMenu()
 		{
 			while (true)
 			{
@@ -164,7 +172,7 @@ namespace CampSleepAwayAJA
 				{
 					var data = ManageDatabase.ViewCounselors();
 					Table table = new();
-					string[] headers = {"First name", "Last name",  "Adress", "Phone number", "Email" };
+					string[] headers = { "First name", "Last name", "Adress", "Phone number", "Email" };
 					table.Title("Counselor View", new Style(Color.Red, Color.Black, Decoration.Bold))
 						.AddColumns(headers)
 						.Border(TableBorder.Rounded)
@@ -191,7 +199,7 @@ namespace CampSleepAwayAJA
 					var data = ManageDatabase.ViewCabins();
                     Table table = new();
                     string[] headers = { "Cabin Name", "Counselor name", "Campers"};
-                    table.Title("Counselor View", new Style(Color.Red, Color.Black, Decoration.Bold))
+                    table.Title("Cabin View", new Style(Color.Red, Color.Black, Decoration.Bold))
                         .AddColumns(headers)
                         .Border(TableBorder.DoubleEdge)
                         .Width(1000);
@@ -211,6 +219,7 @@ namespace CampSleepAwayAJA
                     AnsiConsole.Render(table);
                     Console.ReadLine();
                 }
+				
 				else if (menu.Contains("Campers"))
 				{
                     var data = ManageDatabase.ViewCampers();
