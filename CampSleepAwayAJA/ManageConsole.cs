@@ -168,12 +168,22 @@ namespace CampSleepAwayAJA
 					table.Title("Counselor View", new Style(Color.Red, Color.Black, Decoration.Bold))
 						.AddColumns(headers)
 						.Border(TableBorder.Rounded)
-						.Width(1000);
-					foreach (var row in data)
+						.Expand();
+					for (int i = 0; i < data.Count(); i++)
 					{
-						table.AddRow(row.ToArray());
-					}
-					AnsiConsole.Write(table);
+						table.AddRow(
+							new Markup($"[blue]{data[i][0]}[/]"),
+							new Markup($"[blue]{data[i][1]}[/]"),
+                            new Markup($"[cyan]{data[i][2]}[/]"),
+                            new Markup($"[yellow]{data[i][3]}[/]"),
+                            new Markup($"[green]{data[i][4]}[/]")
+                            );
+						if(i != data.Count() -1)
+						{
+							table.AddRow(new Rule(), new Rule(), new Rule(), new Rule(), new Rule());
+						}
+                    }
+					AnsiConsole.Render(table);
 					Console.ReadLine();
 				}
 				else if (menu.Contains("Cabins"))
@@ -183,25 +193,26 @@ namespace CampSleepAwayAJA
                     string[] headers = { "Cabin Name", "Counselor name", "Campers"};
                     table.Title("Counselor View", new Style(Color.Red, Color.Black, Decoration.Bold))
                         .AddColumns(headers)
-                        .Border(TableBorder.Rounded)
+                        .Border(TableBorder.DoubleEdge)
                         .Width(1000);
                     foreach (var row in data)
                     {
 						List<string> camp = new();
 						Table campers = new();
-                        campers.AddColumn("").HideHeaders();
+                        campers.AddColumn("").HideHeaders().NoBorder();
                         for (int i = 2; i < row.Count(); i++)
 						{
-							campers.AddRow(new Markup($"[Yellow]{row[i]}[/],"));
+							campers.AddRow(new Markup($"[Yellow]{row[i]}[/]"));
+							campers.AddRow(new Rule());
                         }
-                        table.AddRow(new Markup($"[blue]{row[0]}[/],"), new Markup($"[red]{row[1]}[/],"), campers);
+                        table.AddRow(new Markup($"[blue]{row[0]}[/]"), new Markup($"[red]{row[1]}[/]"), campers);
+						table.AddRow(new Rule(), new Rule(), new Rule());
                     }
-                    AnsiConsole.Write(table);
+                    AnsiConsole.Render(table);
                     Console.ReadLine();
                 }
 				else if (menu.Contains("Campers"))
 				{
-                    
                     var data = ManageDatabase.ViewCampers();
                     Table table = new();
                     string[] headers = { "Full name", "Cabin name", "Arrival date", "Departure date"};
@@ -209,11 +220,34 @@ namespace CampSleepAwayAJA
                         .AddColumns(headers)
                         .Border(TableBorder.Rounded)
                         .Width(1000);
-                    foreach (var row in data)
+                    for (int i = 0; i < data.Count(); i++)
                     {
-                        table.AddRow(row.ToArray());
+						if (data[i][1] != "Not in a cabin")
+						{
+
+							table.AddRow(
+								new Markup($"[cyan]{data[i][0]}[/]"),
+								new Markup($"[green]{data[i][1]}[/]"),
+								new Markup($"[yellow]{data[i][2]}[/]"),
+								new Markup($"[red]{data[i][3]}[/]")
+								);
+						}
+						else
+						{
+                            table.AddRow(
+                                new Markup($"[cyan]{data[i][0]}[/]"),
+                                new Markup($"[red]{data[i][1]}[/]"),
+                                new Markup($"[red]{data[i][2]}[/]"),
+                                new Markup($"[red]{data[i][3]}[/]")
+                                );
+                        }
+                        if (i != data.Count() - 1)
+                        {
+                            table.AddRow(new Rule(), new Rule(), new Rule(), new Rule());
+                        }
+                        
                     }
-                    AnsiConsole.Write(table);
+                    AnsiConsole.Render(table);
                     Console.ReadLine();
                 }
 				else if (menu.Contains("Back"))
