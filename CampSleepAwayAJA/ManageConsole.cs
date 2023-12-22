@@ -1,6 +1,4 @@
 ﻿using Spectre.Console;
-using System.ComponentModel.DataAnnotations;
-
 /*Class for console display methodes*/
 namespace CampSleepAwayAJA
 {
@@ -8,11 +6,10 @@ namespace CampSleepAwayAJA
 	{
 		public static void MainMenu()
 		{
-			
 			while (true)
 			{
-                Console.Clear();
-                var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+				Console.Clear();
+				var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 					  .Title("Main Menu")
 					  .AddChoices(new[] { "Manage", "View", "Settings", "Exit" })
 					  .UseConverter(s => s.ToUpperInvariant()));
@@ -34,19 +31,16 @@ namespace CampSleepAwayAJA
 					Environment.Exit(0);
 				}
 			}
-
 		}
 		public static void ManageMenu()
 		{
-			
 			while (true)
 			{
-                Console.Clear();
-                var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+				Console.Clear();
+				var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 				  .Title("Manage Menu")
 				  .AddChoices(new[] { "Counselors", "Cabins", "Campers", "Add camper to cabin", "Back" })
 				  .UseConverter(s => s.ToUpperInvariant()));
-
 
 				if (menu.Contains("Counselors"))
 				{
@@ -62,22 +56,20 @@ namespace CampSleepAwayAJA
 				}
 				else if (menu.Contains("Add camper to cabin"))
 				{
-					ManageDatabase.AddCamperToCabin();  
+					ManageDatabase.AddCamperToCabin();
 				}
 				else if (menu.Contains("Back"))
 				{
 					break;
 				}
-
 			}
 		}
 		public static void ManageCounselorMenu()
-		{ 
-			
+		{
 			while (true)
 			{
-                Console.Clear();
-                var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+				Console.Clear();
+				var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 					  .Title("Counselor Menu")
 					  .AddChoices(new[] { "Add Counselor", "Update Counselor", "Remove Counselor", "Back" })
 						.UseConverter(s => s.ToUpperInvariant()));
@@ -102,10 +94,10 @@ namespace CampSleepAwayAJA
 		}
 		public static void ManageCabinMenu()
 		{
-		    while (true)
+			while (true)
 			{
-                Console.Clear();
-                var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+				Console.Clear();
+				var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 					  .Title("Cabin Menu")
 					  .AddChoices(new[] { "Add Cabin", "Update Cabin", "Remove Cabin", "Back" })
 						.UseConverter(s => s.ToUpperInvariant()));
@@ -128,12 +120,12 @@ namespace CampSleepAwayAJA
 				}
 			}
 		}
-		public static void ManageCamperMenu()	
-		{		
+		public static void ManageCamperMenu()
+		{
 			while (true)
 			{
-                Console.Clear();
-                var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+				Console.Clear();
+				var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 					   .Title("Camper Menu")
 					   .AddChoices(new[] { "Add Camper", "Remove Camper", "Update Camper", "Back" })
 						.UseConverter(s => s.ToUpperInvariant()));
@@ -141,7 +133,6 @@ namespace CampSleepAwayAJA
 				if (menu.Contains("Add Camper"))
 				{
 					ManageDatabase.AddCamper();
-					//ManageDatabase.AddCamperToCabin();
 				}
 				else if (menu.Contains("Remove Camper"))
 				{
@@ -157,13 +148,12 @@ namespace CampSleepAwayAJA
 				}
 			}
 		}
-
 		public static void ViewMenu()
 		{
 			while (true)
 			{
-                Console.Clear();
-                var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+				Console.Clear();
+				var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 				  .Title("View Menu")
 				  .AddChoices(new[] { "Counselors", "Cabins", "Campers", "Back" })
 					.UseConverter(s => s.ToUpperInvariant()));
@@ -182,55 +172,54 @@ namespace CampSleepAwayAJA
 						table.AddRow(
 							new Markup($"[blue]{data[i][0]}[/]"),
 							new Markup($"[blue]{data[i][1]}[/]"),
-                            new Markup($"[cyan]{data[i][2]}[/]"),
-                            new Markup($"[yellow]{data[i][3]}[/]"),
-                            new Markup($"[green]{data[i][4]}[/]")
-                            );
-						if(i != data.Count() -1)
+							new Markup($"[cyan]{data[i][2]}[/]"),
+							new Markup($"[yellow]{data[i][3]}[/]"),
+							new Markup($"[green]{data[i][4]}[/]")
+							);
+						if (i != data.Count() - 1)
 						{
 							table.AddRow(new Rule(), new Rule(), new Rule(), new Rule(), new Rule());
 						}
-                    }
+					}
 					AnsiConsole.Render(table);
 					Console.ReadLine();
 				}
 				else if (menu.Contains("Cabins"))
 				{
 					var data = ManageDatabase.ViewCabins();
-                    Table table = new();
-                    string[] headers = { "Cabin Name", "Counselor name", "Campers"};
-                    table.Title("Cabin View", new Style(Color.Red, Color.Black, Decoration.Bold))
-                        .AddColumns(headers)
-                        .Border(TableBorder.DoubleEdge)
-                        .Width(1000);
-                    foreach (var row in data)
-                    {
+					Table table = new();
+					string[] headers = { "Cabin Name", "Counselor name", "Campers" };
+					table.Title("Cabin View", new Style(Color.Red, Color.Black, Decoration.Bold))
+						.AddColumns(headers)
+						.Border(TableBorder.DoubleEdge)
+						.Width(1000);
+					foreach (var row in data)
+					{
 						List<string> camp = new();
 						Table campers = new();
-                        campers.AddColumn("").HideHeaders().NoBorder();
-                        for (int i = 2; i < row.Count(); i++)
+						campers.AddColumn("").HideHeaders().NoBorder();
+						for (int i = 2; i < row.Count(); i++)
 						{
 							campers.AddRow(new Markup($"[Yellow]{row[i]}[/]"));
 							campers.AddRow(new Rule());
-                        }
-                        table.AddRow(new Markup($"[blue]{row[0]}[/]"), new Markup($"[red]{row[1]}[/]"), campers);
+						}
+						table.AddRow(new Markup($"[blue]{row[0]}[/]"), new Markup($"[red]{row[1]}[/]"), campers);
 						table.AddRow(new Rule(), new Rule(), new Rule());
-                    }
-                    AnsiConsole.Render(table);
-                    Console.ReadLine();
-                }
-				
+					}
+					AnsiConsole.Render(table);
+					Console.ReadLine();
+				}
 				else if (menu.Contains("Campers"))
 				{
-                    var data = ManageDatabase.ViewCampers();
-                    Table table = new();
-                    string[] headers = { "Full name", "Cabin name", "Arrival date", "Departure date"};
-                    table.Title("Counselor View", new Style(Color.Red, Color.Black, Decoration.Bold))
-                        .AddColumns(headers)
-                        .Border(TableBorder.Rounded)
-                        .Width(1000);
-                    for (int i = 0; i < data.Count(); i++)
-                    {
+					var data = ManageDatabase.ViewCampers();
+					Table table = new();
+					string[] headers = { "Full name", "Cabin name", "Arrival date", "Departure date" };
+					table.Title("Counselor View", new Style(Color.Red, Color.Black, Decoration.Bold))
+						.AddColumns(headers)
+						.Border(TableBorder.Rounded)
+						.Width(1000);
+					for (int i = 0; i < data.Count(); i++)
+					{
 						if (data[i][1] != "Not in a cabin")
 						{
 
@@ -243,30 +232,26 @@ namespace CampSleepAwayAJA
 						}
 						else
 						{
-                            table.AddRow(
-                                new Markup($"[cyan]{data[i][0]}[/]"),
-                                new Markup($"[red]{data[i][1]}[/]"),
-                                new Markup($"[red]{data[i][2]}[/]"),
-                                new Markup($"[red]{data[i][3]}[/]")
-                                );
-                        }
-                        if (i != data.Count() - 1)
-                        {
-                            table.AddRow(new Rule(), new Rule(), new Rule(), new Rule());
-                        }
-                        
-                    }
-                    AnsiConsole.Render(table);
-                    Console.ReadLine();
-                }
+							table.AddRow(
+								new Markup($"[cyan]{data[i][0]}[/]"),
+								new Markup($"[red]{data[i][1]}[/]"),
+								new Markup($"[red]{data[i][2]}[/]"),
+								new Markup($"[red]{data[i][3]}[/]")
+								);
+						}
+						if (i != data.Count() - 1)
+						{
+							table.AddRow(new Rule(), new Rule(), new Rule(), new Rule());
+						}
+					}
+					AnsiConsole.Render(table);
+					Console.ReadLine();
+				}
 				else if (menu.Contains("Back"))
 				{
 					break;
 				}
-
 			}
 		}
-
 	}
 }
-

@@ -5,16 +5,11 @@ namespace CampSleepAwayAJA
 {
 	public class CSAContext : DbContext
 	{
-
-
-
 		public DbSet<Cabin> Cabins { get; set; }
 		public DbSet<Camper> Campers { get; set; }
 		public DbSet<Counselor> Counselors { get; set; }
 		public DbSet<NextOfKin> NextOfKins { get; set; }
 		public DbSet<ContactInfo> ContactInfos { get; set; }
-
-
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{

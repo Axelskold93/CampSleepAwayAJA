@@ -4,10 +4,7 @@
 	{
 		public static void Main(string[] args)
 		{
-            
-            ManageConsole.MainMenu();
-			
-			
+			ManageConsole.MainMenu();
 		}
 	}
 }
