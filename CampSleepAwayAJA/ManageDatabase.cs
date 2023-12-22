@@ -5,42 +5,72 @@ using System.Reflection;
 
 namespace CampSleepAwayAJA
 {
-	public class ManageDatabase
-	{
-		public static void AddCounselor()
-		{
-			using var context = new CSAContext();
-			Console.WriteLine("Enter firstname:");
-			string firstName = Console.ReadLine();
-			Console.WriteLine("Enter lastname:");
-			string lastName = Console.ReadLine();
-			Console.WriteLine("Enter address:");
-			string address = Console.ReadLine();
-			Console.WriteLine("Enter phonenumber:");
-			string phoneNumber = Console.ReadLine();
-			Console.WriteLine("Enter email:");
-			string email = Console.ReadLine();
-			var counselor = new Counselor
+    public class ManageDatabase
+    {
+        public static void AddCounselor()
+        {
+            using var context = new CSAContext();
+            Console.WriteLine("Enter firstname:");
+            string firstName = Console.ReadLine();
+			if (string.IsNullOrWhiteSpace(firstName))
 			{
-				FirstName = firstName,
-				LastName = lastName,
-				ContactInfo = new ContactInfo
-				{
-					Address = address,
-					PhoneNumber = phoneNumber,
-					EmailAddress = email,
-					Role = "Counselor"
-				}
-			};
-			context.Counselors.Add(counselor);
-			Console.WriteLine("Counselor added.");
-			Console.ReadKey();
-			context.SaveChanges();
-		}
-		public static void UpdateCounselor()
-		{
-			using var context = new CSAContext();
-			var counselors = context.Counselors.Select(c => c.FullName).ToList();
+                Console.WriteLine("Name can not be empty.");
+                Console.ReadKey();
+                return;
+            }
+            Console.WriteLine("Enter lastname:");
+            string lastName = Console.ReadLine();
+			if (string.IsNullOrWhiteSpace(lastName))
+			{
+                Console.WriteLine("Name can not be empty.");
+                Console.ReadKey();
+                return;
+            }
+            Console.WriteLine("Enter address:");
+            string address = Console.ReadLine();
+			if (string.IsNullOrWhiteSpace(address))
+			{
+                Console.WriteLine("Address can not be empty.");
+                Console.ReadKey();
+                return;
+            }
+            Console.WriteLine("Enter phonenumber:");
+            string phoneNumber = Console.ReadLine();
+			if (string.IsNullOrWhiteSpace(phoneNumber))
+			{
+                Console.WriteLine("Phone number can not be empty.");
+                Console.ReadKey();
+                return;
+            }
+            Console.WriteLine("Enter email:");
+            string email = Console.ReadLine();
+			if (string.IsNullOrWhiteSpace(email))
+			{
+                Console.WriteLine("Email can not be empty.");
+                Console.ReadKey();
+                return;
+            }
+            var counselor = new Counselor
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                ContactInfo = new ContactInfo
+                {
+                    Address = address,
+                    PhoneNumber = phoneNumber,
+                    EmailAddress = email,
+                    Role = "Counselor"
+                }
+            };
+            context.Counselors.Add(counselor);
+            Console.WriteLine("Counselor added.");
+            Console.ReadKey();
+            context.SaveChanges();
+        }
+        public static void UpdateCounselor()
+        {
+            using var context = new CSAContext();
+            var counselors = context.Counselors.Select(c => c.FullName).ToList();
 			var choices = counselors.Concat(new[] { "Back" });
 			var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 				.Title("Choose counselor to update")
@@ -55,37 +85,73 @@ namespace CampSleepAwayAJA
 			{
 				return;
 			}
-			var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
-				.Title("Choose what to update")
-				.AddChoices(new[] { "First Name", "Last Name", "Address", "Phone Number", "Email", "Abort" })
-				.UseConverter(s => s.ToUpperInvariant()));
+            var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                .Title("Choose what to update")
+                .AddChoices(new[] { "Name", "Address", "Phone Number", "Email", "Abort" })
+                .UseConverter(s => s.ToUpperInvariant()));
 			if (menu2.Contains("Name"))
 			{
 				Console.WriteLine("Enter new firstname");
 				string firstName = Console.ReadLine();
 				Console.WriteLine("Enter new lastname:");
 				string lastName = Console.ReadLine();
-				counselor.FirstName = firstName;
-				counselor.LastName = lastName;
+				if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
+				{
+                    Console.WriteLine("First or last name can not be empty.");
+                    Console.ReadKey();
+                    return;
+                }
+                else
+				{
+                    counselor.FirstName = firstName;
+                    counselor.LastName = lastName;
+                }
 			}
 			else if (menu2.Contains("Address"))
 			{
 				Console.WriteLine("Enter new address:");
 				string address = Console.ReadLine();
-				counselor.ContactInfo.Address = address;
+				if (string.IsNullOrWhiteSpace(address))
+				{
+                    Console.WriteLine("Address can not be empty.");
+                    Console.ReadKey();
+                    return;
+                }
+				else
+				{
+                    counselor.ContactInfo.Address = address;
+                }				
 			}
 			else if (menu2.Contains("Phone Number"))
 			{
 				Console.WriteLine("Enter new phonenumber:");
 				string phoneNumber = Console.ReadLine();
-				counselor.ContactInfo.PhoneNumber = phoneNumber;
+				if (string.IsNullOrWhiteSpace(phoneNumber))
+				{
+                    Console.WriteLine("Phone number can not be empty.");
+                    Console.ReadKey();
+                    return;
+                }
+                else
+				{
+                    counselor.ContactInfo.PhoneNumber = phoneNumber;
+                }			
 			}
 			else if (menu2.Contains("Email"))
 			{
 
 				Console.WriteLine("Enter new email:");
 				string email = Console.ReadLine();
-				counselor.ContactInfo.EmailAddress = email;
+				if (string.IsNullOrWhiteSpace(email))
+				{
+                    Console.WriteLine("Email can not be empty.");
+                    Console.ReadKey();
+                    return;
+                }
+                else
+				{
+                    counselor.ContactInfo.EmailAddress = email;
+                }			
 			}
 			else if (menu2.Contains("Abort"))
 			{
@@ -131,50 +197,56 @@ namespace CampSleepAwayAJA
 				break;
 			}
 		}
-		public static void UpdateCabin()
-		{
-			using var context = new CSAContext();
-			var cabins = context.Cabins.Select(c => c.CabinName).ToList();
-			var choices = cabins.Concat(new[] { "Back" });
-			if (cabins.Count() == 0)
-			{
-				Console.WriteLine("No cabins available.");
-				Console.ReadKey();
-				return;
-			}
-			var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
-				.Title("Choose cabin to update")
-				.AddChoices(choices)
-				.UseConverter(s => s.ToUpperInvariant()));
-			var cabin = context.Cabins.Where(c => c.CabinName == menu).FirstOrDefault();
-			var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
-			 .Title("Choose what to update")
-			 .AddChoices(new[] { "Cabin name", "Cabin leader", "Add camper to cabin", "Abort update" })
-			 .UseConverter(s => s.ToUpperInvariant()));
-			//Gör egen metod
-			if (menu2.Contains("Cabin name"))
-			{
-				Console.WriteLine("Enter new cabin name");
-				string cabinName = Console.ReadLine();
-				cabin.CabinName = cabinName;
-			}
-			//Gör egen metod av denna
-			else if (menu2.Contains("Cabin leader"))
-			{
-				var counselors = context.Counselors.Select(c => c.FullName).ToList();
-				if (counselors.Count() == 0)
+        public static void UpdateCabin()
+        {
+            using var context = new CSAContext();
+            var cabins = context.Cabins.Select(c => c.CabinName).ToList();
+            var choices = cabins.Concat(new[] { "Back" });
+            if (cabins.Count() == 0)
+            {
+                Console.WriteLine("No cabins available.");
+                Console.ReadKey();
+                return;
+            }
+            var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                .Title("Choose cabin to update")
+                .AddChoices(choices)
+                .UseConverter(s => s.ToUpperInvariant()));
+            var cabin = context.Cabins.Where(c => c.CabinName == menu).FirstOrDefault();
+            var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
+             .Title("Choose what to update")
+             .AddChoices(new[] { "Cabin name", "Cabin leader", "Add camper to cabin", "Abort update" })
+             .UseConverter(s => s.ToUpperInvariant()));
+            //Gör egen metod
+            if (menu2.Contains("Cabin name"))
+            {
+                Console.WriteLine("Enter new cabin name");
+                string cabinName = Console.ReadLine();
+				if (string.IsNullOrWhiteSpace(cabinName))
 				{
-					Console.WriteLine("No counselors available.");
+					Console.WriteLine("Name can not be empty.");
 					Console.ReadKey();
-					return;
+					return;				
 				}
-				var menu3 = AnsiConsole.Prompt(new SelectionPrompt<string>()
-				 .Title("Choose cabin leader")
-				 .AddChoices(counselors)
-				 .UseConverter(s => s.ToUpperInvariant()));
-				var counselor = context.Counselors.Where(c => c.FullName == menu3).FirstOrDefault();
-				cabin.CounselorID = counselor.CounselorID;
-			}
+                cabin.CabinName = cabinName;
+            }
+            //Gör egen metod av denna
+            else if (menu2.Contains("Cabin leader"))
+            {
+                var counselors = context.Counselors.Select(c => c.FullName).ToList();
+                if (counselors.Count() == 0)
+                {
+                    Console.WriteLine("No counselors available.");
+                    Console.ReadKey();
+                    return;
+                }
+                var menu3 = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                 .Title("Choose cabin leader")
+                 .AddChoices(counselors)
+                 .UseConverter(s => s.ToUpperInvariant()));
+                var counselor = context.Counselors.Where(c => c.FullName == menu3).FirstOrDefault();
+                cabin.CounselorID = counselor.CounselorID;
+            }
 			else if (menu2.Contains("Abort update"))
 			{
 				ManageConsole.MainMenu();
