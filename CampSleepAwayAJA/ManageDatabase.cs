@@ -667,9 +667,9 @@ namespace CampSleepAwayAJA
 				.UseConverter(s => s.ToUpperInvariant()));
 			if (menu.Contains("Add seed data"))
 			{
-				string filePath = "C:\\Users\\axels\\OneDrive\\Documents\\GitHub\\CampSleepAwayAja\\CampSleepAwayAJA\\seedData.csv";
-				ReadCSV(filePath);
-				Console.WriteLine("Database seeded.");
+                string filePath = "seedData.csv";
+                ReadCSV(filePath);
+                Console.WriteLine("Database seeded.");
 				Console.ReadKey();
 			}
 			else
