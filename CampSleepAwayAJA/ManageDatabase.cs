@@ -224,7 +224,11 @@ namespace CampSleepAwayAJA
 				   .PageSize(10)
 				   .MoreChoicesText("[grey](Move up and down to reveal more campers)[/]")
 				   .AddChoices(choices2));
-				foreach ( var choice in menu2)
+            if (menu2.Contains("Abort"))
+            {
+                ManageConsole.MainMenu();
+            }
+            foreach ( var choice in menu2)
 				{
 					var camper = context.Campers.FirstOrDefault(c => c.FirstName + " " + c.LastName == choice);
 
@@ -241,14 +245,9 @@ namespace CampSleepAwayAJA
 					camper.CabinID = cabin.CabinID;
 					Console.WriteLine($"{camper.FullName} added to cabin.");
 				   }
-                }
-                 Console.ReadKey();
-
-                if (menu2.Contains("Abort"))
-				{
-					ManageConsole.MainMenu();
-				}
-				context.SaveChanges();
+            }
+                    Console.ReadKey();
+						context.SaveChanges();
 		}
         
         public static void RemoveCabin()
@@ -266,10 +265,7 @@ namespace CampSleepAwayAJA
                 .Title("Choose cabin to remove:")
                 .AddChoices(choices)
                 .UseConverter(s => s.ToUpperInvariant()));
-			if (menu.Contains("Abort"))
-			{
-				ManageConsole.MainMenu();
-			}
+			
             var cabin = context.Cabins.Where(c => c.CabinName == menu).FirstOrDefault();
             context.Cabins.Remove(cabin);
             Console.WriteLine("Cabin removed.");
