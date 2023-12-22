@@ -50,10 +50,10 @@ namespace CampSleepAwayAJA
 			{
 				return;
 			}
-            var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
-                .Title("Choose what to update")
-                .AddChoices(new[] { "Name", "Address", "Phone Number", "Email", "Abort" })
-                .UseConverter(s => s.ToUpperInvariant()));
+			var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
+				.Title("Choose what to update")
+				.AddChoices(new[] { "Name", "Address", "Phone Number", "Email", "Abort" })
+				.UseConverter(s => s.ToUpperInvariant()));
 			if (menu2.Contains("Name"))
 			{
 				string firstName = ValidateString("Enter new firstname: ");
@@ -81,57 +81,57 @@ namespace CampSleepAwayAJA
 			{
 				ManageConsole.MainMenu();
 			}
-			
-            Console.WriteLine("Counselor updated.");
-            Console.ReadKey();
-            context.SaveChanges();
-        }
-        public static void RemoveCounselor()
-        {
-            using var context = new CSAContext();
-            var counselors = context.Counselors.Select(c => c.FullName).ToList();
-            var choices = counselors.Concat(new[] { "Back" });
-            var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
-                .Title("Choose counselor to remove")
-                .AddChoices(choices)
-                .UseConverter(s => s.ToUpperInvariant()));
-            var counselor = context.Counselors.Where(c => c.FirstName + " " + c.LastName == menu).FirstOrDefault();
+
+			Console.WriteLine("Counselor updated.");
+			Console.ReadKey();
+			context.SaveChanges();
+		}
+		public static void RemoveCounselor()
+		{
+			using var context = new CSAContext();
+			var counselors = context.Counselors.Select(c => c.FullName).ToList();
+			var choices = counselors.Concat(new[] { "Back" });
+			var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+				.Title("Choose counselor to remove")
+				.AddChoices(choices)
+				.UseConverter(s => s.ToUpperInvariant()));
+			var counselor = context.Counselors.Where(c => c.FirstName + " " + c.LastName == menu).FirstOrDefault();
 			if (counselors.Count() == 0)
 			{
-                Console.WriteLine("No counselors available.");
-                Console.ReadKey();
-                return;
-            }
+				Console.WriteLine("No counselors available.");
+				Console.ReadKey();
+				return;
+			}
 			var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
 				.Title("Are you sure you want to remove this counselor?")
 				.AddChoices(new[] { "Yes", "No" })
 				.UseConverter(s => s.ToUpperInvariant()));
 			if (menu2.Contains("No"))
 			{
-				   return;
+				return;
 			}
 			else if (menu2.Contains("Yes"))
 			{
-                var cabins = context.Cabins.Where(c => c.CounselorID == counselor.CounselorID);
+				var cabins = context.Cabins.Where(c => c.CounselorID == counselor.CounselorID);
 				foreach (var cabin in cabins)
 				{
-                    cabin.CounselorID = null;
-                }
-                context.Counselors.Remove(counselor);
-                Console.WriteLine("Counselor removed.");
-                Console.ReadKey();
-                
-            }
-            context.SaveChanges();
-        }
-        public static void AddCabin()
-        {
-            Console.Clear();
-            while (true)
-            {
-                using var context = new CSAContext();
-                Console.WriteLine("Enter Cabin Name");
-                string cabinName = Console.ReadLine();
+					cabin.CounselorID = null;
+				}
+				context.Counselors.Remove(counselor);
+				Console.WriteLine("Counselor removed.");
+				Console.ReadKey();
+
+			}
+			context.SaveChanges();
+		}
+		public static void AddCabin()
+		{
+			Console.Clear();
+			while (true)
+			{
+				using var context = new CSAContext();
+				Console.WriteLine("Enter Cabin Name");
+				string cabinName = Console.ReadLine();
 				if (string.IsNullOrWhiteSpace(cabinName))
 				{
 					Console.WriteLine("Name can not be empty.");
@@ -198,90 +198,146 @@ namespace CampSleepAwayAJA
 			else if (menu2.Contains("Abort update"))
 			{
 				ManageConsole.MainMenu();
-			}           
-             Console.WriteLine("Cabin updated.");
-                Console.ReadKey();
-                context.SaveChanges();           
-        }
+			}
+			Console.WriteLine("Cabin updated.");
+			Console.ReadKey();
+			context.SaveChanges();
+		}
 		public static void AddCamperToCabin()
-        {
-				using var context = new CSAContext();
-				var cabins = context.Cabins.Select(c => c.CabinName).ToList();
-				var choices = cabins.Concat(new[] { "Abort" });
-				var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
-					.Title("Choose cabin to add campers to")
-					.AddChoices(choices)
-					.UseConverter(s => s.ToUpperInvariant()));
-            //var cabin = context.Cabins.Where(c => c.CabinName == menu).FirstOrDefault();
-            var cabin = context.Cabins.Include(c => c.Campers).FirstOrDefault(c => c.CabinName == menu);
-                if (menu.Contains("Abort"))
-				{
-					return;
-				}
-				if (cabin.Campers?.Count() > 4)
-				{
-					Console.WriteLine("Maximum cabin capacity reached.");
-				    Console.ReadKey();
-				    return;
-				}
-				var campers = context.Campers.Select(c => c.FullName).ToList();
-				var choices2 = campers.Concat(new[] { "Abort" });
-				if (campers.Count() == 0)
-				{
-					Console.WriteLine("No campers available.");
-					Console.ReadKey();
-					return;
-				}
-				var menu2 = AnsiConsole.Prompt(new MultiSelectionPrompt<string>()
-				   .Title("Choose camper(s) to add to cabin:")
-				   .PageSize(10)
-				   .MoreChoicesText("[grey](Move up and down to reveal more campers)[/]")
-				   .AddChoices(choices2));
-            if (menu2.Contains("Abort"))
-            {
-                ManageConsole.MainMenu();
-            }
-                foreach ( var choice in menu2)
-				{
-					var camper = context.Campers.FirstOrDefault(c => c.FirstName + " " + c.LastName == choice);
+		{
+			using var context = new CSAContext();
 
+			var cabins = context.Cabins.Select(c => new { c.CabinID, c.CabinName }).ToDictionary(c => c.CabinID, c => c.CabinName);
+			List<string> choices = new();
+
+			foreach (var c in cabins)
+			{
+				choices.Add($"{c.Key.ToString()}: {c.Value.ToString()}");
+
+			}
+			choices.Concat(new[] { "Abort" });
+
+			var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+				.Title("Choose cabin to add campers to")
+				.AddChoices(choices)
+				.UseConverter(s => s.ToUpperInvariant()));
+			int choice = int.Parse(menu.Split(':').First());
+			var cabin = context.Cabins.Include(c => c.Campers).FirstOrDefault(c => c.CabinID == choice);
+			if (menu.Contains("Abort"))
+			{
+				return;
+			}
+			if (cabin.Campers?.Count() >= cabin.CabinCapacity)
+			{
+				Console.WriteLine("Maximum cabin capacity reached.");
+				Console.ReadKey();
+				return;
+			}
+			var campers = context.Campers.Select(c => c.FullName).ToList();
+
+			var choices2 = campers.Concat(new[] { "Abort" });
+			if (campers.Count() == 0)
+			{
+				Console.WriteLine("No campers available.");
+				Console.ReadKey();
+				return;
+			}
+			var menu2 = AnsiConsole.Prompt(new MultiSelectionPrompt<string>()
+				.Title("Choose camper(s) to add to cabin:")
+				.PageSize(10)
+				.MoreChoicesText("[grey](Move up and down to reveal more campers)[/]")
+				.AddChoices(choices2));
+
+			int insertcount = cabin.CabinCapacity - cabin.Campers.Count();
+			if (insertcount > menu2.Count()) insertcount = menu2.Count();
+
+			for (int i = 0; i < insertcount; i++)
+			{
+				var camper = context.Campers.FirstOrDefault(c => c.FirstName + " " + c.LastName == menu2[i]);
 				if (camper.CabinID == cabin.CabinID)
 				{
-					Console.WriteLine($"{camper.FullName} is already in this cabin.");
+					Console.WriteLine($"{camper.FullName} is already in to {cabin.CabinName}.");
 					Console.ReadKey();
-
-
 				}
 				else
 				{
 					cabin.Campers?.Add(camper);
 					camper.CabinID = cabin.CabinID;
-					Console.WriteLine($"{camper.FullName} added to cabin.");
-				   }
-                }
-                    Console.ReadKey();
-						context.SaveChanges();
-		}
-        
+					Console.WriteLine($"{camper.FullName} added to {cabin.CabinName}.");
+				}
+			}
+			for (int i = insertcount; i < menu2.Count(); i++)
+			{
+				Console.WriteLine($"{menu2[i]} was not added to {cabin.CabinName}.");
+			}
+			Console.ReadKey();
+
+			if (menu2.Contains("Abort"))
+			{
+				ManageConsole.MainMenu();
+			}
+			context.SaveChanges();
+		}       
         public static void RemoveCabin()
         {
             using var context = new CSAContext();
-            var cabins = context.Cabins.Select(c => c.CabinName).ToList();
-            var choices = cabins.Concat(new[] { "Abort" });
+            //var cabins = context.Cabins.Select(c => c.CabinName).ToList();
+           // var choices = cabins.Concat(new[] { "Abort" });
+           
+            var cabins = context.Cabins.Select(c => new { c.CabinID, c.CabinName }).ToDictionary(c => c.CabinID, c => c.CabinName);
+            List<string> choices = new();
+
+            foreach (var c in cabins)
+            {
+                choices.Add($"{c.Key.ToString()}: {c.Value.ToString()}");
+
+            }
             if (cabins.Count() == 0)
             {
                 Console.WriteLine("No cabins available.");
                 Console.ReadKey();
                 return;
             }
+            choices.Concat(new[] { "Abort" });
+
             var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
-                .Title("Choose cabin to remove:")
+                .Title("Choose cabin to add campers to")
                 .AddChoices(choices)
                 .UseConverter(s => s.ToUpperInvariant()));
-			
-            var cabin = context.Cabins.Where(c => c.CabinName == menu).FirstOrDefault();
-            context.Cabins.Remove(cabin);
-            Console.WriteLine("Cabin removed.");
+            int choice = int.Parse(menu.Split(':').First());
+            var cabin = context.Cabins.Include(c => c.Campers).FirstOrDefault(c => c.CabinID == choice);
+
+            //var cabin = context.Cabins.Where(c => c.CabinName == menu).Include(c => c.Campers).FirstOrDefault();
+			if (cabin.Campers.Count() != 0) 
+			{
+				var choice2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                .Title($"{cabin.CabinName} is not empty! \nWould you like to evict it's inhabitants")
+				.AddChoices(new List<string> {"Yes","No"})
+                .UseConverter(s => s.ToUpperInvariant()));
+				if(choice2 == "Yes")
+				{
+					var campers = cabin.Campers;
+					foreach (var c in campers)
+					{
+						c.CabinID = null;
+						context.Update(c);
+                        
+                        
+                    }
+                    context.Cabins.Remove(cabin);
+                    Console.WriteLine($"{cabin.CabinName} removed.");
+                }
+				else
+				{
+					Console.WriteLine($"{cabin.CabinName} was not removed.");
+				}
+            }
+			else
+			{
+                context.Cabins.Remove(cabin);
+                Console.WriteLine($"{cabin.CabinName} removed.");
+                
+            }
             Console.ReadKey();
             context.SaveChanges();
         }
@@ -322,13 +378,13 @@ namespace CampSleepAwayAJA
 							Role = "NextOfKin"
 						}
 				}   }
-			};
-			context.Campers.Add(camper);
-			Console.WriteLine("Camper added.");
-			Console.ReadKey();
-			context.SaveChanges();
-			break;
-            }
+				};
+				context.Campers.Add(camper);
+				Console.WriteLine("Camper added.");
+				Console.ReadKey();
+				context.SaveChanges();
+				break;
+			}
 		}
 		public static void UpdateCamper()
 		{
