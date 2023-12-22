@@ -16,14 +16,44 @@ namespace CampSleepAwayAJA
             using var context = new CSAContext();
             Console.WriteLine("Enter firstname:");
             string firstName = Console.ReadLine();
+			if (string.IsNullOrWhiteSpace(firstName))
+			{
+                Console.WriteLine("Name can not be empty.");
+                Console.ReadKey();
+                return;
+            }
             Console.WriteLine("Enter lastname:");
             string lastName = Console.ReadLine();
+			if (string.IsNullOrWhiteSpace(lastName))
+			{
+                Console.WriteLine("Name can not be empty.");
+                Console.ReadKey();
+                return;
+            }
             Console.WriteLine("Enter address:");
             string address = Console.ReadLine();
+			if (string.IsNullOrWhiteSpace(address))
+			{
+                Console.WriteLine("Address can not be empty.");
+                Console.ReadKey();
+                return;
+            }
             Console.WriteLine("Enter phonenumber:");
             string phoneNumber = Console.ReadLine();
+			if (string.IsNullOrWhiteSpace(phoneNumber))
+			{
+                Console.WriteLine("Phone number can not be empty.");
+                Console.ReadKey();
+                return;
+            }
             Console.WriteLine("Enter email:");
             string email = Console.ReadLine();
+			if (string.IsNullOrWhiteSpace(email))
+			{
+                Console.WriteLine("Email can not be empty.");
+                Console.ReadKey();
+                return;
+            }
             var counselor = new Counselor
             {
                 FirstName = firstName,
@@ -61,36 +91,72 @@ namespace CampSleepAwayAJA
 			}
             var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
                 .Title("Choose what to update")
-                .AddChoices(new[] { "First Name", "Last Name", "Address", "Phone Number", "Email", "Abort" })
+                .AddChoices(new[] { "Name", "Address", "Phone Number", "Email", "Abort" })
                 .UseConverter(s => s.ToUpperInvariant()));
-            if (menu2.Contains("Name"))
-            {
-                Console.WriteLine("Enter new firstname");
-                string firstName = Console.ReadLine();
-                Console.WriteLine("Enter new lastname:");
-                string lastName = Console.ReadLine();
-                counselor.FirstName = firstName;
-                counselor.LastName = lastName;
-            }
-            else if (menu2.Contains("Address"))
-            {
-                Console.WriteLine("Enter new address:");
-                string address = Console.ReadLine();
-                counselor.ContactInfo.Address = address;
-            }
-            else if (menu2.Contains("Phone Number"))
-            {
-                Console.WriteLine("Enter new phonenumber:");
-                string phoneNumber = Console.ReadLine();
-                counselor.ContactInfo.PhoneNumber = phoneNumber;
-            }
-            else if (menu2.Contains("Email"))
-            {
+			if (menu2.Contains("Name"))
+			{
+				Console.WriteLine("Enter new firstname");
+				string firstName = Console.ReadLine();
+				Console.WriteLine("Enter new lastname:");
+				string lastName = Console.ReadLine();
+				if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
+				{
+                    Console.WriteLine("First or last name can not be empty.");
+                    Console.ReadKey();
+                    return;
+                }
+                else
+				{
+                    counselor.FirstName = firstName;
+                    counselor.LastName = lastName;
+                }
+			}
+			else if (menu2.Contains("Address"))
+			{
+				Console.WriteLine("Enter new address:");
+				string address = Console.ReadLine();
+				if (string.IsNullOrWhiteSpace(address))
+				{
+                    Console.WriteLine("Address can not be empty.");
+                    Console.ReadKey();
+                    return;
+                }
+				else
+				{
+                    counselor.ContactInfo.Address = address;
+                }				
+			}
+			else if (menu2.Contains("Phone Number"))
+			{
+				Console.WriteLine("Enter new phonenumber:");
+				string phoneNumber = Console.ReadLine();
+				if (string.IsNullOrWhiteSpace(phoneNumber))
+				{
+                    Console.WriteLine("Phone number can not be empty.");
+                    Console.ReadKey();
+                    return;
+                }
+                else
+				{
+                    counselor.ContactInfo.PhoneNumber = phoneNumber;
+                }			
+			}
+			else if (menu2.Contains("Email"))
+			{
 
-                Console.WriteLine("Enter new email:");
-                string email = Console.ReadLine();
-                counselor.ContactInfo.EmailAddress = email;
-            }
+				Console.WriteLine("Enter new email:");
+				string email = Console.ReadLine();
+				if (string.IsNullOrWhiteSpace(email))
+				{
+                    Console.WriteLine("Email can not be empty.");
+                    Console.ReadKey();
+                    return;
+                }
+                else
+				{
+                    counselor.ContactInfo.EmailAddress = email;
+                }			
+			}
 			else if (menu2.Contains("Abort"))
 			{
 				ManageConsole.MainMenu();
@@ -160,6 +226,12 @@ namespace CampSleepAwayAJA
             {
                 Console.WriteLine("Enter new cabin name");
                 string cabinName = Console.ReadLine();
+				if (string.IsNullOrWhiteSpace(cabinName))
+				{
+					Console.WriteLine("Name can not be empty.");
+					Console.ReadKey();
+					return;				
+				}
                 cabin.CabinName = cabinName;
             }
             //Gör egen metod av denna
@@ -190,8 +262,6 @@ namespace CampSleepAwayAJA
         }
 		public static void AddCamperToCabin()
         {
-			
-
 				using var context = new CSAContext();
 				var cabins = context.Cabins.Select(c => c.CabinName).ToList();
 				var choices = cabins.Concat(new[] { "Abort" });
