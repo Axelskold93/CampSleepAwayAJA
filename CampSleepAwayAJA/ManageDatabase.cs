@@ -5,72 +5,72 @@ using System.Reflection;
 
 namespace CampSleepAwayAJA
 {
-    public class ManageDatabase
-    {
-        public static void AddCounselor()
-        {
-            using var context = new CSAContext();
-            Console.WriteLine("Enter firstname:");
-            string firstName = Console.ReadLine();
+	public class ManageDatabase
+	{
+		public static void AddCounselor()
+		{
+			using var context = new CSAContext();
+			Console.WriteLine("Enter firstname:");
+			string firstName = Console.ReadLine();
 			if (string.IsNullOrWhiteSpace(firstName))
 			{
-                Console.WriteLine("Name can not be empty.");
-                Console.ReadKey();
-                return;
-            }
-            Console.WriteLine("Enter lastname:");
-            string lastName = Console.ReadLine();
+				Console.WriteLine("Name can not be empty.");
+				Console.ReadKey();
+				return;
+			}
+			Console.WriteLine("Enter lastname:");
+			string lastName = Console.ReadLine();
 			if (string.IsNullOrWhiteSpace(lastName))
 			{
-                Console.WriteLine("Name can not be empty.");
-                Console.ReadKey();
-                return;
-            }
-            Console.WriteLine("Enter address:");
-            string address = Console.ReadLine();
+				Console.WriteLine("Name can not be empty.");
+				Console.ReadKey();
+				return;
+			}
+			Console.WriteLine("Enter address:");
+			string address = Console.ReadLine();
 			if (string.IsNullOrWhiteSpace(address))
 			{
-                Console.WriteLine("Address can not be empty.");
-                Console.ReadKey();
-                return;
-            }
-            Console.WriteLine("Enter phonenumber:");
-            string phoneNumber = Console.ReadLine();
+				Console.WriteLine("Address can not be empty.");
+				Console.ReadKey();
+				return;
+			}
+			Console.WriteLine("Enter phonenumber:");
+			string phoneNumber = Console.ReadLine();
 			if (string.IsNullOrWhiteSpace(phoneNumber))
 			{
-                Console.WriteLine("Phone number can not be empty.");
-                Console.ReadKey();
-                return;
-            }
-            Console.WriteLine("Enter email:");
-            string email = Console.ReadLine();
+				Console.WriteLine("Phone number can not be empty.");
+				Console.ReadKey();
+				return;
+			}
+			Console.WriteLine("Enter email:");
+			string email = Console.ReadLine();
 			if (string.IsNullOrWhiteSpace(email))
 			{
-                Console.WriteLine("Email can not be empty.");
-                Console.ReadKey();
-                return;
-            }
-            var counselor = new Counselor
-            {
-                FirstName = firstName,
-                LastName = lastName,
-                ContactInfo = new ContactInfo
-                {
-                    Address = address,
-                    PhoneNumber = phoneNumber,
-                    EmailAddress = email,
-                    Role = "Counselor"
-                }
-            };
-            context.Counselors.Add(counselor);
-            Console.WriteLine("Counselor added.");
-            Console.ReadKey();
-            context.SaveChanges();
-        }
-        public static void UpdateCounselor()
-        {
-            using var context = new CSAContext();
-            var counselors = context.Counselors.Select(c => c.FullName).ToList();
+				Console.WriteLine("Email can not be empty.");
+				Console.ReadKey();
+				return;
+			}
+			var counselor = new Counselor
+			{
+				FirstName = firstName,
+				LastName = lastName,
+				ContactInfo = new ContactInfo
+				{
+					Address = address,
+					PhoneNumber = phoneNumber,
+					EmailAddress = email,
+					Role = "Counselor"
+				}
+			};
+			context.Counselors.Add(counselor);
+			Console.WriteLine("Counselor added.");
+			Console.ReadKey();
+			context.SaveChanges();
+		}
+		public static void UpdateCounselor()
+		{
+			using var context = new CSAContext();
+			var counselors = context.Counselors.Select(c => c.FullName).ToList();
 			var choices = counselors.Concat(new[] { "Back" });
 			var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 				.Title("Choose counselor to update")
@@ -85,34 +85,34 @@ namespace CampSleepAwayAJA
 			{
 				return;
 			}
-            var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
-                .Title("Choose what to update")
-                .AddChoices(new[] { "Name", "Address", "Phone Number", "Email", "Abort" })
-                .UseConverter(s => s.ToUpperInvariant()));
+			var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
+				.Title("Choose what to update")
+				.AddChoices(new[] { "Name", "Address", "Phone Number", "Email", "Abort" })
+				.UseConverter(s => s.ToUpperInvariant()));
 			if (menu2.Contains("Name"))
 			{
 				Console.WriteLine("Enter new firstname");
 				string firstName = Console.ReadLine();
 				if (string.IsNullOrWhiteSpace(firstName))
 				{
-                    Console.WriteLine("Name can not be empty.");
-                    Console.ReadKey();
-                    return;
-                }
+					Console.WriteLine("Name can not be empty.");
+					Console.ReadKey();
+					return;
+				}
 				Console.WriteLine("Enter new lastname:");
 				string lastName = Console.ReadLine();
-			    if (string.IsNullOrWhiteSpace(lastName))
+				if (string.IsNullOrWhiteSpace(lastName))
 				{
-                    Console.WriteLine("Name can not be empty.");
-                    Console.ReadKey();
-                    return;
-                }
-				
-                else
+					Console.WriteLine("Name can not be empty.");
+					Console.ReadKey();
+					return;
+				}
+
+				else
 				{
-                    counselor.FirstName = firstName;
-                    counselor.LastName = lastName;
-                }
+					counselor.FirstName = firstName;
+					counselor.LastName = lastName;
+				}
 			}
 			else if (menu2.Contains("Address"))
 			{
@@ -120,14 +120,14 @@ namespace CampSleepAwayAJA
 				string address = Console.ReadLine();
 				if (string.IsNullOrWhiteSpace(address))
 				{
-                    Console.WriteLine("Address can not be empty.");
-                    Console.ReadKey();
-                    return;
-                }
+					Console.WriteLine("Address can not be empty.");
+					Console.ReadKey();
+					return;
+				}
 				else
 				{
-                    counselor.ContactInfo.Address = address;
-                }				
+					counselor.ContactInfo.Address = address;
+				}
 			}
 			else if (menu2.Contains("Phone Number"))
 			{
@@ -135,14 +135,14 @@ namespace CampSleepAwayAJA
 				string phoneNumber = Console.ReadLine();
 				if (string.IsNullOrWhiteSpace(phoneNumber))
 				{
-                    Console.WriteLine("Phone number can not be empty.");
-                    Console.ReadKey();
-                    return;
-                }
-                else
+					Console.WriteLine("Phone number can not be empty.");
+					Console.ReadKey();
+					return;
+				}
+				else
 				{
-                    counselor.ContactInfo.PhoneNumber = phoneNumber;
-                }			
+					counselor.ContactInfo.PhoneNumber = phoneNumber;
+				}
 			}
 			else if (menu2.Contains("Email"))
 			{
@@ -151,70 +151,70 @@ namespace CampSleepAwayAJA
 				string email = Console.ReadLine();
 				if (string.IsNullOrWhiteSpace(email))
 				{
-                    Console.WriteLine("Email can not be empty.");
-                    Console.ReadKey();
-                    return;
-                }
-                else
+					Console.WriteLine("Email can not be empty.");
+					Console.ReadKey();
+					return;
+				}
+				else
 				{
-                    counselor.ContactInfo.EmailAddress = email;
-                }			
+					counselor.ContactInfo.EmailAddress = email;
+				}
 			}
 			else if (menu2.Contains("Abort"))
 			{
 				ManageConsole.MainMenu();
 			}
-			
-            Console.WriteLine("Counselor updated.");
-            Console.ReadKey();
-            context.SaveChanges();
-        }
-        public static void RemoveCounselor()
-        {
-            using var context = new CSAContext();
-            var counselors = context.Counselors.Select(c => c.FullName).ToList();
-            var choices = counselors.Concat(new[] { "Back" });
-            var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
-                .Title("Choose counselor to remove")
-                .AddChoices(choices)
-                .UseConverter(s => s.ToUpperInvariant()));
-            var counselor = context.Counselors.Where(c => c.FirstName + " " + c.LastName == menu).FirstOrDefault();
+
+			Console.WriteLine("Counselor updated.");
+			Console.ReadKey();
+			context.SaveChanges();
+		}
+		public static void RemoveCounselor()
+		{
+			using var context = new CSAContext();
+			var counselors = context.Counselors.Select(c => c.FullName).ToList();
+			var choices = counselors.Concat(new[] { "Back" });
+			var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+				.Title("Choose counselor to remove")
+				.AddChoices(choices)
+				.UseConverter(s => s.ToUpperInvariant()));
+			var counselor = context.Counselors.Where(c => c.FirstName + " " + c.LastName == menu).FirstOrDefault();
 			if (counselors.Count() == 0)
 			{
-                Console.WriteLine("No counselors available.");
-                Console.ReadKey();
-                return;
-            }
+				Console.WriteLine("No counselors available.");
+				Console.ReadKey();
+				return;
+			}
 			var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
 				.Title("Are you sure you want to remove this counselor?")
 				.AddChoices(new[] { "Yes", "No" })
 				.UseConverter(s => s.ToUpperInvariant()));
 			if (menu2.Contains("No"))
 			{
-				   return;
+				return;
 			}
 			else if (menu2.Contains("Yes"))
 			{
-                var cabins = context.Cabins.Where(c => c.CounselorID == counselor.CounselorID);
+				var cabins = context.Cabins.Where(c => c.CounselorID == counselor.CounselorID);
 				foreach (var cabin in cabins)
 				{
-                    cabin.CounselorID = null;
-                }
-                context.Counselors.Remove(counselor);
-                Console.WriteLine("Counselor removed.");
-                Console.ReadKey();
-                
-            }
-            context.SaveChanges();
-        }
-        public static void AddCabin()
-        {
-            Console.Clear();
-            while (true)
-            {
-                using var context = new CSAContext();
-                Console.WriteLine("Enter Cabin Name");
-                string cabinName = Console.ReadLine();
+					cabin.CounselorID = null;
+				}
+				context.Counselors.Remove(counselor);
+				Console.WriteLine("Counselor removed.");
+				Console.ReadKey();
+
+			}
+			context.SaveChanges();
+		}
+		public static void AddCabin()
+		{
+			Console.Clear();
+			while (true)
+			{
+				using var context = new CSAContext();
+				Console.WriteLine("Enter Cabin Name");
+				string cabinName = Console.ReadLine();
 				if (string.IsNullOrWhiteSpace(cabinName))
 				{
 					Console.WriteLine("Name can not be empty.");
@@ -234,85 +234,85 @@ namespace CampSleepAwayAJA
 				}
 			}
 		}
-        public static void UpdateCabin()
-        {
-            using var context = new CSAContext();
-            var cabins = context.Cabins.Select(c => c.CabinName).ToList();
-            var choices = cabins.Concat(new[] { "Back" });
-            if (cabins.Count() == 0)
-            {
-                Console.WriteLine("No cabins available.");
-                Console.ReadKey();
-                return;
-            }
-            var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
-                .Title("Choose cabin to update")
-                .AddChoices(choices)
-                .UseConverter(s => s.ToUpperInvariant()));
-            var cabin = context.Cabins.Where(c => c.CabinName == menu).FirstOrDefault();
-            var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
-             .Title("Choose what to update")
-             .AddChoices(new[] { "Cabin name", "Cabin leader","Abort update" })
-             .UseConverter(s => s.ToUpperInvariant()));
-          
-            if (menu2.Contains("Cabin name"))
-            {
-                Console.WriteLine("Enter new cabin name");
-                string cabinName = Console.ReadLine();
+		public static void UpdateCabin()
+		{
+			using var context = new CSAContext();
+			var cabins = context.Cabins.Select(c => c.CabinName).ToList();
+			var choices = cabins.Concat(new[] { "Back" });
+			if (cabins.Count() == 0)
+			{
+				Console.WriteLine("No cabins available.");
+				Console.ReadKey();
+				return;
+			}
+			var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+				.Title("Choose cabin to update")
+				.AddChoices(choices)
+				.UseConverter(s => s.ToUpperInvariant()));
+			var cabin = context.Cabins.Where(c => c.CabinName == menu).FirstOrDefault();
+			var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
+			 .Title("Choose what to update")
+			 .AddChoices(new[] { "Cabin name", "Cabin leader", "Abort update" })
+			 .UseConverter(s => s.ToUpperInvariant()));
+
+			if (menu2.Contains("Cabin name"))
+			{
+				Console.WriteLine("Enter new cabin name");
+				string cabinName = Console.ReadLine();
 				if (string.IsNullOrWhiteSpace(cabinName))
 				{
 					Console.WriteLine("Name can not be empty.");
 					Console.ReadKey();
-					return;				
+					return;
 				}
-                cabin.CabinName = cabinName;
-            }
-          
-            else if (menu2.Contains("Cabin leader"))
-            {
-                var counselors = context.Counselors.Select(c => c.FullName).ToList();
-                if (counselors.Count() == 0)
-                {
-                    Console.WriteLine("No counselors available.");
-                    Console.ReadKey();
-                    return;
-                }
-                var menu3 = AnsiConsole.Prompt(new SelectionPrompt<string>()
-                 .Title("Choose cabin leader")
-                 .AddChoices(counselors)
-                 .UseConverter(s => s.ToUpperInvariant()));
-                var counselor = context.Counselors.Where(c => c.FirstName + " " + c.LastName == menu3).FirstOrDefault();
-                cabin.CounselorID = counselor.CounselorID;
-            }
+				cabin.CabinName = cabinName;
+			}
+
+			else if (menu2.Contains("Cabin leader"))
+			{
+				var counselors = context.Counselors.Select(c => c.FullName).ToList();
+				if (counselors.Count() == 0)
+				{
+					Console.WriteLine("No counselors available.");
+					Console.ReadKey();
+					return;
+				}
+				var menu3 = AnsiConsole.Prompt(new SelectionPrompt<string>()
+				 .Title("Choose cabin leader")
+				 .AddChoices(counselors)
+				 .UseConverter(s => s.ToUpperInvariant()));
+				var counselor = context.Counselors.Where(c => c.FirstName + " " + c.LastName == menu3).FirstOrDefault();
+				cabin.CounselorID = counselor.CounselorID;
+			}
 			else if (menu2.Contains("Abort update"))
 			{
 				ManageConsole.MainMenu();
-			}           
-             Console.WriteLine("Cabin updated.");
-                Console.ReadKey();
-                context.SaveChanges();           
-        }
+			}
+			Console.WriteLine("Cabin updated.");
+			Console.ReadKey();
+			context.SaveChanges();
+		}
 		public static void AddCamperToCabin()
-        {
+		{
 			using var context = new CSAContext();
 
-			var cabins = context.Cabins.Select(c => new {c.CabinID, c.CabinName }).ToDictionary(c => c.CabinID , c => c.CabinName);
+			var cabins = context.Cabins.Select(c => new { c.CabinID, c.CabinName }).ToDictionary(c => c.CabinID, c => c.CabinName);
 			List<string> choices = new();
 
-            foreach (var c in cabins)
+			foreach (var c in cabins)
 			{
 				choices.Add($"{c.Key.ToString()}: {c.Value.ToString()}");
 
-            }
-            choices.Concat(new[] { "Abort" });
+			}
+			choices.Concat(new[] { "Abort" });
 
 			var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 				.Title("Choose cabin to add campers to")
 				.AddChoices(choices)
 				.UseConverter(s => s.ToUpperInvariant()));
-            int choice = int.Parse(menu.Split(':').First());
-            var cabin = context.Cabins.Include(c => c.Campers).FirstOrDefault(c => c.CabinID == choice);
-            if (menu.Contains("Abort"))
+			int choice = int.Parse(menu.Split(':').First());
+			var cabin = context.Cabins.Include(c => c.Campers).FirstOrDefault(c => c.CabinID == choice);
+			if (menu.Contains("Abort"))
 			{
 				return;
 			}
@@ -323,7 +323,7 @@ namespace CampSleepAwayAJA
 				return;
 			}
 			var campers = context.Campers.Select(c => c.FullName).ToList();
-			
+
 			var choices2 = campers.Concat(new[] { "Abort" });
 			if (campers.Count() == 0)
 			{
@@ -340,9 +340,9 @@ namespace CampSleepAwayAJA
 			int insertcount = cabin.CabinCapacity - cabin.Campers.Count();
 			if (insertcount > menu2.Count()) insertcount = menu2.Count();
 
-            for (int i = 0; i < insertcount; i++)
+			for (int i = 0; i < insertcount; i++)
 			{
-                var camper = context.Campers.FirstOrDefault(c => c.FirstName + " " + c.LastName == menu2[i]);
+				var camper = context.Campers.FirstOrDefault(c => c.FirstName + " " + c.LastName == menu2[i]);
 				if (camper.CabinID == cabin.CabinID)
 				{
 					Console.WriteLine($"{camper.FullName} is already in to {cabin.CabinName}.");
@@ -354,14 +354,14 @@ namespace CampSleepAwayAJA
 					camper.CabinID = cabin.CabinID;
 					Console.WriteLine($"{camper.FullName} added to {cabin.CabinName}.");
 				}
-            }
-			for(int i = insertcount; i < menu2.Count(); i++)
+			}
+			for (int i = insertcount; i < menu2.Count(); i++)
 			{
-                Console.WriteLine($"{menu2[i]} was not added to {cabin.CabinName}.");
-            }
-            Console.ReadKey();
+				Console.WriteLine($"{menu2[i]} was not added to {cabin.CabinName}.");
+			}
+			Console.ReadKey();
 
-            if (menu2.Contains("Abort"))
+			if (menu2.Contains("Abort"))
 			{
 				ManageConsole.MainMenu();
 			}
@@ -433,106 +433,107 @@ namespace CampSleepAwayAJA
         public static void AddCamper()
         {
 			while (true)
-			{ 
-            using var context = new CSAContext();
-            Console.WriteLine("Enter first name: ");
-            string firstName = Console.ReadLine();
-			if (string.IsNullOrWhiteSpace(firstName))
 			{
-                Console.WriteLine("Name can not be empty.");
-                Console.ReadKey();
-                continue;
-            }
-            Console.WriteLine("Enter last name: ");
-            string lastName = Console.ReadLine();
-			if (string.IsNullOrWhiteSpace(lastName))
-			{
-                Console.WriteLine("Name can not be empty.");
-                Console.ReadKey();
-                continue;
-            }
-            Console.WriteLine("Enter start date: ");
-            string startDate = Console.ReadLine();
-			if (string.IsNullOrWhiteSpace(startDate))
-			{
-                Console.WriteLine("Start date can not be empty.");
-                Console.ReadKey();
-                continue;
-			}
-			else if (!DateTime.TryParse(startDate, out DateTime result))
-			{
-                Console.WriteLine("Invalid datetime input.");
-				continue;
-            }
-            Console.WriteLine("Enter end date: ");
-            string endDate = Console.ReadLine();
-			if (string.IsNullOrWhiteSpace(endDate))
-			{
-                Console.WriteLine("End date can not be empty.");
-                Console.ReadKey();
-                continue;
-            }
-			else if (!DateTime.TryParse(endDate, out DateTime result2))
-			{
-                Console.WriteLine("Invalid datetime input.");
-				continue;
-            }
-            Console.WriteLine("Next of kin first name: ");
-            string nextOfKinFirstName = Console.ReadLine();
-			if (string.IsNullOrWhiteSpace(nextOfKinFirstName))
-			{
-                Console.WriteLine("Name can not be empty.");
-                Console.ReadKey();
-                continue;
-            }
-            Console.WriteLine("Next of kin last name: ");
-            string nextOfKinLastName = Console.ReadLine();
-			if (string.IsNullOrWhiteSpace(nextOfKinLastName))
-			{
-                Console.WriteLine("Name can not be empty.");
-                Console.ReadKey();
-                continue;
-            }
-            Console.WriteLine("Next of kin relation: ");
-            string nextOfKinRelation = Console.ReadLine();
-			if (string.IsNullOrWhiteSpace(nextOfKinRelation))
-			{
-                Console.WriteLine("Relation can not be empty.");
-                Console.ReadKey();
-                continue;
-            }
-            Console.WriteLine("Next of kin address: ");
-            string nextOfKinAddress = Console.ReadLine();
-			if (string.IsNullOrWhiteSpace(nextOfKinAddress))
-			{
-                Console.WriteLine("Address can not be empty.");
-                Console.ReadKey();
-                continue;
-            }
-            Console.WriteLine("Next of kin phone number: ");
-            string nextOfKinPhoneNumber = Console.ReadLine();
-			if (string.IsNullOrWhiteSpace(nextOfKinPhoneNumber))
-			{
-                Console.WriteLine("Phone number can not be empty.");
-                Console.ReadKey();
-                continue;
-            }
-            Console.WriteLine("Next of kin email: ");
-            string nextOfKinEmail = Console.ReadLine();
-			if (string.IsNullOrWhiteSpace(nextOfKinEmail))
-			{
-                Console.WriteLine("Email can not be empty.");
-                Console.ReadKey();
-                continue;
-            }
+				using var context = new CSAContext();
+				Console.WriteLine("Enter first name: ");
+				string firstName = Console.ReadLine();
+				if (string.IsNullOrWhiteSpace(firstName))
+				{
+					Console.WriteLine("Name can not be empty.");
+					Console.ReadKey();
+					continue;
+				}
+				Console.WriteLine("Enter last name: ");
+				string lastName = Console.ReadLine();
+				if (string.IsNullOrWhiteSpace(lastName))
+				{
+					Console.WriteLine("Name can not be empty.");
+					Console.ReadKey();
+					continue;
+				}
+				Console.WriteLine("Enter start date: ");
+				string startDateInput = Console.ReadLine();
+				if (string.IsNullOrWhiteSpace(startDateInput))
+				{
+					Console.WriteLine("Start date cannot be empty.");
+					Console.ReadKey();
+					continue;
+				}
+				else if (!DateTime.TryParse(startDateInput, out DateTime startDate))
+				{
+					Console.WriteLine("Invalid datetime input for start date.");
+					continue;
+				}
 
-			var camper = new Camper
-			{
-				FirstName = firstName,
-				LastName = lastName,
-				StartDate = DateTime.Parse(startDate),
-				EndDate = DateTime.Parse(endDate),
-				NextOfKin = new List<NextOfKin>()
+				Console.WriteLine("Enter end date: ");
+				string endDateInput = Console.ReadLine();
+				if (string.IsNullOrWhiteSpace(endDateInput))
+				{
+					Console.WriteLine("End date cannot be empty.");
+					Console.ReadKey();
+					continue;
+				}
+				else if (!DateTime.TryParse(endDateInput, out DateTime endDate))
+				{
+					Console.WriteLine("Invalid datetime input for end date.");
+					continue;
+				}
+				Console.WriteLine("Next of kin first name: ");
+				string nextOfKinFirstName = Console.ReadLine();
+				if (string.IsNullOrWhiteSpace(nextOfKinFirstName))
+				{
+					Console.WriteLine("Name can not be empty.");
+					Console.ReadKey();
+					continue;
+				}
+				Console.WriteLine("Next of kin last name: ");
+				string nextOfKinLastName = Console.ReadLine();
+				if (string.IsNullOrWhiteSpace(nextOfKinLastName))
+				{
+					Console.WriteLine("Name can not be empty.");
+					Console.ReadKey();
+					continue;
+				}
+				Console.WriteLine("Next of kin relation: ");
+				string nextOfKinRelation = Console.ReadLine();
+				if (string.IsNullOrWhiteSpace(nextOfKinRelation))
+				{
+					Console.WriteLine("Relation can not be empty.");
+					Console.ReadKey();
+					continue;
+				}
+				Console.WriteLine("Next of kin address: ");
+				string nextOfKinAddress = Console.ReadLine();
+				if (string.IsNullOrWhiteSpace(nextOfKinAddress))
+				{
+					Console.WriteLine("Address can not be empty.");
+					Console.ReadKey();
+					continue;
+				}
+				Console.WriteLine("Next of kin phone number: ");
+				string nextOfKinPhoneNumber = Console.ReadLine();
+				if (string.IsNullOrWhiteSpace(nextOfKinPhoneNumber))
+				{
+					Console.WriteLine("Phone number can not be empty.");
+					Console.ReadKey();
+					continue;
+				}
+				Console.WriteLine("Next of kin email: ");
+				string nextOfKinEmail = Console.ReadLine();
+				if (string.IsNullOrWhiteSpace(nextOfKinEmail))
+				{
+					Console.WriteLine("Email can not be empty.");
+					Console.ReadKey();
+					continue;
+				}
+
+				var camper = new Camper
+				{
+					FirstName = firstName,
+					LastName = lastName,
+					StartDate = DateTime.Parse(startDateInput),
+					EndDate = DateTime.Parse(endDateInput),
+					NextOfKin = new List<NextOfKin>()
 				{
 					new NextOfKin
 					{
@@ -547,13 +548,13 @@ namespace CampSleepAwayAJA
 							Role = "NextOfKin"
 						}
 				}   }
-			};
-			context.Campers.Add(camper);
-			Console.WriteLine("Camper added.");
-			Console.ReadKey();
-			context.SaveChanges();
-			break;
-            }
+				};
+				context.Campers.Add(camper);
+				Console.WriteLine("Camper added.");
+				Console.ReadKey();
+				context.SaveChanges();
+				break;
+			}
 		}
 		public static void UpdateCamper()
 		{
@@ -582,18 +583,18 @@ namespace CampSleepAwayAJA
 					string firstName = Console.ReadLine();
 					if (string.IsNullOrWhiteSpace(firstName))
 					{
-                        Console.WriteLine("Name can not be empty.");
-                        Console.ReadKey();
-                        return;
-                    }
+						Console.WriteLine("Name can not be empty.");
+						Console.ReadKey();
+						return;
+					}
 					Console.WriteLine("Enter new last name: ");
 					string lastName = Console.ReadLine();
 					if (string.IsNullOrWhiteSpace(lastName))
 					{
-                        Console.WriteLine("Name can not be empty.");
-                        Console.ReadKey();
-                        return;
-                    }
+						Console.WriteLine("Name can not be empty.");
+						Console.ReadKey();
+						return;
+					}
 
 					camper.FirstName = firstName;
 					camper.LastName = lastName;
@@ -607,16 +608,16 @@ namespace CampSleepAwayAJA
 				string startDate = Console.ReadLine();
 				if (string.IsNullOrWhiteSpace(startDate))
 				{
-                    Console.WriteLine("Start date can not be empty.");
-                    Console.ReadKey();
-                    return;
-                }
+					Console.WriteLine("Start date can not be empty.");
+					Console.ReadKey();
+					return;
+				}
 				else if (!DateTime.TryParse(startDate, out DateTime result))
 				{
-                    Console.WriteLine("Invalid datetime input.");
-                    Console.ReadKey();
-                    return;
-                }
+					Console.WriteLine("Invalid datetime input.");
+					Console.ReadKey();
+					return;
+				}
 				camper.StartDate = DateTime.Parse(startDate);
 			}
 			else if (menu2.Contains("End Date"))
@@ -626,16 +627,16 @@ namespace CampSleepAwayAJA
 				string endDate = Console.ReadLine();
 				if (string.IsNullOrWhiteSpace(endDate))
 				{
-                    Console.WriteLine("End date can not be empty.");
-                    Console.ReadKey();
-                    return;
-                }
+					Console.WriteLine("End date can not be empty.");
+					Console.ReadKey();
+					return;
+				}
 				else if (!DateTime.TryParse(endDate, out DateTime result))
 				{
-                    Console.WriteLine("Invalid datetime input.");
-                    Console.ReadKey();
-                    return;
-                }
+					Console.WriteLine("Invalid datetime input.");
+					Console.ReadKey();
+					return;
+				}
 				camper.EndDate = DateTime.Parse(endDate);
 			}
 			else if (menu2.Contains("Next of kin"))
@@ -662,18 +663,18 @@ namespace CampSleepAwayAJA
 					string firstName = Console.ReadLine();
 					if (string.IsNullOrWhiteSpace(firstName))
 					{
-                        Console.WriteLine("Name can not be empty.");
-                        Console.ReadKey();
-                        return;
-                    }
+						Console.WriteLine("Name can not be empty.");
+						Console.ReadKey();
+						return;
+					}
 					Console.WriteLine("Enter new last name: ");
 					string lastName = Console.ReadLine();
 					if (string.IsNullOrWhiteSpace(lastName))
 					{
-                        Console.WriteLine("Name can not be empty.");
-                        Console.ReadKey();
-                        return;
-                    }
+						Console.WriteLine("Name can not be empty.");
+						Console.ReadKey();
+						return;
+					}
 					nextOfKin.FirstName = firstName;
 					nextOfKin.LastName = lastName;
 				}
@@ -684,10 +685,10 @@ namespace CampSleepAwayAJA
 					string relation = Console.ReadLine();
 					if (string.IsNullOrWhiteSpace(relation))
 					{
-                        Console.WriteLine("Relation can not be empty.");
-                        Console.ReadKey();
-                        return;
-                    }
+						Console.WriteLine("Relation can not be empty.");
+						Console.ReadKey();
+						return;
+					}
 					nextOfKin.Relation = relation;
 				}
 				else if (menu4.Contains("Address"))
@@ -697,10 +698,10 @@ namespace CampSleepAwayAJA
 					string address = Console.ReadLine();
 					if (string.IsNullOrWhiteSpace(address))
 					{
-                        Console.WriteLine("Address can not be empty.");
-                        Console.ReadKey();
-                        return;
-                    }
+						Console.WriteLine("Address can not be empty.");
+						Console.ReadKey();
+						return;
+					}
 					nextOfKin.ContactInfo.Address = address;
 				}
 				else if (menu4.Contains("Phone Number"))
@@ -710,10 +711,10 @@ namespace CampSleepAwayAJA
 					string phoneNumber = Console.ReadLine();
 					if (string.IsNullOrWhiteSpace(phoneNumber))
 					{
-                        Console.WriteLine("Phone number can not be empty.");
-                        Console.ReadKey();
-                        return;
-                    }
+						Console.WriteLine("Phone number can not be empty.");
+						Console.ReadKey();
+						return;
+					}
 					nextOfKin.ContactInfo.PhoneNumber = phoneNumber;
 				}
 				else if (menu4.Contains("Email"))
@@ -723,10 +724,10 @@ namespace CampSleepAwayAJA
 					string email = Console.ReadLine();
 					if (string.IsNullOrWhiteSpace(email))
 					{
-                        Console.WriteLine("Email can not be empty.");
-                        Console.ReadKey();
-                        return;
-                    }
+						Console.WriteLine("Email can not be empty.");
+						Console.ReadKey();
+						return;
+					}
 					nextOfKin.ContactInfo.EmailAddress = email;
 				}
 				else if (menu4.Contains("Abort update"))
