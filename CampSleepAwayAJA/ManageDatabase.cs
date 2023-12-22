@@ -293,26 +293,26 @@ namespace CampSleepAwayAJA
 			context.SaveChanges();
 		}
 		public static void AddCamperToCabin()
-        {
+		{
 			using var context = new CSAContext();
 
-			var cabins = context.Cabins.Select(c => new {c.CabinID, c.CabinName }).ToDictionary(c => c.CabinID , c => c.CabinName);
+			var cabins = context.Cabins.Select(c => new { c.CabinID, c.CabinName }).ToDictionary(c => c.CabinID, c => c.CabinName);
 			List<string> choices = new();
 
-            foreach (var c in cabins)
+			foreach (var c in cabins)
 			{
 				choices.Add($"{c.Key.ToString()}: {c.Value.ToString()}");
 
-            }
-            choices.Concat(new[] { "Abort" });
+			}
+			choices.Concat(new[] { "Abort" });
 
 			var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 				.Title("Choose cabin to add campers to")
 				.AddChoices(choices)
 				.UseConverter(s => s.ToUpperInvariant()));
-            int choice = int.Parse(menu.Split(':').First());
-            var cabin = context.Cabins.Include(c => c.Campers).FirstOrDefault(c => c.CabinID == choice);
-            if (menu.Contains("Abort"))
+			int choice = int.Parse(menu.Split(':').First());
+			var cabin = context.Cabins.Include(c => c.Campers).FirstOrDefault(c => c.CabinID == choice);
+			if (menu.Contains("Abort"))
 			{
 				return;
 			}
@@ -323,7 +323,7 @@ namespace CampSleepAwayAJA
 				return;
 			}
 			var campers = context.Campers.Select(c => c.FullName).ToList();
-			
+
 			var choices2 = campers.Concat(new[] { "Abort" });
 			if (campers.Count() == 0)
 			{
@@ -340,9 +340,9 @@ namespace CampSleepAwayAJA
 			int insertcount = cabin.CabinCapacity - cabin.Campers.Count();
 			if (insertcount > menu2.Count()) insertcount = menu2.Count();
 
-            for (int i = 0; i < insertcount; i++)
+			for (int i = 0; i < insertcount; i++)
 			{
-                var camper = context.Campers.FirstOrDefault(c => c.FirstName + " " + c.LastName == menu2[i]);
+				var camper = context.Campers.FirstOrDefault(c => c.FirstName + " " + c.LastName == menu2[i]);
 				if (camper.CabinID == cabin.CabinID)
 				{
 					Console.WriteLine($"{camper.FullName} is already in to {cabin.CabinName}.");
@@ -354,14 +354,14 @@ namespace CampSleepAwayAJA
 					camper.CabinID = cabin.CabinID;
 					Console.WriteLine($"{camper.FullName} added to {cabin.CabinName}.");
 				}
-            }
-			for(int i = insertcount; i < menu2.Count(); i++)
+			}
+			for (int i = insertcount; i < menu2.Count(); i++)
 			{
-                Console.WriteLine($"{menu2[i]} was not added to {cabin.CabinName}.");
-            }
-            Console.ReadKey();
+				Console.WriteLine($"{menu2[i]} was not added to {cabin.CabinName}.");
+			}
+			Console.ReadKey();
 
-            if (menu2.Contains("Abort"))
+			if (menu2.Contains("Abort"))
 			{
 				ManageConsole.MainMenu();
 			}
@@ -412,29 +412,30 @@ namespace CampSleepAwayAJA
 					continue;
 				}
 				Console.WriteLine("Enter start date: ");
-				string startDate = Console.ReadLine();
-				if (string.IsNullOrWhiteSpace(startDate))
+				string startDateInput = Console.ReadLine();
+				if (string.IsNullOrWhiteSpace(startDateInput))
 				{
-					Console.WriteLine("Start date can not be empty.");
+					Console.WriteLine("Start date cannot be empty.");
 					Console.ReadKey();
 					continue;
 				}
-				else if (!DateTime.TryParse(startDate, out DateTime result))
+				else if (!DateTime.TryParse(startDateInput, out DateTime startDate))
 				{
-					Console.WriteLine("Invalid datetime input.");
+					Console.WriteLine("Invalid datetime input for start date.");
 					continue;
 				}
+
 				Console.WriteLine("Enter end date: ");
-				string endDate = Console.ReadLine();
-				if (string.IsNullOrWhiteSpace(endDate))
+				string endDateInput = Console.ReadLine();
+				if (string.IsNullOrWhiteSpace(endDateInput))
 				{
-					Console.WriteLine("End date can not be empty.");
+					Console.WriteLine("End date cannot be empty.");
 					Console.ReadKey();
 					continue;
 				}
-				else if (!DateTime.TryParse(endDate, out DateTime result2))
+				else if (!DateTime.TryParse(endDateInput, out DateTime endDate))
 				{
-					Console.WriteLine("Invalid datetime input.");
+					Console.WriteLine("Invalid datetime input for end date.");
 					continue;
 				}
 				Console.WriteLine("Next of kin first name: ");
@@ -490,8 +491,8 @@ namespace CampSleepAwayAJA
 				{
 					FirstName = firstName,
 					LastName = lastName,
-					StartDate = DateTime.Parse(startDate),
-					EndDate = DateTime.Parse(endDate),
+					StartDate = DateTime.Parse(startDateInput),
+					EndDate = DateTime.Parse(endDateInput),
 					NextOfKin = new List<NextOfKin>()
 				{
 					new NextOfKin
