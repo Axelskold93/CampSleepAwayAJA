@@ -336,7 +336,7 @@ namespace CampSleepAwayAJA
 			{
 				return;
 			}
-			var camper = context.Campers.Where(c => c.FirstName + " " + c.LastName == menu).FirstOrDefault();
+			var camper = context.Campers.Include(c => c.NextOfKin).Where(c => c.FirstName + " " + c.LastName == menu).FirstOrDefault();
 			var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
 			.Title("Choose what to update")
 			.AddChoices(new[] { "Name", "Start Date", "End Date", "Next of kin", "Abort" })
@@ -371,7 +371,7 @@ namespace CampSleepAwayAJA
 			}
 			else if (menu2.Contains("Next of kin"))
 			{
-				var nextOfKins = context.NextOfKins.Select(c => c.FullName).ToList();
+				var nextOfKins = camper.NextOfKin.Select(n => n.FullName).ToList();
 				var choices2 = nextOfKins.Concat(new[] { "Back" });
 				var menu3 = AnsiConsole.Prompt(new SelectionPrompt<string>()
 				 .Title("Choose next of kin to update")
@@ -381,7 +381,7 @@ namespace CampSleepAwayAJA
 				{
 					return;
 				}
-				var nextOfKin = context.NextOfKins.Where(c => c.FirstName + " " + c.LastName == menu3).FirstOrDefault();
+				var nextOfKin = camper.NextOfKin.FirstOrDefault(n => n.FirstName + " " + n.LastName == menu3);
 				var menu4 = AnsiConsole.Prompt(new SelectionPrompt<string>()
 				.Title("Choose what to update")
 				.AddChoices(new[] { "First Name", "Last Name", "Relation", "Address", "Phone Number", "Email", "Abort update" })
@@ -451,10 +451,17 @@ namespace CampSleepAwayAJA
 				return;
 			}
 			var camper = context.Campers.Where(c => c.FirstName + " " + c.LastName == menu).FirstOrDefault();
-			context.Campers.Remove(camper);
-			Console.WriteLine("Camper removed.");
-			Console.ReadKey();
-			context.SaveChanges();
+			if (camper != null)
+			{
+				context.Campers.Remove(camper);
+				Console.WriteLine("Camper removed.");
+				Console.ReadKey();
+				context.SaveChanges();
+			}
+			else
+			{
+				Console.WriteLine("Camper not found.");
+			}
 		}
 		public static List<List<string>> ViewCounselors()
 		{
@@ -667,9 +674,9 @@ namespace CampSleepAwayAJA
 				.UseConverter(s => s.ToUpperInvariant()));
 			if (menu.Contains("Add seed data"))
 			{
-                string filePath = "seedData.csv";
-                ReadCSV(filePath);
-                Console.WriteLine("Database seeded.");
+				string filePath = "seedData.csv";
+				ReadCSV(filePath);
+				Console.WriteLine("Database seeded.");
 				Console.ReadKey();
 			}
 			else
