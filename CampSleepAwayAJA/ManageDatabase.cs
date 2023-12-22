@@ -366,27 +366,67 @@ namespace CampSleepAwayAJA
 				ManageConsole.MainMenu();
 			}
 			context.SaveChanges();
-		}
-        
+		}       
         public static void RemoveCabin()
         {
             using var context = new CSAContext();
-            var cabins = context.Cabins.Select(c => c.CabinName).ToList();
-            var choices = cabins.Concat(new[] { "Abort" });
+            //var cabins = context.Cabins.Select(c => c.CabinName).ToList();
+           // var choices = cabins.Concat(new[] { "Abort" });
+           
+            var cabins = context.Cabins.Select(c => new { c.CabinID, c.CabinName }).ToDictionary(c => c.CabinID, c => c.CabinName);
+            List<string> choices = new();
+
+            foreach (var c in cabins)
+            {
+                choices.Add($"{c.Key.ToString()}: {c.Value.ToString()}");
+
+            }
             if (cabins.Count() == 0)
             {
                 Console.WriteLine("No cabins available.");
                 Console.ReadKey();
                 return;
             }
+            choices.Concat(new[] { "Abort" });
+
             var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
-                .Title("Choose cabin to remove:")
+                .Title("Choose cabin to add campers to")
                 .AddChoices(choices)
                 .UseConverter(s => s.ToUpperInvariant()));
-			
-            var cabin = context.Cabins.Where(c => c.CabinName == menu).FirstOrDefault();
-            context.Cabins.Remove(cabin);
-            Console.WriteLine("Cabin removed.");
+            int choice = int.Parse(menu.Split(':').First());
+            var cabin = context.Cabins.Include(c => c.Campers).FirstOrDefault(c => c.CabinID == choice);
+
+            //var cabin = context.Cabins.Where(c => c.CabinName == menu).Include(c => c.Campers).FirstOrDefault();
+			if (cabin.Campers.Count() != 0) 
+			{
+				var choice2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                .Title($"{cabin.CabinName} is not empty! \nWould you like to evict it's inhabitants")
+				.AddChoices(new List<string> {"Yes","No"})
+                .UseConverter(s => s.ToUpperInvariant()));
+				if(choice2 == "Yes")
+				{
+					var campers = cabin.Campers;
+					foreach (var c in campers)
+					{
+						c.CabinID = null;
+						context.Update(c);
+                        
+                        
+                    }
+                    context.Cabins.Remove(cabin);
+                    Console.WriteLine($"{cabin.CabinName} removed.");
+                }
+				else
+				{
+					Console.WriteLine($"{cabin.CabinName} was not removed.");
+				}
+            }
+			else
+			{
+                context.Cabins.Remove(cabin);
+                Console.WriteLine($"{cabin.CabinName} removed.");
+                
+            }
             Console.ReadKey();
             context.SaveChanges();
         }
