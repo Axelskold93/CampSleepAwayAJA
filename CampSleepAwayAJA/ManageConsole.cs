@@ -10,23 +10,23 @@ namespace CampSleepAwayAJA
 			{
 				Console.Clear();
 				var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
-					  .Title("Main Menu")
-					  .AddChoices(new[] { "Manage", "View", "Settings", "Exit" })
+					  .Title("MAIN MENU")
+					  .AddChoices(new[] { "MANAGE", "VIEW", "SETTINGS", "EXIT" })
 					  .UseConverter(s => s.ToUpperInvariant()));
 
-				if (menu.Contains("Manage"))
+				if (menu.Contains("MANAGE"))
 				{
 					ManageMenu();
 				}
-				else if (menu.Contains("View"))
+				else if (menu.Contains("VIEW"))
 				{
 					ViewMenu();
 				}
-				else if (menu.Contains("Settings"))
+				else if (menu.Contains("SETTINGS"))
 				{
 					ManageDatabase.Settings();
 				}
-				else if (menu.Contains("Exit"))
+				else if (menu.Contains("EXIT"))
 				{
 					Environment.Exit(0);
 				}
@@ -38,27 +38,27 @@ namespace CampSleepAwayAJA
 			{
 				Console.Clear();
 				var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
-				  .Title("Manage Menu")
-				  .AddChoices(new[] { "Counselors", "Cabins", "Campers", "Add camper to cabin", "Back" })
+				  .Title("MANAGE MENU")
+				  .AddChoices(new[] { "COUNSELORS", "CABINS", "CAMPERS", "ADD CAMPER TO CABIN", "BACK" })
 				  .UseConverter(s => s.ToUpperInvariant()));
 
-				if (menu.Contains("Counselors"))
+				if (menu.Contains("COUNSELORS"))
 				{
 					ManageCounselorMenu();
 				}
-				else if (menu.Contains("Cabins"))
+				else if (menu.Contains("CABINS"))
 				{
 					ManageCabinMenu();
 				}
-				else if (menu.Contains("Campers"))
+				else if (menu.Contains("CAMPERS"))
 				{
 					ManageCamperMenu();
 				}
-				else if (menu.Contains("Add camper to cabin"))
+				else if (menu.Contains("ADD CAMPER TO CABIN"))
 				{
 					ManageDatabase.AddCamperToCabin();
 				}
-				else if (menu.Contains("Back"))
+				else if (menu.Contains("BACK"))
 				{
 					break;
 				}
@@ -70,23 +70,23 @@ namespace CampSleepAwayAJA
 			{
 				Console.Clear();
 				var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
-					  .Title("Counselor Menu")
-					  .AddChoices(new[] { "Add Counselor", "Update Counselor", "Remove Counselor", "Back" })
+					  .Title("COUNSELOR MENU")
+					  .AddChoices(new[] { "ADD COUNSELOR", "UPDATE COUNSELOR", "REMOVE COUNSELOR", "BACK" })
 						.UseConverter(s => s.ToUpperInvariant()));
 
-				if (menu.Contains("Add Counselor"))
+				if (menu.Contains("ADD COUNSELOR"))
 				{
 					ManageDatabase.AddCounselor();
 				}
-				else if (menu.Contains("Update Counselor"))
+				else if (menu.Contains("UPDATE COUNSELOR"))
 				{
 					ManageDatabase.UpdateCounselor();
 				}
-				else if (menu.Contains("Remove Counselor"))
+				else if (menu.Contains("REMOVE COUNSELOR"))
 				{
 					ManageDatabase.RemoveCounselor();
 				}
-				else if (menu.Contains("Back"))
+				else if (menu.Contains("BACK"))
 				{
 					break;
 				}
@@ -98,23 +98,23 @@ namespace CampSleepAwayAJA
 			{
 				Console.Clear();
 				var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
-					  .Title("Cabin Menu")
-					  .AddChoices(new[] { "Add Cabin", "Update Cabin", "Remove Cabin", "Back" })
+					  .Title("CABIN MENU")
+					  .AddChoices(new[] { "ADD CABIN", "UPDATE CABIN", "REMOVE CABIN", "BACK" })
 						.UseConverter(s => s.ToUpperInvariant()));
 
-				if (menu.Contains("Add Cabin"))
+				if (menu.Contains("ADD CABIN"))
 				{
 					ManageDatabase.AddCabin();
 				}
-				else if (menu.Contains("Update Cabin"))
+				else if (menu.Contains("UPDATE CABIN"))
 				{
 					ManageDatabase.UpdateCabin();
 				}
-				else if (menu.Contains("Remove Cabin"))
+				else if (menu.Contains("REMOVE CABIN"))
 				{
 					ManageDatabase.RemoveCabin();
 				}
-				else if (menu.Contains("Back"))
+				else if (menu.Contains("BACK"))
 				{
 					break;
 				}
@@ -126,23 +126,23 @@ namespace CampSleepAwayAJA
 			{
 				Console.Clear();
 				var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
-					   .Title("Camper Menu")
-					   .AddChoices(new[] { "Add Camper", "Remove Camper", "Update Camper", "Back" })
+					   .Title("CAMPER MENU")
+					   .AddChoices(new[] { "ADD CAMPER", "REMOVE CAMPER", "UPDATE CAMPER", "BACK" })
 						.UseConverter(s => s.ToUpperInvariant()));
 
-				if (menu.Contains("Add Camper"))
+				if (menu.Contains("ADD CAMPER"))
 				{
 					ManageDatabase.AddCamper();
 				}
-				else if (menu.Contains("Remove Camper"))
+				else if (menu.Contains("REMOVE CAMPER"))
 				{
 					ManageDatabase.RemoveCamper();
 				}
-				else if (menu.Contains("Update Camper"))
+				else if (menu.Contains("UPDATE CAMPER"))
 				{
 					ManageDatabase.UpdateCamper();
 				}
-				else if (menu.Contains("Back"))
+				else if (menu.Contains("BACK"))
 				{
 					break;
 				}
@@ -154,16 +154,16 @@ namespace CampSleepAwayAJA
 			{
 				Console.Clear();
 				var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
-				  .Title("View Menu")
-				  .AddChoices(new[] { "Counselors", "Cabins", "Campers", "Back" })
+				  .Title("VIEW MENU")
+				  .AddChoices(new[] { "COUNSELORS", "CABINS", "CAMPERS", "BACK" })
 					.UseConverter(s => s.ToUpperInvariant()));
 
-				if (menu.Contains("Counselors"))
+				if (menu.Contains("COUNSELORS"))
 				{
 					var data = ManageDatabase.ViewCounselors();
 					Table table = new();
-					string[] headers = { "First name", "Last name", "Adress", "Phone number", "Email" };
-					table.Title("Counselor View", new Style(Color.Red, Color.Black, Decoration.Bold))
+					string[] headers = { "FIRST NAME", "LAST NAME", "ADDRESS", "PHONE NUMBER", "EMAIL" };
+					table.Title("COUNSELOR VIEW", new Style(Color.Red, Color.Black, Decoration.Bold))
 						.AddColumns(headers)
 						.Border(TableBorder.Rounded)
 						.Expand();
@@ -184,12 +184,12 @@ namespace CampSleepAwayAJA
 					AnsiConsole.Render(table);
 					Console.ReadLine();
 				}
-				else if (menu.Contains("Cabins"))
+				else if (menu.Contains("CABINS"))
 				{
 					var data = ManageDatabase.ViewCabins();
 					Table table = new();
-					string[] headers = { "Cabin Name", "Counselor name", "Campers" };
-					table.Title("Cabin View", new Style(Color.Red, Color.Black, Decoration.Bold))
+					string[] headers = { "CABIN NAME", "COUNSELOR NAME", "CAMPERS" };
+					table.Title("CABIN VIEW", new Style(Color.Red, Color.Black, Decoration.Bold))
 						.AddColumns(headers)
 						.Border(TableBorder.DoubleEdge)
 						.Width(1000);
@@ -209,12 +209,12 @@ namespace CampSleepAwayAJA
 					AnsiConsole.Render(table);
 					Console.ReadLine();
 				}
-				else if (menu.Contains("Campers"))
+				else if (menu.Contains("CAMPERS"))
 				{
 					var data = ManageDatabase.ViewCampers();
 					Table table = new();
-					string[] headers = { "Full name", "Cabin name", "Arrival date", "Departure date" };
-					table.Title("Counselor View", new Style(Color.Red, Color.Black, Decoration.Bold))
+					string[] headers = { "FULL NAME", "CABIN NAME", "ARRIVAL DATE", "DEPARTURE DATE" };
+					table.Title("COUNSELOR VIEW", new Style(Color.Red, Color.Black, Decoration.Bold))
 						.AddColumns(headers)
 						.Border(TableBorder.Rounded)
 						.Width(1000);
@@ -247,7 +247,7 @@ namespace CampSleepAwayAJA
 					AnsiConsole.Render(table);
 					Console.ReadLine();
 				}
-				else if (menu.Contains("Back"))
+				else if (menu.Contains("BACK"))
 				{
 					break;
 				}

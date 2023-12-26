@@ -10,8 +10,8 @@ namespace CampSleepAwayAJA
 		public static void AddCounselor()
 		{
 			using var context = new CSAContext();
-			string firstName = ValidateString("Enter firstname: ");
-			string lastName = ValidateString("Enter lastname: ");
+			string firstName = ValidateString("Enter first name: ");
+			string lastName = ValidateString("Enter last name: ");
 			string address = ValidateString("Enter address: ");
 			string phoneNumber = ValidateString("Enter phone number: ");
 			string email = ValidateString("Enter email: ");
@@ -51,13 +51,13 @@ namespace CampSleepAwayAJA
 				return;
 			}
 			var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
-				.Title("Choose what to update")
+				.Title("What would you like to update?")
 				.AddChoices(new[] { "Name", "Address", "Phone Number", "Email", "Abort" })
 				.UseConverter(s => s.ToUpperInvariant()));
 			if (menu2.Contains("Name"))
 			{
-				string firstName = ValidateString("Enter new firstname: ");
-				string lastName = ValidateString("Enter new lastname: ");
+				string firstName = ValidateString("Enter new first name: ");
+				string lastName = ValidateString("Enter new last name: ");
 				counselor.FirstName = firstName;
 				counselor.LastName = lastName;
 			}
@@ -130,7 +130,7 @@ namespace CampSleepAwayAJA
 			while (true)
 			{
 				using var context = new CSAContext();
-				Console.WriteLine("Enter Cabin Name");
+				Console.WriteLine("Enter cabin name");
 				string cabinName = Console.ReadLine();
 				if (string.IsNullOrWhiteSpace(cabinName))
 				{
@@ -169,7 +169,7 @@ namespace CampSleepAwayAJA
 				.UseConverter(s => s.ToUpperInvariant()));
 			var cabin = context.Cabins.Where(c => c.CabinName == menu).FirstOrDefault();
 			var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
-			 .Title("Choose what to update")
+			 .Title("What would you like to update? ")
 			 .AddChoices(new[] { "Cabin name", "Cabin leader", "Abort update" })
 			 .UseConverter(s => s.ToUpperInvariant()));
 
@@ -311,7 +311,7 @@ namespace CampSleepAwayAJA
 			if (cabin.Campers.Count() != 0)
 			{
 				var choice2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
-				.Title($"{cabin.CabinName} is not empty! \nWould you like to evict it's inhabitants")
+				.Title($"{cabin.CabinName} is not empty! \nWould you like to evict it's inhabitants? ")
 				.AddChoices(new List<string> { "Yes", "No" })
 				.UseConverter(s => s.ToUpperInvariant()));
 				if (choice2 == "Yes")
@@ -325,7 +325,7 @@ namespace CampSleepAwayAJA
 
 					}
 					context.Cabins.Remove(cabin);
-					Console.WriteLine($"{cabin.CabinName} removed.");
+					Console.WriteLine($"{cabin.CabinName} was removed.");
 				}
 				else
 				{
@@ -335,7 +335,7 @@ namespace CampSleepAwayAJA
 			else
 			{
 				context.Cabins.Remove(cabin);
-				Console.WriteLine($"{cabin.CabinName} removed.");
+				Console.WriteLine($"{cabin.CabinName} was removed.");
 
 			}
 			Console.ReadKey();
@@ -409,8 +409,8 @@ namespace CampSleepAwayAJA
 				if (camper != null)
 				{
 					Console.WriteLine("Change camper name");
-					string firstName = ValidateString("Enter first name: ");
-					string lastName = ValidateString("Enter last name: ");
+					string firstName = ValidateString("Enter new first name: ");
+					string lastName = ValidateString("Enter new last name: ");
 					camper.FirstName = firstName;
 					camper.LastName = lastName;
 
@@ -449,8 +449,8 @@ namespace CampSleepAwayAJA
 				if (menu4.Contains("Name"))
 				{
 					Console.WriteLine("Change next of kin name");
-					string firstName = ValidateString("Enter first name: ");
-					string lastName = ValidateString("Enter last name: ");
+					string firstName = ValidateString("Enter new first name: ");
+					string lastName = ValidateString("Enter new last name: ");
 					nextOfKin.FirstName = firstName;
 					nextOfKin.LastName = lastName;
 				}
@@ -466,7 +466,7 @@ namespace CampSleepAwayAJA
 					string address = ValidateString("Enter new address: ");
 					nextOfKin.ContactInfo.Address = address;
 				}
-				else if (menu4.Contains("Phone Number"))
+				else if (menu4.Contains("Phone number"))
 				{
 					Console.WriteLine("Change phone number");
 					string phoneNumber = ValidateString("Enter new phone number: ");
@@ -508,7 +508,7 @@ namespace CampSleepAwayAJA
 			if (camper != null)
 			{
 				context.Campers.Remove(camper);
-				Console.WriteLine("Camper removed.");
+				Console.WriteLine("Camper was removed.");
 				Console.ReadKey();
 				context.SaveChanges();
 			}
@@ -651,7 +651,7 @@ namespace CampSleepAwayAJA
 			//Add to db Order: Counsler -> Cabin -> Camper -> Next of kin
 			if (cabins.Count != counselors.Count)
 			{
-				throw new Exception("Missmatched lenghts of list 'cabin' and 'counsler'");
+				throw new Exception("Mismatched lengths of list 'cabin' and 'counselor'");
 			}
 			using var context = new CSAContext();
 			//Add cabins and counslers
@@ -731,7 +731,7 @@ namespace CampSleepAwayAJA
 					input = Console.ReadLine();
 					if (string.IsNullOrWhiteSpace(input))
 					{
-						Console.WriteLine("Input cannot be empty.");
+						Console.WriteLine("Input can not be empty.");
 						Console.ReadKey();
 						continue;
 					}
@@ -774,9 +774,9 @@ namespace CampSleepAwayAJA
 		{
 			var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 				.Title("")
-				.AddChoices(new[] { "Add seed data", "Back" })
+				.AddChoices(new[] { "ADD SEED DATA", "BACK" })
 				.UseConverter(s => s.ToUpperInvariant()));
-			if (menu.Contains("Add seed data"))
+			if (menu.Contains("ADD SEED DATA"))
 			{
 				string filePath = "seedData.csv";
 				ReadCSV(filePath);
