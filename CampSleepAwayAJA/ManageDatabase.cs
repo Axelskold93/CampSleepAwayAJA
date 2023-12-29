@@ -51,8 +51,8 @@ namespace CampSleepAwayAJA
 				return;
 			}
 			var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
-				.Title("What would you like to update?")
-				.AddChoices(new[] { "Name", "Address", "Phone Number", "Email", "Abort" })
+				.Title("WHAT WOULD YOU LIKE TO UPDATE? ")
+				.AddChoices(new[] { "Name", "Address", "Phone number", "Email", "Abort" })
 				.UseConverter(s => s.ToUpperInvariant()));
 			if (menu2.Contains("Name"))
 			{
@@ -66,7 +66,7 @@ namespace CampSleepAwayAJA
 				string address = ValidateString("Enter new address: ");
 				counselor.ContactInfo.Address = address;
 			}
-			else if (menu2.Contains("Phone Number"))
+			else if (menu2.Contains("Phone number"))
 			{
 				string phoneNumber = ValidateString("Enter new phone number: ");
 				counselor.ContactInfo.PhoneNumber = phoneNumber;
@@ -120,7 +120,6 @@ namespace CampSleepAwayAJA
 				context.Counselors.Remove(counselor);
 				Console.WriteLine("Counselor removed.");
 				Console.ReadKey();
-
 			}
 			context.SaveChanges();
 		}
@@ -164,7 +163,7 @@ namespace CampSleepAwayAJA
 				return;
 			}
 			var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
-				.Title("Choose cabin to update")
+				.Title("CHOOSE CABIN TO UPDATE: ")
 				.AddChoices(choices)
 				.UseConverter(s => s.ToUpperInvariant()));
 			var cabin = context.Cabins.Where(c => c.CabinName == menu).FirstOrDefault();
@@ -307,7 +306,7 @@ namespace CampSleepAwayAJA
 			int choice = int.Parse(menu.Split(':').First());
 			var cabin = context.Cabins.Include(c => c.Campers).FirstOrDefault(c => c.CabinID == choice);
 
-			//var cabin = context.Cabins.Where(c => c.CabinName == menu).Include(c => c.Campers).FirstOrDefault();
+			//var cabin = context.Cabins.Where(c => c.CabinName == menu).Include(c => c.Campers).FirstOrDefault();	
 			if (cabin.Campers.Count() != 0)
 			{
 				var choice2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
@@ -413,7 +412,6 @@ namespace CampSleepAwayAJA
 					string lastName = ValidateString("Enter new last name: ");
 					camper.FirstName = firstName;
 					camper.LastName = lastName;
-
 				}
 			}
 			else if (menu2.Contains("Start Date"))
@@ -426,8 +424,7 @@ namespace CampSleepAwayAJA
 			{
 				Console.WriteLine("Change end date");
 				DateTime endDate = ValidateDate("Enter new end date: ");
-				camper.EndDate = endDate
-;
+				camper.EndDate = endDate;
 			}
 			else if (menu2.Contains("Next of kin"))
 			{
@@ -553,7 +550,6 @@ namespace CampSleepAwayAJA
 					c.Counselor.FullName,
 					c.Campers
 				}).ToList();
-
 			foreach (var c in cabinData)
 			{
 				List<string> list = new();
@@ -594,7 +590,6 @@ namespace CampSleepAwayAJA
 			Console.WriteLine();
 			return output;
 		}
-
 		public static void ReadCSV(string filePath)
 		{
 			/* Format for csv:
