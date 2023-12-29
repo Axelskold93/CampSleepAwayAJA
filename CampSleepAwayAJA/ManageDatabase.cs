@@ -233,7 +233,7 @@ namespace CampSleepAwayAJA
 				Console.ReadKey();
 				return;
 			}
-			else if (cabin.Counselor == null)
+			else if (cabin.CounselorID == null)
 			{
                 Console.WriteLine("Cabin has no counselor.");
                 Console.ReadKey();

@@ -21,10 +21,6 @@ namespace CampSleepAwayAJA
 			var connectionString = configuration.GetConnectionString("Local");
 
 			optionsBuilder.UseSqlServer(connectionString);
-			/*.LogTo(Console.WriteLine,
-			new[] { DbLoggerCategory.Database.Name },
-			LogLevel.Information)
-			.EnableSensitiveDataLogging();*/
 		}
 	}
 }
