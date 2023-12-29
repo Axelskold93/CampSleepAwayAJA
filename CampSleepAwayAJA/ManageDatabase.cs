@@ -254,8 +254,11 @@ namespace CampSleepAwayAJA
 				.PageSize(10)
 				.MoreChoicesText("[grey](Move up and down to reveal more campers)[/]")
 				.AddChoices(choices2));
-
-			int insertcount = cabin.CabinCapacity - cabin.Campers.Count();
+            if (menu2.Contains("Abort"))
+            {
+                ManageConsole.MainMenu();
+            }
+            int insertcount = cabin.CabinCapacity - cabin.Campers.Count();
 			if (insertcount > menu2.Count()) insertcount = menu2.Count();
 
 			for (int i = 0; i < insertcount; i++)
@@ -279,10 +282,7 @@ namespace CampSleepAwayAJA
 			}
 			Console.ReadKey();
 
-			if (menu2.Contains("Abort"))
-			{
-				ManageConsole.MainMenu();
-			}
+			
 			context.SaveChanges();
 		}
 		public static void RemoveCabin()
