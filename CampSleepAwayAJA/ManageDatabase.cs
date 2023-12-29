@@ -281,16 +281,12 @@ namespace CampSleepAwayAJA
 		public static void RemoveCabin()
 		{
 			using var context = new CSAContext();
-			//var cabins = context.Cabins.Select(c => c.CabinName).ToList();
-			// var choices = cabins.Concat(new[] { "Abort" });
-
 			var cabins = context.Cabins.Select(c => new { c.CabinID, c.CabinName }).ToDictionary(c => c.CabinID, c => c.CabinName);
 			List<string> choices = new();
 
 			foreach (var c in cabins)
 			{
-				choices.Add($"{c.Key.ToString()}: {c.Value.ToString()}");
-
+				choices.Add($"{c.Key}: {c.Value}");
 			}
 			if (cabins.Count() == 0)
 			{
@@ -306,8 +302,6 @@ namespace CampSleepAwayAJA
 				.UseConverter(s => s.ToUpperInvariant()));
 			int choice = int.Parse(menu.Split(':').First());
 			var cabin = context.Cabins.Include(c => c.Campers).FirstOrDefault(c => c.CabinID == choice);
-
-			//var cabin = context.Cabins.Where(c => c.CabinName == menu).Include(c => c.Campers).FirstOrDefault();
 			if (cabin.Campers.Count() != 0)
 			{
 				var choice2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
@@ -321,8 +315,6 @@ namespace CampSleepAwayAJA
 					{
 						c.CabinID = null;
 						context.Update(c);
-
-
 					}
 					context.Cabins.Remove(cabin);
 					Console.WriteLine($"{cabin.CabinName} was removed.");
@@ -336,7 +328,6 @@ namespace CampSleepAwayAJA
 			{
 				context.Cabins.Remove(cabin);
 				Console.WriteLine($"{cabin.CabinName} was removed.");
-
 			}
 			Console.ReadKey();
 			context.SaveChanges();
