@@ -222,7 +222,6 @@ namespace CampSleepAwayAJA
 					{
 						if (data[i][1] != "Not in a cabin")
 						{
-
 							table.AddRow(
 								new Markup($"[cyan]{data[i][0]}[/]"),
 								new Markup($"[green]{data[i][1]}[/]"),

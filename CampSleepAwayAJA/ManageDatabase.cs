@@ -51,7 +51,7 @@ namespace CampSleepAwayAJA
 				return;
 			}
 			var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
-				.Title("WHAT WOULD YOU LIKE TO UPDATE? ")
+				.Title("Choose what to update")
 				.AddChoices(new[] { "Name", "Address", "Phone number", "Email", "Abort" })
 				.UseConverter(s => s.ToUpperInvariant()));
 			if (menu2.Contains("Name"))
@@ -75,13 +75,11 @@ namespace CampSleepAwayAJA
 			{
 				string email = ValidateString("Enter new email: ");
 				counselor.ContactInfo.EmailAddress = email;
-
 			}
 			else if (menu2.Contains("Abort"))
 			{
 				ManageConsole.MainMenu();
 			}
-
 			Console.WriteLine("Counselor updated.");
 			Console.ReadKey();
 			context.SaveChanges();
@@ -163,12 +161,12 @@ namespace CampSleepAwayAJA
 				return;
 			}
 			var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
-				.Title("CHOOSE CABIN TO UPDATE: ")
+				.Title("Choose cabin to update: ")
 				.AddChoices(choices)
 				.UseConverter(s => s.ToUpperInvariant()));
 			var cabin = context.Cabins.Where(c => c.CabinName == menu).FirstOrDefault();
 			var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
-			 .Title("What would you like to update? ")
+			 .Title("Choose what to update")
 			 .AddChoices(new[] { "Cabin name", "Cabin leader", "Abort update" })
 			 .UseConverter(s => s.ToUpperInvariant()));
 
@@ -177,7 +175,6 @@ namespace CampSleepAwayAJA
 				string cabinName = ValidateString("Enter new cabin name: ");
 				cabin.CabinName = cabinName;
 			}
-
 			else if (menu2.Contains("Cabin leader"))
 			{
 				var counselors = context.Counselors.Select(c => c.FullName).ToList();
@@ -208,7 +205,6 @@ namespace CampSleepAwayAJA
 
 			var cabins = context.Cabins.Select(c => new { c.CabinID, c.CabinName }).ToDictionary(c => c.CabinID, c => c.CabinName);
 			List<string> choices = new();
-			
 
 			foreach (var c in cabins)
 			{
@@ -235,10 +231,10 @@ namespace CampSleepAwayAJA
 			}
 			else if (cabin.CounselorID == null)
 			{
-                Console.WriteLine("Cabin has no counselor.");
-                Console.ReadKey();
-                return;
-            }
+				Console.WriteLine("Cabin has no counselor.");
+				Console.ReadKey();
+				return;
+			}
 			var campers = context.Campers.Select(c => c.FullName).ToList();
 
 			var choices2 = campers.Concat(new[] { "Abort" });
@@ -253,11 +249,11 @@ namespace CampSleepAwayAJA
 				.PageSize(10)
 				.MoreChoicesText("[grey](Move up and down to reveal more campers)[/]")
 				.AddChoices(choices2));
-            if (menu2.Contains("Abort"))
-            {
-                ManageConsole.MainMenu();
-            }
-            int insertcount = cabin.CabinCapacity - cabin.Campers.Count();
+			if (menu2.Contains("Abort"))
+			{
+				ManageConsole.MainMenu();
+			}
+			int insertcount = cabin.CabinCapacity - cabin.Campers.Count();
 			if (insertcount > menu2.Count()) insertcount = menu2.Count();
 
 			for (int i = 0; i < insertcount; i++)
@@ -265,7 +261,7 @@ namespace CampSleepAwayAJA
 				var camper = context.Campers.FirstOrDefault(c => c.FirstName + " " + c.LastName == menu2[i]);
 				if (camper.CabinID == cabin.CabinID)
 				{
-					Console.WriteLine($"{camper.FullName} is already in to {cabin.CabinName}.");
+					Console.WriteLine($"{camper.FullName} is already in {cabin.CabinName}.");
 					Console.ReadKey();
 				}
 				else
@@ -280,8 +276,6 @@ namespace CampSleepAwayAJA
 				Console.WriteLine($"{menu2[i]} was not added to {cabin.CabinName}.");
 			}
 			Console.ReadKey();
-
-			
 			context.SaveChanges();
 		}
 		public static void RemoveCabin()
@@ -399,7 +393,7 @@ namespace CampSleepAwayAJA
 			var camper = context.Campers.Include(c => c.NextOfKin).Where(c => c.FirstName + " " + c.LastName == menu).FirstOrDefault();
 			var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
 			.Title("Choose what to update")
-			.AddChoices(new[] { "Name", "Start Date", "End Date", "Next of kin", "Abort" })
+			.AddChoices(new[] { "Name", "Start date", "End date", "Next of kin", "Abort" })
 			.UseConverter(s => s.ToUpperInvariant()));
 			if (menu2.Contains("Name"))
 			{
@@ -412,13 +406,13 @@ namespace CampSleepAwayAJA
 					camper.LastName = lastName;
 				}
 			}
-			else if (menu2.Contains("Start Date"))
+			else if (menu2.Contains("Start date"))
 			{
 				Console.WriteLine("Change start date");
 				DateTime startDate = ValidateDate("Enter new start date: ");
 				camper.StartDate = startDate;
 			}
-			else if (menu2.Contains("End Date"))
+			else if (menu2.Contains("End date"))
 			{
 				Console.WriteLine("Change end date");
 				DateTime endDate = ValidateDate("Enter new end date: ");
@@ -439,7 +433,7 @@ namespace CampSleepAwayAJA
 				var nextOfKin = camper.NextOfKin.FirstOrDefault(n => n.FirstName + " " + n.LastName == menu3);
 				var menu4 = AnsiConsole.Prompt(new SelectionPrompt<string>()
 				.Title("Choose what to update")
-				.AddChoices(new[] { "First Name", "Last Name", "Relation", "Address", "Phone Number", "Email", "Abort update" })
+				.AddChoices(new[] { "First name", "Last name", "Relation", "Address", "Phone number", "Email", "Abort update" })
 				.UseConverter(s => s.ToUpperInvariant()));
 				if (menu4.Contains("Name"))
 				{
@@ -606,7 +600,6 @@ namespace CampSleepAwayAJA
 			var cabins = new List<string[]>();
 
 			using var reader = new StreamReader(filePath);
-
 			// Read the header line
 			//var headerLine = reader.ReadLine();
 
@@ -669,7 +662,6 @@ namespace CampSleepAwayAJA
 							Role = "Counselor"
 						}
 					}
-
 				};
 				context.Cabins.Add(cabin);
 			}
@@ -737,17 +729,14 @@ namespace CampSleepAwayAJA
 				{
 					Console.WriteLine(ex.Message);
 					Console.ReadKey();
-
 				}
 			}
-
 		}
 		public static DateTime ValidateDate(string output)
 		{
 			string input = "";
 			while (true)
 			{
-
 				Console.WriteLine(output);
 				input = Console.ReadLine();
 				try
@@ -758,10 +747,8 @@ namespace CampSleepAwayAJA
 				{
 					Console.WriteLine(ex.Message);
 					Console.ReadKey();
-
 				}
 			}
-
 		}
 		public static void Settings()
 		{
@@ -780,9 +767,6 @@ namespace CampSleepAwayAJA
 			{
 				return;
 			}
-
 		}
 	}
 }
-
-
