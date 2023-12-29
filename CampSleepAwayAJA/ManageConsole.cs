@@ -181,7 +181,7 @@ namespace CampSleepAwayAJA
 							table.AddRow(new Rule(), new Rule(), new Rule(), new Rule(), new Rule());
 						}
 					}
-					AnsiConsole.Render(table);
+					AnsiConsole.Write(table);
 					Console.ReadLine();
 				}
 				else if (menu.Contains("CABINS"))
@@ -206,7 +206,7 @@ namespace CampSleepAwayAJA
 						table.AddRow(new Markup($"[blue]{row[0]}[/]"), new Markup($"[red]{row[1]}[/]"), campers);
 						table.AddRow(new Rule(), new Rule(), new Rule());
 					}
-					AnsiConsole.Render(table);
+					AnsiConsole.Write(table);
 					Console.ReadLine();
 				}
 				else if (menu.Contains("CAMPERS"))
@@ -222,6 +222,7 @@ namespace CampSleepAwayAJA
 					{
 						if (data[i][1] != "Not in a cabin")
 						{
+
 							table.AddRow(
 								new Markup($"[cyan]{data[i][0]}[/]"),
 								new Markup($"[green]{data[i][1]}[/]"),
@@ -243,7 +244,7 @@ namespace CampSleepAwayAJA
 							table.AddRow(new Rule(), new Rule(), new Rule(), new Rule());
 						}
 					}
-					AnsiConsole.Render(table);
+					AnsiConsole.Write(table);
 					Console.ReadLine();
 				}
 				else if (menu.Contains("BACK"))
