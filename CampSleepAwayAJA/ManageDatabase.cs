@@ -209,6 +209,7 @@ namespace CampSleepAwayAJA
 
 			var cabins = context.Cabins.Select(c => new { c.CabinID, c.CabinName }).ToDictionary(c => c.CabinID, c => c.CabinName);
 			List<string> choices = new();
+			
 
 			foreach (var c in cabins)
 			{
@@ -233,6 +234,12 @@ namespace CampSleepAwayAJA
 				Console.ReadKey();
 				return;
 			}
+			else if (cabin.Counselor == null)
+			{
+                Console.WriteLine("Cabin has no counselor.");
+                Console.ReadKey();
+                return;
+            }
 			var campers = context.Campers.Select(c => c.FullName).ToList();
 
 			var choices2 = campers.Concat(new[] { "Abort" });
