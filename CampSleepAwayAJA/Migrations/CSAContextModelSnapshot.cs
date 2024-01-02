@@ -30,7 +30,7 @@ namespace CampSleepAwayAJA.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CabinID"));
 
-                    b.Property<int?>("CabinCapacity")
+                    b.Property<int>("CabinCapacity")
                         .HasColumnType("int");
 
                     b.Property<string>("CabinName")
