@@ -599,7 +599,7 @@ namespace CampSleepAwayAJA
 			var counselors = new List<string[]>();
 			var cabins = new List<string[]>();
 
-			using var reader = new StreamReader(filePath);
+			using var reader = new StreamReader(filePath, System.Text.Encoding.UTF8, true);
 			// Read the header line
 			//var headerLine = reader.ReadLine();
 

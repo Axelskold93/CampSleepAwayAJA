@@ -1,24 +1,24 @@
-Erik,B�rsson,2023/12/19,2024/01/02;camper
-Lina,Larsson,2023/12/02,2023/12/27;camper
-Johan,Efternamnsson,2021/01/02,2024/01/02;camper
-John,Doe,1990/05/15,1995/08/20,camper
-Jane,Smith,1985/10/08,1992/12/31,camper
-Michael,Johnson,1978/03/22,1987/06/15,camper
-Emily,Williams,1992/09/05,1998/11/30,camper
-Daniel,Brown,1980/12/12,1989/04/18,camper
-Olivia,Miller,1975/06/28,1983/09/10,camper
-Christopher,Davis,1998/02/14,2005/07/25,camper
-Sophia,Anderson,1987/11/03,1994/04/09,camper
-Ethan,Moore,1995/07/19,2003/01/15,camper
-Ava,Taylor,1982/04/17,1990/10/22,camper
-Matthew,White,1970/08/08,1978/12/05,camper
-Emma,Hall,1993/01/30,1999/06/28,camper
+öErik,Börsson,2023/12/19,2024/01/02;camper
+öLina,Larsson,2023/12/02,2023/12/27;camper
+öJohan,Efternamnsson,2021/01/02,2024/01/02;camper
+öJohn,Doe,1990/05/15,1995/08/20,camper
+öJane,Smith,1985/10/08,1992/12/31,camper
+öMichael,Johnson,1978/03/22,1987/06/15,camper
+öEmily,Williams,1992/09/05,1998/11/30,camper
+öDaniel,Brown,1980/12/12,1989/04/18,camper
+öOlivia,Miller,1975/06/28,1983/09/10,camper
+öChristopher,Davis,1998/02/14,2005/07/25,camper
+öSophia,Anderson,1987/11/03,1994/04/09,camper
+öEthan,Moore,1995/07/19,2003/01/15,camper
+öAva,Taylor,1982/04/17,1990/10/22,camper
+öMatthew,White,1970/08/08,1978/12/05,camper
+öEmma,Hall,1993/01/30,1999/06/28,camper
 James,Clark,1988/06/11,1996/09/14,camper
 Isabella,Thomas,1973/09/24,1981/03/02,camper
 William,Wilson,1997/04/03,2004/08/09,camper
-B�rge,B�rsson,Grandad,�lstorp 2,070-6546546,B�rges�lartorp@example.com;nextofkin
+Börge,Börsson,Grandad,Ölstorp 2,070-6546546,Börgesölartorp@example.com;nextofkin
 Bob,Larsson,Dad,Gyttorp,0700052525,BobMekiskillen@example.com;nextofkin
-Greta,Efternamnsson,Mom,Arbogav�gen 32,070745326782,EldrarTrad@example.com;nextofkin
+Greta,Efternamnsson,Mom,Arbogavägen 32,070745326782,EldrarTrad@example.com;nextofkin
 Robert,Doe,Father,123 Main St,(555) 123-4567,robertdoe@email.com;nextofkin
 Linda,Smith,Mother,456 Oak Ave,(555) 987-6543,lindasmith@email.com;nextofkin
 Richard,Johnson,Grandfather,789 Pine Rd,(555) 234-5678,richardjohnson@email.com;nextofkin
@@ -28,7 +28,7 @@ Karen,Miller,Aunt,303 Cedar Rd,(555) 654-3210,karenmiller@email.com;nextofkin
 Andrew,Davis,Son,404 Birch St,(555) 789-0123,andrewdavis@email.com;nextofkin
 Melissa,Anderson,Daughter,505 Walnut Ave,(555) 210-9876,melissaanderson@email.com;nextofkin
 Steven,Moore,Grandson,606 Oak Rd,(555) 432-1098,stevenmoore@email.com;nextofkin
-Tom,Str�ng,NotFound 404,00031-743 20 00,@example.com;counselor
+Tom,Sträng,NotFound 404,00031-743 20 00,@example.com;counselor
 Sophie,Johnson,1414 Oak Ave,(555) 234-5678,sophiejohnson@email.com;counselor
 David,Anderson,1515 Elm Rd,(555) 432-1098,davidanderson@email.com;counselor
 Pineview,2023/01/15,2023/02/28,4;cabin
