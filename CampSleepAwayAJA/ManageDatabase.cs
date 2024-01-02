@@ -297,7 +297,7 @@ namespace CampSleepAwayAJA
 			choices.Concat(new[] { "Abort" });
 
 			var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
-				.Title("Choose cabin to add campers to")
+				.Title("Choose cabin to remove")
 				.AddChoices(choices)
 				.UseConverter(s => s.ToUpperInvariant()));
 			int choice = int.Parse(menu.Split(':').First());
