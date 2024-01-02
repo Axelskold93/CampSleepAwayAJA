@@ -13,7 +13,6 @@ namespace CampSleepAwayAJA
 		public DateTime EndDate { get; set; }
 		[Required]
 		public ICollection<NextOfKin>? NextOfKin { get; set; }
-
 		public Cabin Cabin { get; set; }
 		public int? CabinID { get; set; }
 	}

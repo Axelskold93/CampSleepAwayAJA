@@ -8,9 +8,12 @@ namespace CampSleepAwayAJA
 		{
 			while (true)
 			{
-				Console.Clear();
-				var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                Console.Clear();
+                DisplayHeader();
+
+                var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 					  .Title("MAIN MENU")
+					  .HighlightStyle(Color.Green3)
 					  .AddChoices(new[] { "MANAGE", "VIEW", "SETTINGS", "EXIT" })
 					  .UseConverter(s => s.ToUpperInvariant()));
 
@@ -37,9 +40,11 @@ namespace CampSleepAwayAJA
 			while (true)
 			{
 				Console.Clear();
-				var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                DisplayHeader();
+                var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 				  .Title("MANAGE MENU")
-				  .AddChoices(new[] { "COUNSELORS", "CABINS", "CAMPERS", "ADD CAMPER TO CABIN", "BACK" })
+				  .HighlightStyle(Color.Green3)
+                  .AddChoices(new[] { "COUNSELORS", "CABINS", "CAMPERS", "ADD CAMPER TO CABIN", "BACK" })
 				  .UseConverter(s => s.ToUpperInvariant()));
 
 				if (menu.Contains("COUNSELORS"))
@@ -69,10 +74,12 @@ namespace CampSleepAwayAJA
 			while (true)
 			{
 				Console.Clear();
-				var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                DisplayHeader();
+                var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 					  .Title("COUNSELOR MENU")
-					  .AddChoices(new[] { "ADD COUNSELOR", "UPDATE COUNSELOR", "REMOVE COUNSELOR", "BACK" })
-						.UseConverter(s => s.ToUpperInvariant()));
+                      .HighlightStyle(Color.Green3)
+                      .AddChoices(new[] { "ADD COUNSELOR", "UPDATE COUNSELOR", "REMOVE COUNSELOR", "BACK" })
+					  .UseConverter(s => s.ToUpperInvariant()));
 
 				if (menu.Contains("ADD COUNSELOR"))
 				{
@@ -97,9 +104,11 @@ namespace CampSleepAwayAJA
 			while (true)
 			{
 				Console.Clear();
-				var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                DisplayHeader();
+                var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 					  .Title("CABIN MENU")
-					  .AddChoices(new[] { "ADD CABIN", "UPDATE CABIN", "REMOVE CABIN", "BACK" })
+                      .HighlightStyle(Color.Green3)
+                      .AddChoices(new[] { "ADD CABIN", "UPDATE CABIN", "REMOVE CABIN", "BACK" })
 						.UseConverter(s => s.ToUpperInvariant()));
 
 				if (menu.Contains("ADD CABIN"))
@@ -125,9 +134,11 @@ namespace CampSleepAwayAJA
 			while (true)
 			{
 				Console.Clear();
-				var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                DisplayHeader();
+                var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 					   .Title("CAMPER MENU")
-					   .AddChoices(new[] { "ADD CAMPER", "REMOVE CAMPER", "UPDATE CAMPER", "BACK" })
+                       .HighlightStyle(Color.Green3)
+                       .AddChoices(new[] { "ADD CAMPER", "REMOVE CAMPER", "UPDATE CAMPER", "BACK" })
 						.UseConverter(s => s.ToUpperInvariant()));
 
 				if (menu.Contains("ADD CAMPER"))
@@ -153,9 +164,12 @@ namespace CampSleepAwayAJA
 			while (true)
 			{
 				Console.Clear();
-				var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                DisplayHeader();
+
+                var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 				  .Title("VIEW MENU")
-				  .AddChoices(new[] { "COUNSELORS", "CABINS", "CAMPERS", "BACK" })
+                  .HighlightStyle(Color.Green3)
+                  .AddChoices(new[] { "COUNSELORS", "CABINS", "CAMPERS", "BACK" })
 					.UseConverter(s => s.ToUpperInvariant()));
 
 				if (menu.Contains("COUNSELORS"))
@@ -181,7 +195,7 @@ namespace CampSleepAwayAJA
 							table.AddRow(new Rule(), new Rule(), new Rule(), new Rule(), new Rule());
 						}
 					}
-					AnsiConsole.Render(table);
+					AnsiConsole.Write(table);
 					Console.ReadLine();
 				}
 				else if (menu.Contains("CABINS"))
@@ -206,7 +220,7 @@ namespace CampSleepAwayAJA
 						table.AddRow(new Markup($"[blue]{row[0]}[/]"), new Markup($"[red]{row[1]}[/]"), campers);
 						table.AddRow(new Rule(), new Rule(), new Rule());
 					}
-					AnsiConsole.Render(table);
+					AnsiConsole.Write(table);
 					Console.ReadLine();
 				}
 				else if (menu.Contains("CAMPERS"))
@@ -244,7 +258,7 @@ namespace CampSleepAwayAJA
 							table.AddRow(new Rule(), new Rule(), new Rule(), new Rule());
 						}
 					}
-					AnsiConsole.Render(table);
+					AnsiConsole.Write(table);
 					Console.ReadLine();
 				}
 				else if (menu.Contains("BACK"))
@@ -253,5 +267,14 @@ namespace CampSleepAwayAJA
 				}
 			}
 		}
+		public static void DisplayHeader()
+		{
+            AnsiConsole.Write(
+                new FigletText("Camp Sleepaway")
+                    .LeftJustified()
+                    .Color(Color.Green3)
+                );
+			Console.WriteLine();
+        }
 	}
 }

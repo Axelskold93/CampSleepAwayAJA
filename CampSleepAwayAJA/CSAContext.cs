@@ -19,7 +19,6 @@ namespace CampSleepAwayAJA
 			.Build();
 
 			var connectionString = configuration.GetConnectionString("Local");
-
 			optionsBuilder.UseSqlServer(connectionString);
 		}
 	}
