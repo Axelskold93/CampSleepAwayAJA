@@ -174,99 +174,111 @@ namespace CampSleepAwayAJA
 
 				if (menu.Contains("COUNSELORS"))
 				{
-					var data = ManageDatabase.ViewCounselors();
-					Table table = new();
-					string[] headers = { "FIRST NAME", "LAST NAME", "ADDRESS", "PHONE NUMBER", "EMAIL" };
-					table.Title("COUNSELOR VIEW", new Style(Color.Red, Color.Black, Decoration.Bold))
-						.AddColumns(headers)
-						.Border(TableBorder.Rounded)
-						.Expand();
-					for (int i = 0; i < data.Count(); i++)
-					{
-						table.AddRow(
-							new Markup($"[blue]{data[i][0]}[/]"),
-							new Markup($"[blue]{data[i][1]}[/]"),
-							new Markup($"[cyan]{data[i][2]}[/]"),
-							new Markup($"[yellow]{data[i][3]}[/]"),
-							new Markup($"[green]{data[i][4]}[/]")
-							);
-						if (i != data.Count() - 1)
-						{
-							table.AddRow(new Rule(), new Rule(), new Rule(), new Rule(), new Rule());
-						}
-					}
-					AnsiConsole.Write(table);
-					Console.ReadLine();
-				}
+					DisplayCounslorTable();
+                }
 				else if (menu.Contains("CABINS"))
 				{
-					var data = ManageDatabase.ViewCabins();
-					Table table = new();
-					string[] headers = { "CABIN NAME", "COUNSELOR NAME", "CAMPERS" };
-					table.Title("CABIN VIEW", new Style(Color.Red, Color.Black, Decoration.Bold))
-						.AddColumns(headers)
-						.Border(TableBorder.DoubleEdge)
-						.Width(1000);
-					foreach (var row in data)
-					{
-						List<string> camp = new();
-						Table campers = new();
-						campers.AddColumn("").HideHeaders().NoBorder();
-						for (int i = 2; i < row.Count(); i++)
-						{
-							campers.AddRow(new Markup($"[Yellow]{row[i]}[/]"));
-							campers.AddRow(new Rule());
-						}
-						table.AddRow(new Markup($"[blue]{row[0]}[/]"), new Markup($"[red]{row[1]}[/]"), campers);
-						table.AddRow(new Rule(), new Rule(), new Rule());
-					}
-					AnsiConsole.Write(table);
-					Console.ReadLine();
-				}
+					DisplayCabinsTable();
+                }
 				else if (menu.Contains("CAMPERS"))
 				{
-					var data = ManageDatabase.ViewCampers();
-					Table table = new();
-					string[] headers = { "FULL NAME", "CABIN NAME", "ARRIVAL DATE", "DEPARTURE DATE" };
-					table.Title("COUNSELOR VIEW", new Style(Color.Red, Color.Black, Decoration.Bold))
-						.AddColumns(headers)
-						.Border(TableBorder.Rounded)
-						.Width(1000);
-					for (int i = 0; i < data.Count(); i++)
-					{
-						if (data[i][1] != "Not in a cabin")
-						{
-
-							table.AddRow(
-								new Markup($"[cyan]{data[i][0]}[/]"),
-								new Markup($"[green]{data[i][1]}[/]"),
-								new Markup($"[yellow]{data[i][2]}[/]"),
-								new Markup($"[red]{data[i][3]}[/]")
-								);
-						}
-						else
-						{
-							table.AddRow(
-								new Markup($"[cyan]{data[i][0]}[/]"),
-								new Markup($"[red]{data[i][1]}[/]"),
-								new Markup($"[red]{data[i][2]}[/]"),
-								new Markup($"[red]{data[i][3]}[/]")
-								);
-						}
-						if (i != data.Count() - 1)
-						{
-							table.AddRow(new Rule(), new Rule(), new Rule(), new Rule());
-						}
-					}
-					AnsiConsole.Write(table);
-					Console.ReadLine();
-				}
+					DisplayCamperTable();
+                }
 				else if (menu.Contains("BACK"))
 				{
 					break;
 				}
 			}
 		}
+		private static void DisplayCounslorTable()
+		{
+            var data = ManageDatabase.ViewCounselors();
+            Table table = new();
+            string[] headers = { "FIRST NAME", "LAST NAME", "ADDRESS", "PHONE NUMBER", "EMAIL" };
+            table.Title("COUNSELOR VIEW", new Style(Color.Red, Color.Black, Decoration.Bold))
+                .AddColumns(headers)
+                .Border(TableBorder.Rounded)
+                .Expand();
+            for (int i = 0; i < data.Count(); i++)
+            {
+                table.AddRow(
+                    new Markup($"[blue]{data[i][0]}[/]"),
+                    new Markup($"[blue]{data[i][1]}[/]"),
+                    new Markup($"[cyan]{data[i][2]}[/]"),
+                    new Markup($"[yellow]{data[i][3]}[/]"),
+                    new Markup($"[green]{data[i][4]}[/]")
+                    );
+                if (i != data.Count() - 1)
+                {
+                    table.AddRow(new Rule(), new Rule(), new Rule(), new Rule(), new Rule());
+                }
+            }
+            AnsiConsole.Write(table);
+            Console.ReadLine();
+        }
+		private static void DisplayCabinsTable()
+		{
+            var data = ManageDatabase.ViewCabins();
+            Table table = new();
+            string[] headers = { "CABIN NAME", "COUNSELOR NAME", "CAMPERS" };
+            table.Title("CABIN VIEW", new Style(Color.Red, Color.Black, Decoration.Bold))
+                .AddColumns(headers)
+                .Border(TableBorder.DoubleEdge)
+                .Width(1000);
+            foreach (var row in data)
+            {
+                List<string> camp = new();
+                Table campers = new();
+                campers.AddColumn("").HideHeaders().NoBorder();
+                for (int i = 2; i < row.Count(); i++)
+                {
+                    campers.AddRow(new Markup($"[Yellow]{row[i]}[/]"));
+                    campers.AddRow(new Rule());
+                }
+                table.AddRow(new Markup($"[blue]{row[0]}[/]"), new Markup($"[red]{row[1]}[/]"), campers);
+                table.AddRow(new Rule(), new Rule(), new Rule());
+            }
+            AnsiConsole.Write(table);
+            Console.ReadLine();
+        }
+		private static void DisplayCamperTable()
+		{
+            var data = ManageDatabase.ViewCampers();
+            Table table = new();
+            string[] headers = { "FULL NAME", "CABIN NAME", "ARRIVAL DATE", "DEPARTURE DATE" };
+            table.Title("CAMPER VIEW", new Style(Color.Red, Color.Black, Decoration.Bold))
+                .AddColumns(headers)
+                .Border(TableBorder.Rounded)
+                .Width(1000);
+            for (int i = 0; i < data.Count(); i++)
+            {
+                if (data[i][1] != "Not in a cabin")
+                {
+
+                    table.AddRow(
+                        new Markup($"[cyan]{data[i][0]}[/]"),
+                        new Markup($"[green]{data[i][1]}[/]"),
+                        new Markup($"[yellow]{data[i][2]}[/]"),
+                        new Markup($"[red]{data[i][3]}[/]")
+                        );
+                }
+                else
+                {
+                    table.AddRow(
+                        new Markup($"[cyan]{data[i][0]}[/]"),
+                        new Markup($"[red]{data[i][1]}[/]"),
+                        new Markup($"[red]{data[i][2]}[/]"),
+                        new Markup($"[red]{data[i][3]}[/]")
+                        );
+                }
+                if (i != data.Count() - 1)
+                {
+                    table.AddRow(new Rule(), new Rule(), new Rule(), new Rule());
+                }
+            }
+            AnsiConsole.Write(table);
+            Console.ReadLine();
+        }
 		public static void DisplayHeader()
 		{
             AnsiConsole.Write(
