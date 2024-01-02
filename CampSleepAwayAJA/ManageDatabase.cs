@@ -560,15 +560,17 @@ namespace CampSleepAwayAJA
 		{
 			List<List<string>> output = new();
 			using var context = new CSAContext();
-			var counselor = context.Campers.Include(c => c.Cabin)
+			var campers = context.Campers.Include(c => c.Cabin).Include(n => n.NextOfKin)
 				.Select(c => new
 				{
 					c.FullName,
 					c.Cabin.CabinName,
 					c.StartDate,
 					c.EndDate,
+					c.NextOfKin
 				}).ToList();
-			foreach (var c in counselor)
+
+            foreach (var c in campers)
 			{
 				List<string> list =
 				[
@@ -577,7 +579,11 @@ namespace CampSleepAwayAJA
 					DateOnly.FromDateTime(c.StartDate).ToString(),
 					DateOnly.FromDateTime(c.EndDate).ToString(),
 				];
-				output.Add(list);
+                foreach (var k in c.NextOfKin)
+                {
+                    list.Add(k.FullName);
+                }
+                output.Add(list);
 			}
 			Console.WriteLine();
 			return output;

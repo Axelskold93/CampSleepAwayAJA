@@ -184,7 +184,7 @@ namespace CampSleepAwayAJA
 				{
 					DisplayCamperTable();
                 }
-				else if (menu.Contains("BACK"))
+                else if (menu.Contains("BACK"))
 				{
 					break;
 				}
@@ -245,13 +245,23 @@ namespace CampSleepAwayAJA
 		{
             var data = ManageDatabase.ViewCampers();
             Table table = new();
-            string[] headers = { "FULL NAME", "CABIN NAME", "ARRIVAL DATE", "DEPARTURE DATE" };
+            string[] headers = { "FULL NAME", "CABIN NAME", "ARRIVAL DATE", "DEPARTURE DATE", "NEXT OF KIN" };
             table.Title("CAMPER VIEW", new Style(Color.Red, Color.Black, Decoration.Bold))
                 .AddColumns(headers)
                 .Border(TableBorder.Rounded)
                 .Width(1000);
             for (int i = 0; i < data.Count(); i++)
             {
+                Table nextOfKin = new();
+                nextOfKin.AddColumn("").HideHeaders().NoBorder();
+                for (int j = 4; j < data[i].Count(); j++)
+                {
+                    nextOfKin.AddRow(new Markup($"[Yellow]{data[i][j]}[/]"));
+                    if (j != data[i].Count() - 1)
+					{
+                        nextOfKin.AddRow(new Rule());
+					}
+                }
                 if (data[i][1] != "Not in a cabin")
                 {
 
@@ -259,7 +269,8 @@ namespace CampSleepAwayAJA
                         new Markup($"[cyan]{data[i][0]}[/]"),
                         new Markup($"[green]{data[i][1]}[/]"),
                         new Markup($"[yellow]{data[i][2]}[/]"),
-                        new Markup($"[red]{data[i][3]}[/]")
+                        new Markup($"[red]{data[i][3]}[/]"),
+						nextOfKin
                         );
                 }
                 else
@@ -268,18 +279,19 @@ namespace CampSleepAwayAJA
                         new Markup($"[cyan]{data[i][0]}[/]"),
                         new Markup($"[red]{data[i][1]}[/]"),
                         new Markup($"[red]{data[i][2]}[/]"),
-                        new Markup($"[red]{data[i][3]}[/]")
+                        new Markup($"[red]{data[i][3]}[/]"),
+                        nextOfKin
                         );
                 }
                 if (i != data.Count() - 1)
                 {
-                    table.AddRow(new Rule(), new Rule(), new Rule(), new Rule());
+                    table.AddRow(new Rule(), new Rule(), new Rule(), new Rule(), new Rule());
                 }
             }
             AnsiConsole.Write(table);
             Console.ReadLine();
         }
-		public static void DisplayHeader()
+        public static void DisplayHeader()
 		{
             AnsiConsole.Write(
                 new FigletText("Camp Sleepaway")
