@@ -13,5 +13,10 @@ namespace CampSleepAwayAJA
 		public string EmailAddress { get; set; }
 		[Required]
 		public string Role { get; set; }
+
+		public Counselor? Counselor { get; set; }
+		public int? CounslerId { get; set; }
+		public NextOfKin? nextOfKin { get; set; }
+		public int? NextOfKin { get; set; }
 	}
 }

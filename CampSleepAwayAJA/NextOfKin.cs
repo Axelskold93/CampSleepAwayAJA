@@ -10,6 +10,7 @@ namespace CampSleepAwayAJA
 		public int NextOfKinID { get; set; }
 		public string Relation { get; set; }
 		public Camper Camper { get; set; }
+		[ForeignKey("ContactInfoId")]
 		public ContactInfo ContactInfo { get; set; }
 	}
 }
