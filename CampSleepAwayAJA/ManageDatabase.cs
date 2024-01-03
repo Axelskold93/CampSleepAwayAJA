@@ -765,7 +765,7 @@ namespace CampSleepAwayAJA
 			if (menu.Contains("ADD SEED DATA"))
 			{
 				string filePath = "seedData.csv";
-				ReadCSV(filePath);
+                ImportCampDataFromCSV(filePath);
 				Console.WriteLine("Database seeded.");
 				Console.ReadKey();
 			}
