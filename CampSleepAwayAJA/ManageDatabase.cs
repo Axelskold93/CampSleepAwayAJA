@@ -588,7 +588,7 @@ namespace CampSleepAwayAJA
 			Console.WriteLine();
 			return output;
 		}
-		public static void ReadCSV(string filePath)
+		public static void ImportCampDataFromCSV(string filePath)
 		{
 			/* Format for csv:
              * FirstName,Lastname,startdate(yyyy/mm/dd),endDate(yyyy/mm/dd);camper
