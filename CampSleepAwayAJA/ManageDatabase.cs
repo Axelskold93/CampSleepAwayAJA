@@ -606,8 +606,6 @@ namespace CampSleepAwayAJA
 			var cabins = new List<string[]>();
 
 			using var reader = new StreamReader(filePath, System.Text.Encoding.UTF8, true);
-			// Read the header line
-			//var headerLine = reader.ReadLine();
 
 			//Read csv file and sort values to each category
 			while (!reader.EndOfStream)
