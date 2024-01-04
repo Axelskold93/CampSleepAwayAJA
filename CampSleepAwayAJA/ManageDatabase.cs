@@ -625,7 +625,7 @@ namespace CampSleepAwayAJA
 			Console.WriteLine();
 			return output;
 		}
-		public static void DisplayCampersNextOfKin()
+		public static void ViewNextOfKin()
 		{
 
 		}
