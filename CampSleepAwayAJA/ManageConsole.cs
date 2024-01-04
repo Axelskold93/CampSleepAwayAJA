@@ -31,7 +31,11 @@ namespace CampSleepAwayAJA
 				}
 				else if (menu.Contains("EXIT"))
 				{
+					Console.Clear();
+					Console.Write(boat);
+					
 					Environment.Exit(0);
+					
 				}
 			}
 		}
@@ -333,5 +337,25 @@ namespace CampSleepAwayAJA
                 );
 			Console.WriteLine();
         }
-	}
+        public static string boat = @"
+           ____
+              ---|
+  \/            /|     \/
+               / |\
+              /  | \        \/
+             /   || \
+            /    | | \
+           /     | |  \
+          /      | |   \
+         /       ||     \
+        /        /       \
+       /________/         \
+       ________/__________--/
+ ~~~   \___________________/
+         ~~~~~~~~~~       ~~~~~~~~
+~~~~~~~~~~~~~     ~~~~~~~~~
+                               ~~~~~~~~~
+
+";
+    }
 }
