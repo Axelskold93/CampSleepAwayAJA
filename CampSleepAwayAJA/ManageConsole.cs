@@ -138,20 +138,20 @@ namespace CampSleepAwayAJA
                 var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 					   .Title("CAMPER MENU")
                        .HighlightStyle(Color.Green3)
-                       .AddChoices(new[] { "ADD CAMPER", "REMOVE CAMPER", "UPDATE CAMPER", "BACK" })
+                       .AddChoices(new[] { "ADD CAMPER", "UPDATE CAMPER", "REMOVE CAMPER", "BACK" })
 						.UseConverter(s => s.ToUpperInvariant()));
 
 				if (menu.Contains("ADD CAMPER"))
 				{
 					ManageDatabase.AddCamper();
 				}
-				else if (menu.Contains("REMOVE CAMPER"))
+                else if (menu.Contains("UPDATE CAMPER"))
+                {
+                    ManageDatabase.UpdateCamper();
+                }
+                else if (menu.Contains("REMOVE CAMPER"))
 				{
 					ManageDatabase.RemoveCamper();
-				}
-				else if (menu.Contains("UPDATE CAMPER"))
-				{
-					ManageDatabase.UpdateCamper();
 				}
 				else if (menu.Contains("BACK"))
 				{
@@ -199,18 +199,18 @@ namespace CampSleepAwayAJA
             var data = ManageDatabase.ViewCounselors();
             Table table = new();
             string[] headers = { "FIRST NAME", "LAST NAME", "ADDRESS", "PHONE NUMBER", "EMAIL" };
-            table.Title("COUNSELOR VIEW", new Style(Color.Red, Color.Black, Decoration.Bold))
+            table.Title("COUNSELOR VIEW", new Style(Color.Green, Color.Black, Decoration.Bold))
                 .AddColumns(headers)
                 .Border(TableBorder.Rounded)
                 .Expand();
             for (int i = 0; i < data.Count(); i++)
             {
                 table.AddRow(
-                    new Markup($"[blue]{data[i][0]}[/]"),
-                    new Markup($"[blue]{data[i][1]}[/]"),
-                    new Markup($"[cyan]{data[i][2]}[/]"),
-                    new Markup($"[yellow]{data[i][3]}[/]"),
-                    new Markup($"[green]{data[i][4]}[/]")
+                    new Markup($"[grey89]{data[i][0]}[/]"),
+                    new Markup($"[grey89]{data[i][1]}[/]"),
+                    new Markup($"[steelblue3]{data[i][2]}[/]"),
+                    new Markup($"[skyblue1]{data[i][3]}[/]"),
+                    new Markup($"[steelblue3]{data[i][4]}[/]")
                     );
                 if (i != data.Count() - 1)
                 {
@@ -225,7 +225,7 @@ namespace CampSleepAwayAJA
             var data = ManageDatabase.ViewCabins();
             Table table = new();
             string[] headers = { "CABIN NAME", "COUNSELOR NAME", "CAMPERS" };
-            table.Title("CABIN VIEW", new Style(Color.Red, Color.Black, Decoration.Bold))
+            table.Title("CABIN VIEW", new Style(Color.Green, Color.Black, Decoration.Bold))
                 .AddColumns(headers)
                 .Border(TableBorder.DoubleEdge)
                 .Width(1000);
