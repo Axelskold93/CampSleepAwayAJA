@@ -270,6 +270,7 @@ namespace CampSleepAwayAJA
 					}
                 }
                 string arrivalColor = GetDateColor(data[i][2]);
+				string departureColor = GetDateColor(data[i][3], true);
                 if (data[i][1] != "Not in a cabin")
                 {
 
@@ -277,7 +278,7 @@ namespace CampSleepAwayAJA
                         new Markup($"[grey89]{data[i][0]}[/]"),
                         new Markup($"[green]{data[i][1]}[/]"),
                         new Markup($"[{arrivalColor}]{data[i][2]}[/]"),
-                        new Markup($"[red]{data[i][3]}[/]"),
+                        new Markup($"[{departureColor}]{data[i][3]}[/]"),
 						nextOfKin
                         );
                 }
@@ -287,7 +288,7 @@ namespace CampSleepAwayAJA
                         new Markup($"[grey70]{data[i][0]}[/]"),
                         new Markup($"[red]{data[i][1]}[/]"),
                         new Markup($"[{arrivalColor}]{data[i][2]}[/]"),
-                        new Markup($"[red]{data[i][3]}[/]"),
+                        new Markup($"[{departureColor}]{data[i][3]}[/]"),
                         nextOfKin
                         );
                 }
@@ -299,18 +300,18 @@ namespace CampSleepAwayAJA
             AnsiConsole.Write(table);
             Console.ReadLine();
         }
-		private static string GetDateColor(string date)
+		private static string GetDateColor(string date, bool alt = false)
 		{
 			string arrivalColor;
 			try
 			{
                 if (DateTime.Parse(date) <= DateTime.Now)
                 {
-                    arrivalColor = "green";
+                    arrivalColor = alt ?  "red" : "green";
                 }
                 else
                 {
-                    arrivalColor = "yellow";
+                    arrivalColor = alt ? "yellow" : "yellow";
                 }
 				return arrivalColor;
             }
