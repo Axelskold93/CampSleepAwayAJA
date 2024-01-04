@@ -225,18 +225,25 @@ namespace CampSleepAwayAJA
                 .AddColumns(headers)
                 .Border(TableBorder.DoubleEdge)
                 .Width(1000);
-            foreach (var row in data)
+            for (int i = 0; i < data.Count(); i++)
             {
                 List<string> camp = new();
                 Table campers = new();
                 campers.AddColumn("").HideHeaders().NoBorder();
-                for (int i = 2; i < row.Count(); i++)
+                for (int j = 2; j < data[i].Count(); j++)
                 {
-                    campers.AddRow(new Markup($"[Yellow]{row[i]}[/]"));
-                    campers.AddRow(new Rule());
+                    campers.AddRow(new Markup($"[Yellow]{data[i][j]}[/]"));
+					if (j != data[i].Count() - 1)
+					{
+						campers.AddRow(new Rule());
+					}
                 }
-                table.AddRow(new Markup($"[blue]{row[0]}[/]"), new Markup($"[red]{row[1]}[/]"), campers);
-                table.AddRow(new Rule(), new Rule(), new Rule());
+                table.AddRow(new Markup($"[blue]{data[i][0]}[/]"), new Markup($"[red]{data[i][1]}[/]"), campers);
+                if (i != data.Count() - 1)
+                {
+                    table.AddRow(new Rule(), new Rule(), new Rule());
+                }
+                
             }
             AnsiConsole.Write(table);
             Console.ReadLine();
@@ -246,7 +253,7 @@ namespace CampSleepAwayAJA
             var data = ManageDatabase.ViewCampers();
             Table table = new();
             string[] headers = { "FULL NAME", "CABIN NAME", "ARRIVAL DATE", "DEPARTURE DATE", "NEXT OF KIN" };
-            table.Title("CAMPER VIEW", new Style(Color.Red, Color.Black, Decoration.Bold))
+            table.Title("CAMPER VIEW", new Style(Color.Green, Color.Black, Decoration.Bold))
                 .AddColumns(headers)
                 .Border(TableBorder.Rounded)
                 .Width(1000);
@@ -262,8 +269,7 @@ namespace CampSleepAwayAJA
                         nextOfKin.AddRow(new Rule());
 					}
                 }
-                string arrivalColor = GetArrivalColor(data[i][2]);
-                
+                string arrivalColor = GetDateColor(data[i][2]);
                 if (data[i][1] != "Not in a cabin")
                 {
 
@@ -293,7 +299,7 @@ namespace CampSleepAwayAJA
             AnsiConsole.Write(table);
             Console.ReadLine();
         }
-		private static string GetArrivalColor(string date)
+		private static string GetDateColor(string date)
 		{
 			string arrivalColor;
 			try
