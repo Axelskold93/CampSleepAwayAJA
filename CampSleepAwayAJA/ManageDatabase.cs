@@ -799,7 +799,8 @@ namespace CampSleepAwayAJA
 		{
 			var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 				.Title("")
-				.AddChoices(new[] { "ADD SEED DATA", "BACK" })
+                .HighlightStyle(Color.Green3)
+                .AddChoices(new[] { "ADD SEED DATA", "BACK" })
 				.UseConverter(s => s.ToUpperInvariant()));
 			if (menu.Contains("ADD SEED DATA"))
 			{
