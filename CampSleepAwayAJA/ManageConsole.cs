@@ -190,7 +190,7 @@ namespace CampSleepAwayAJA
                 }
 				else if (menu.Contains("NEXT OF KIN"))
 				{
-					//DisplayNextOfKinInfo();
+					DisplayNextOfKinInfo();
 				}
                 else if (menu.Contains("BACK"))
 				{
@@ -202,7 +202,7 @@ namespace CampSleepAwayAJA
 		{
             var data = ManageDatabase.ViewCounselors();
             Table table = new();
-            string[] headers = { "FIRST NAME", "LAST NAME", "ADDRESS", "PHONE NUMBER", "EMAIL" };
+            string[] headers = { "FIRST NAME", "LAST NAME", "ADDRESS", "PHONE NUMBER", "E-MAIL" };
             table.Title("COUNSELOR VIEW", new Style(Color.Green, Color.Black, Decoration.Bold))
                 .AddColumns(headers)
                 .Border(TableBorder.Rounded)
@@ -303,6 +303,46 @@ namespace CampSleepAwayAJA
                 if (i != data.Count() - 1)
                 {
                     table.AddRow(new Rule(), new Rule(), new Rule(), new Rule(), new Rule());
+                }
+            }
+            AnsiConsole.Write(table);
+            Console.ReadLine();
+        }
+        private static void DisplayNextOfKinInfo()
+        {
+            var data = ManageDatabase.ViewNextOfKin();
+            List<string> campers = new();
+            foreach (var c in data)
+            {
+                campers.Add(c[0]);
+            }
+            campers = campers.Distinct().ToList();
+            var camperChoice = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                  .Title("WHOS NEXT OF KIN WOULD YOU LIKE TO VIEW?")
+                  .HighlightStyle(Color.Green3)
+                  .AddChoices(campers)
+                    .UseConverter(s => s.ToUpperInvariant()));
+            List<List<string>> displayData = data.Where(c => c[0] == camperChoice).ToList();
+            Console.WriteLine();
+            Table table = new();
+            string[] headers = { "NEXT OF KIN NAME", "RELATION", "CAMPER NAME", "ADRESS", "PHONE NUMBER", "E-MAIL" };
+            table.Title("NEXT OF KIN VIEW", new Style(Color.Green, Color.Black, Decoration.Bold))
+                .AddColumns(headers)
+                .Border(TableBorder.Rounded)
+                .Width(1000);
+            for (int i = 0; i < displayData.Count(); i++)
+            {
+                table.AddRow(
+                        new Markup($"[grey70]{displayData[i][1]}[/]"),
+                        new Markup($"[red]{displayData[i][2]}[/]"),
+                        new Markup($"[purple]{displayData[i][0]}[/]"),
+                        new Markup($"[orangered1]{displayData[i][3]}[/]"),
+                        new Markup($"[orangered1]{displayData[i][4]}[/]"),
+                        new Markup($"[orangered1]{displayData[i][5]}[/]")
+                        );
+                if (i != displayData.Count() - 1)
+                {
+                    table.AddRow(new Rule(), new Rule(), new Rule(), new Rule(), new Rule(), new Rule());
                 }
             }
             AnsiConsole.Write(table);
