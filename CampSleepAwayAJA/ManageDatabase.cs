@@ -39,9 +39,13 @@ namespace CampSleepAwayAJA
 			var choices = counselors.Concat(new[] { "Back" });
 			var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 				.Title("Choose counselor to update")
-				.AddChoices(choices)
+                .HighlightStyle(Color.Green3)
+                .AddChoices(choices)
 				.UseConverter(s => s.ToUpperInvariant()));
-			var counselor = context.Counselors.Include(c => c.ContactInfo).Where(c => c.FirstName + " " + c.LastName == menu).FirstOrDefault();
+			var counselor = context.Counselors
+				.Include(c => c.ContactInfo)
+				.Where(c => c.FirstName + " " + c.LastName == menu)
+				.FirstOrDefault();
 			if (counselors.Count() == 0)
 			{
 				Console.WriteLine("No counselors available.");
@@ -88,27 +92,34 @@ namespace CampSleepAwayAJA
 		{
 			using var context = new CSAContext();
 			var counselors = context.Counselors.Select(c => c.FullName).ToList();
-			var choices = counselors.Concat(new[] { "Back" });
-			var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+            if (counselors.Count() == 0)
+            {
+                Console.WriteLine("No counselors available.");
+                Console.ReadKey();
+                return;
+            }
+            var choices = counselors.Concat(new[] { "Back" });
+            var counselorChoice = AnsiConsole.Prompt(new SelectionPrompt<string>()
 				.Title("Choose counselor to remove")
 				.AddChoices(choices)
-				.UseConverter(s => s.ToUpperInvariant()));
-			var counselor = context.Counselors.Where(c => c.FirstName + " " + c.LastName == menu).FirstOrDefault();
-			if (counselors.Count() == 0)
+                .HighlightStyle(Color.Red3_1)
+                .UseConverter(s => s.ToUpperInvariant()));
+			var counselor = context.Counselors.Where(c => c.FirstName + " " + c.LastName == counselorChoice).FirstOrDefault();
+			
+			if (counselorChoice == "Back")
 			{
-				Console.WriteLine("No counselors available.");
-				Console.ReadKey();
 				return;
 			}
-			var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
+			var choice = AnsiConsole.Prompt(new SelectionPrompt<string>()
 				.Title("Are you sure you want to remove this counselor?")
-				.AddChoices(new[] { "Yes", "No" })
+                .HighlightStyle(Color.Green3)
+                .AddChoices(new[] { "Yes", "No" })
 				.UseConverter(s => s.ToUpperInvariant()));
-			if (menu2.Contains("No"))
+			if (choice.Contains("No"))
 			{
 				return;
 			}
-			else if (menu2.Contains("Yes"))
+			else if (choice.Contains("Yes"))
 			{
 				var cabins = context.Cabins.Where(c => c.CounselorID == counselor.CounselorID);
 				foreach (var cabin in cabins)
