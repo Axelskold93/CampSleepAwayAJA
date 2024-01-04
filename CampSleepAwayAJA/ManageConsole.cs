@@ -316,6 +316,12 @@ namespace CampSleepAwayAJA
             {
                 campers.Add(c[0]);
             }
+            if (campers.Count == 0) 
+            {
+                AnsiConsole.Write(new Markup($"[red3_1]Could not find any campers![/]"));
+                Console.ReadLine();
+                return;
+            }
             campers = campers.Distinct().ToList();
             var camperChoice = AnsiConsole.Prompt(new SelectionPrompt<string>()
                   .Title("WHOS NEXT OF KIN WOULD YOU LIKE TO VIEW?")
