@@ -256,19 +256,21 @@ namespace CampSleepAwayAJA
                 nextOfKin.AddColumn("").HideHeaders().NoBorder();
                 for (int j = 4; j < data[i].Count(); j++)
                 {
-                    nextOfKin.AddRow(new Markup($"[Yellow]{data[i][j]}[/]"));
+                    nextOfKin.AddRow(new Markup($"[orangered1]{data[i][j]}[/]"));
                     if (j != data[i].Count() - 1)
 					{
                         nextOfKin.AddRow(new Rule());
 					}
                 }
+                string arrivalColor = GetArrivalColor(data[i][2]);
+                
                 if (data[i][1] != "Not in a cabin")
                 {
 
                     table.AddRow(
-                        new Markup($"[cyan]{data[i][0]}[/]"),
+                        new Markup($"[grey89]{data[i][0]}[/]"),
                         new Markup($"[green]{data[i][1]}[/]"),
-                        new Markup($"[yellow]{data[i][2]}[/]"),
+                        new Markup($"[{arrivalColor}]{data[i][2]}[/]"),
                         new Markup($"[red]{data[i][3]}[/]"),
 						nextOfKin
                         );
@@ -276,9 +278,9 @@ namespace CampSleepAwayAJA
                 else
                 {
                     table.AddRow(
-                        new Markup($"[cyan]{data[i][0]}[/]"),
+                        new Markup($"[grey70]{data[i][0]}[/]"),
                         new Markup($"[red]{data[i][1]}[/]"),
-                        new Markup($"[red]{data[i][2]}[/]"),
+                        new Markup($"[{arrivalColor}]{data[i][2]}[/]"),
                         new Markup($"[red]{data[i][3]}[/]"),
                         nextOfKin
                         );
@@ -290,6 +292,26 @@ namespace CampSleepAwayAJA
             }
             AnsiConsole.Write(table);
             Console.ReadLine();
+        }
+		private static string GetArrivalColor(string date)
+		{
+			string arrivalColor;
+			try
+			{
+                if (DateTime.Parse(date) <= DateTime.Now)
+                {
+                    arrivalColor = "green";
+                }
+                else
+                {
+                    arrivalColor = "yellow";
+                }
+				return arrivalColor;
+            }
+			catch
+			{
+				return "red";
+			}
         }
         public static void DisplayHeader()
 		{
