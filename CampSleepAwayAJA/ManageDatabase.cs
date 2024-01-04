@@ -220,7 +220,12 @@ namespace CampSleepAwayAJA
 
 			var cabins = context.Cabins.Select(c => new { c.CabinID, c.CabinName }).ToDictionary(c => c.CabinID, c => c.CabinName);
 			List<string> cabinChoices = new();
-
+			if (cabins.Count() == 0)
+			{
+				Console.WriteLine("No cabins available.");
+				Console.ReadKey();
+				return;
+			}
 			foreach (var c in cabins)
 			{
 				cabinChoices.Add($"{c.Key.ToString()}: {c.Value.ToString()}");
@@ -235,6 +240,7 @@ namespace CampSleepAwayAJA
 				.UseConverter(s => s.ToUpperInvariant()));
 			int choice = int.Parse(cabinChoice.Split(':').First());
 			var cabin = context.Cabins.Include(c => c.Campers).FirstOrDefault(c => c.CabinID == choice);
+			
 			if (cabinChoice.Contains("Abort"))
 			{
 				return;
