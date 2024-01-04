@@ -37,50 +37,50 @@ namespace CampSleepAwayAJA
 			using var context = new CSAContext();
 			var counselors = context.Counselors.Select(c => c.FullName).ToList();
 			var choices = counselors.Concat(new[] { "Back" });
-			var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
+			var counselorChoice = AnsiConsole.Prompt(new SelectionPrompt<string>()
 				.Title("Choose counselor to update")
                 .HighlightStyle(Color.Green3)
                 .AddChoices(choices)
 				.UseConverter(s => s.ToUpperInvariant()));
 			var counselor = context.Counselors
 				.Include(c => c.ContactInfo)
-				.Where(c => c.FirstName + " " + c.LastName == menu)
+				.Where(c => c.FirstName + " " + c.LastName == counselorChoice)
 				.FirstOrDefault();
 			if (counselors.Count() == 0)
 			{
 				Console.WriteLine("No counselors available.");
 			}
-			else if (menu.Contains("Back"))
+			else if (counselorChoice.Contains("Back"))
 			{
 				return;
 			}
-			var menu2 = AnsiConsole.Prompt(new SelectionPrompt<string>()
+			var choice = AnsiConsole.Prompt(new SelectionPrompt<string>()
 				.Title("Choose what to update")
 				.AddChoices(new[] { "Name", "Address", "Phone number", "Email", "Abort" })
 				.UseConverter(s => s.ToUpperInvariant()));
-			if (menu2.Contains("Name"))
+			if (choice.Contains("Name"))
 			{
 				string firstName = ValidateString("Enter new first name: ");
 				string lastName = ValidateString("Enter new last name: ");
 				counselor.FirstName = firstName;
 				counselor.LastName = lastName;
 			}
-			else if (menu2.Contains("Address"))
+			else if (choice.Contains("Address"))
 			{
 				string address = ValidateString("Enter new address: ");
 				counselor.ContactInfo.Address = address;
 			}
-			else if (menu2.Contains("Phone number"))
+			else if (choice.Contains("Phone number"))
 			{
 				string phoneNumber = ValidateString("Enter new phone number: ");
 				counselor.ContactInfo.PhoneNumber = phoneNumber;
 			}
-			else if (menu2.Contains("Email"))
+			else if (choice.Contains("Email"))
 			{
 				string email = ValidateString("Enter new email: ");
 				counselor.ContactInfo.EmailAddress = email;
 			}
-			else if (menu2.Contains("Abort"))
+			else if (choice.Contains("Abort"))
 			{
 				ManageConsole.MainMenu();
 			}
