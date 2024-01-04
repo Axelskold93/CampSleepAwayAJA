@@ -169,7 +169,7 @@ namespace CampSleepAwayAJA
                 var menu = AnsiConsole.Prompt(new SelectionPrompt<string>()
 				  .Title("VIEW MENU")
                   .HighlightStyle(Color.Green3)
-                  .AddChoices(new[] { "COUNSELORS", "CABINS", "CAMPERS", "CAMPERS NEXT OF KIN", "BACK" })
+                  .AddChoices(new[] { "COUNSELORS", "CABINS", "CAMPERS", "NEXT OF KIN", "BACK" })
 					.UseConverter(s => s.ToUpperInvariant()));
 
 				if (menu.Contains("COUNSELORS"))
@@ -184,7 +184,7 @@ namespace CampSleepAwayAJA
 				{
 					DisplayCamperTable();
                 }
-				else if (menu.Contains("CAMPERS NEXT OF KIN"))
+				else if (menu.Contains("NEXT OF KIN"))
 				{
 					//DisplayNextOfKinInfo();
 				}
