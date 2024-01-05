@@ -6,7 +6,7 @@ namespace CampSleepAwayAJA
 	{
 		public static void Main(string[] args)
 		{
-			ManageConsole.MainMenu();
+			ConsoleManager.MainMenu();
 		}
 	}
 }
