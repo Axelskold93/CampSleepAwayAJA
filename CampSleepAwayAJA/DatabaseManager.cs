@@ -549,7 +549,7 @@ namespace CampSleepAwayAJA
             }
             
 		}
-		public static List<List<string>> ViewCounselors()
+		public static List<List<string>> GetCounselors()
 		{
 			List<List<string>> output = new();
 			using var context = new CSAContext();
@@ -574,7 +574,7 @@ namespace CampSleepAwayAJA
 			Console.WriteLine();
 			return output;
 		}
-		public static List<List<string>> ViewCabins()
+		public static List<List<string>> GetCabins()
 		{
 			List<List<string>> output = new();
 			using var context = new CSAContext();
@@ -599,7 +599,7 @@ namespace CampSleepAwayAJA
 			Console.WriteLine();
 			return output;
 		}
-		public static List<List<string>> ViewCampers()
+		public static List<List<string>> GetCampers()
 		{
 			List<List<string>> output = new();
 			using var context = new CSAContext();
@@ -631,10 +631,35 @@ namespace CampSleepAwayAJA
 			Console.WriteLine();
 			return output;
 		}
-		public static void ViewNextOfKin()
+		public static List<List<string>> GetNextOfKins()
 		{
-
-		}
+            List<List<string>> output = new();
+            using var context = new CSAContext();
+            var nextOfKin = context.NextOfKins.Include(c => c.Camper).Include(c => c.ContactInfo)
+                .Select(c => new
+                {
+                    camperName = c.Camper.FullName,
+                    nextOfKinName = c.FullName,
+                    c.Relation,
+                    c.ContactInfo.Address,
+                    c.ContactInfo.PhoneNumber,
+                    c.ContactInfo.EmailAddress
+                }).ToList();
+            foreach (var c in nextOfKin)
+            {
+                List<string> list =
+                 [
+                     c.camperName,
+                     c.nextOfKinName,
+                     c.Relation,
+                     c.Address,
+                     c.PhoneNumber,
+                     c.EmailAddress
+                 ];
+                output.Add(list);
+            }
+            return output;
+        }
 		public static void ImportCampDataFromCSV(string filePath)
 		{
 			/* Format for csv:

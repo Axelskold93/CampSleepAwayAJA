@@ -190,7 +190,7 @@ namespace CampSleepAwayAJA
                 }
 				else if (menu.Contains("NEXT OF KIN"))
 				{
-					//DisplayNextOfKinInfo();
+					DisplayNextOfKinInfo();
 				}
                 else if (menu.Contains("BACK"))
 				{
@@ -200,9 +200,9 @@ namespace CampSleepAwayAJA
 		}
 		private static void DisplayCounslorTable()
 		{
-            var data = DatabaseManager.ViewCounselors();
+            var data = DatabaseManager.GetCounselors();
             Table table = new();
-            string[] headers = { "FIRST NAME", "LAST NAME", "ADDRESS", "PHONE NUMBER", "EMAIL" };
+            string[] headers = { "FIRST NAME", "LAST NAME", "ADDRESS", "PHONE NUMBER", "E-MAIL" };
             table.Title("COUNSELOR VIEW", new Style(Color.Green, Color.Black, Decoration.Bold))
                 .AddColumns(headers)
                 .Border(TableBorder.Rounded)
@@ -226,7 +226,7 @@ namespace CampSleepAwayAJA
         }
 		private static void DisplayCabinsTable()
 		{
-            var data = DatabaseManager.ViewCabins();
+            var data = DatabaseManager.GetCabins();
             Table table = new();
             string[] headers = { "CABIN NAME", "COUNSELOR NAME", "CAMPERS" };
             table.Title("CABIN VIEW", new Style(Color.Green, Color.Black, Decoration.Bold))
@@ -258,7 +258,7 @@ namespace CampSleepAwayAJA
         }
 		private static void DisplayCamperTable()
 		{
-            var data = DatabaseManager.ViewCampers();
+            var data = DatabaseManager.GetCampers();
             Table table = new();
             string[] headers = { "FULL NAME", "CABIN NAME", "ARRIVAL DATE", "DEPARTURE DATE", "NEXT OF KIN" };
             table.Title("CAMPER VIEW", new Style(Color.Green, Color.Black, Decoration.Bold))
@@ -303,6 +303,52 @@ namespace CampSleepAwayAJA
                 if (i != data.Count() - 1)
                 {
                     table.AddRow(new Rule(), new Rule(), new Rule(), new Rule(), new Rule());
+                }
+            }
+            AnsiConsole.Write(table);
+            Console.ReadLine();
+        }
+        private static void DisplayNextOfKinInfo()
+        {
+            var data = DatabaseManager.GetNextOfKins();
+            List<string> campers = new();
+            foreach (var c in data)
+            {
+                campers.Add(c[0]);
+            }
+            if (campers.Count == 0) 
+            {
+                AnsiConsole.Write(new Markup($"[red3_1]Could not find any campers![/]"));
+                Console.ReadLine();
+                return;
+            }
+            campers = campers.Distinct().ToList();
+            var camperChoice = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                  .Title("WHOS NEXT OF KIN WOULD YOU LIKE TO VIEW?")
+                  .HighlightStyle(Color.Green3)
+                  .AddChoices(campers)
+                    .UseConverter(s => s.ToUpperInvariant()));
+            List<List<string>> displayData = data.Where(c => c[0] == camperChoice).ToList();
+            Console.WriteLine();
+            Table table = new();
+            string[] headers = { "NEXT OF KIN NAME", "RELATION", "CAMPER NAME", "ADRESS", "PHONE NUMBER", "E-MAIL" };
+            table.Title("NEXT OF KIN VIEW", new Style(Color.Green, Color.Black, Decoration.Bold))
+                .AddColumns(headers)
+                .Border(TableBorder.Rounded)
+                .Width(1000);
+            for (int i = 0; i < displayData.Count(); i++)
+            {
+                table.AddRow(
+                        new Markup($"[grey70]{displayData[i][1]}[/]"),
+                        new Markup($"[red]{displayData[i][2]}[/]"),
+                        new Markup($"[purple]{displayData[i][0]}[/]"),
+                        new Markup($"[orangered1]{displayData[i][3]}[/]"),
+                        new Markup($"[orangered1]{displayData[i][4]}[/]"),
+                        new Markup($"[orangered1]{displayData[i][5]}[/]")
+                        );
+                if (i != displayData.Count() - 1)
+                {
+                    table.AddRow(new Rule(), new Rule(), new Rule(), new Rule(), new Rule(), new Rule());
                 }
             }
             AnsiConsole.Write(table);
