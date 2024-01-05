@@ -200,7 +200,7 @@ namespace CampSleepAwayAJA
 		}
 		private static void DisplayCounslorTable()
 		{
-            var data = ManageDatabase.ViewCounselors();
+            var data = ManageDatabase.GetCounselors();
             Table table = new();
             string[] headers = { "FIRST NAME", "LAST NAME", "ADDRESS", "PHONE NUMBER", "E-MAIL" };
             table.Title("COUNSELOR VIEW", new Style(Color.Green, Color.Black, Decoration.Bold))
@@ -226,7 +226,7 @@ namespace CampSleepAwayAJA
         }
 		private static void DisplayCabinsTable()
 		{
-            var data = ManageDatabase.ViewCabins();
+            var data = ManageDatabase.GetCabins();
             Table table = new();
             string[] headers = { "CABIN NAME", "COUNSELOR NAME", "CAMPERS" };
             table.Title("CABIN VIEW", new Style(Color.Green, Color.Black, Decoration.Bold))
@@ -258,7 +258,7 @@ namespace CampSleepAwayAJA
         }
 		private static void DisplayCamperTable()
 		{
-            var data = ManageDatabase.ViewCampers();
+            var data = ManageDatabase.GetCampers();
             Table table = new();
             string[] headers = { "FULL NAME", "CABIN NAME", "ARRIVAL DATE", "DEPARTURE DATE", "NEXT OF KIN" };
             table.Title("CAMPER VIEW", new Style(Color.Green, Color.Black, Decoration.Bold))
@@ -310,7 +310,7 @@ namespace CampSleepAwayAJA
         }
         private static void DisplayNextOfKinInfo()
         {
-            var data = ManageDatabase.ViewNextOfKin();
+            var data = ManageDatabase.GetNextOfKins();
             List<string> campers = new();
             foreach (var c in data)
             {

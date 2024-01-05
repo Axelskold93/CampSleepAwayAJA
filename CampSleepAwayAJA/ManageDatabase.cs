@@ -549,7 +549,7 @@ namespace CampSleepAwayAJA
             }
             
 		}
-		public static List<List<string>> ViewCounselors()
+		public static List<List<string>> GetCounselors()
 		{
 			List<List<string>> output = new();
 			using var context = new CSAContext();
@@ -574,7 +574,7 @@ namespace CampSleepAwayAJA
 			Console.WriteLine();
 			return output;
 		}
-		public static List<List<string>> ViewCabins()
+		public static List<List<string>> GetCabins()
 		{
 			List<List<string>> output = new();
 			using var context = new CSAContext();
@@ -599,7 +599,7 @@ namespace CampSleepAwayAJA
 			Console.WriteLine();
 			return output;
 		}
-		public static List<List<string>> ViewCampers()
+		public static List<List<string>> GetCampers()
 		{
 			List<List<string>> output = new();
 			using var context = new CSAContext();
@@ -631,7 +631,7 @@ namespace CampSleepAwayAJA
 			Console.WriteLine();
 			return output;
 		}
-		public static List<List<string>> ViewNextOfKin()
+		public static List<List<string>> GetNextOfKins()
 		{
             List<List<string>> output = new();
             using var context = new CSAContext();
